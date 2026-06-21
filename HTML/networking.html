@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Community | A.E CONNECT SPACE</title>
+<link rel="stylesheet" href="../STYLE/style.css?v=community-discussions-20260619">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body class="home-page community-page">
+<nav class="home-footer-nav" aria-label="Main navigation">
+<a class="mini-brand" href="index.html"><img src="../ASSETS/logo/logo.png" alt="A.E CONNECT SPACE logo"><span>A.E CONNECT SPACE</span></a>
+<button class="menu-toggle" type="button" aria-label="Toggle navigation" aria-expanded="false">&#9776;</button>
+<ul class="home-nav-links">
+<li><a href="index.html">Home</a></li>
+<li><a href="programs.html">Programs</a></li>
+<li><a href="skills.html">Skills Hub</a></li>
+<li><a href="opportunities.html">Opportunities</a></li>
+<li><a href="scholarships.html">Scholarships</a></li>
+<li><a href="entrepreneurship.html">Entrepreneurship</a></li>
+<li><a class="active" href="networking.html">Community</a></li>
+<li><a href="events.html">Events</a></li>
+<li><a href="stories.html">Stories</a></li>
+<li><a href="resources.html">Resources</a></li>
+<li><a href="about.html">About</a></li>
+<li><a class="nav-cta" href="auth.html">Get Started</a></li>
+</ul>
+</nav>
+
+<main>
+<header class="community-hero" id="top">
+<div class="home-container">
+<span class="opportunity-pill">Community</span>
+<h1>Learn From Each Other</h1>
+<p>Join the conversation. Ask questions, share experiences, and get advice from students across all programs who are building their roadmaps just like you.</p>
+</div>
+</header>
+
+<section class="community-tools-section">
+<div class="home-container community-tools">
+<label class="event-search"><span>&#8981;</span><input id="discussionSearch" type="search" placeholder="Search discussions..."></label>
+<div class="community-filters" aria-label="Discussion topics">
+<button class="active" type="button" data-topic="all">All Topics</button>
+<button type="button" data-topic="Economics">Economics</button>
+<button type="button" data-topic="Geography">Geography</button>
+<button type="button" data-topic="Computer Science">Computer Science</button>
+<button type="button" data-topic="Nursing">Nursing</button>
+<button type="button" data-topic="Accounting">Accounting</button>
+<button type="button" data-topic="Engineering">Engineering</button>
+<button type="button" data-topic="Political Science">Political Science</button>
+<button type="button" data-topic="Statistics">Statistics</button>
+</div>
+</div>
+</section>
+
+<section class="academic-communities-section">
+<div class="home-container">
+<div class="academic-community-head">
+<span class="opportunity-pill">Study Groups</span>
+<h2>Academic Communities For Serious Students</h2>
+<p>Study groups combine structured resource sharing with quick conversations, peer help, and program-specific announcements.</p>
+<button class="create-group-button" type="button" id="createGroupButton">Create New Group</button>
+</div>
+<div class="academic-community-grid" id="academicCommunityGrid"></div>
+</div>
+</section>
+
+<section class="discussion-section">
+<div class="home-container">
+<div class="discussion-list" id="discussionList" aria-live="polite"></div>
+<div class="community-actions">
+<button class="start-discussion-button" type="button" id="startDiscussionButton">Start a New Discussion</button>
+</div>
+</div>
+</section>
+</main>
+
+<footer class="home-footer">
+<div class="home-container">
+<section class="newsletter">
+<div><h2>Stay in the Loop</h2><p>Get weekly updates on new programs, skill roadmaps, events, and opportunities delivered straight to your inbox.</p></div>
+<form><label class="sr-only" for="community-newsletter-email">Email address</label><input id="community-newsletter-email" type="email" placeholder="your@email.com"><button type="submit">Subscribe</button></form>
+</section>
+<div class="footer-columns">
+<div><h3>Platform</h3><a href="programs.html">Programs Roadmap</a><a href="skills.html">Skills Hub</a><a href="opportunities.html">Opportunities</a><a href="scholarships.html">Scholarships</a><a href="stories.html">Success Stories</a></div>
+<div><h3>Resources</h3><a href="events.html">Events</a><a href="resources.html">Resources Library</a><a href="skills.html">Skill Exchange</a><a href="resources.html">Blog & Guides</a></div>
+<div><h3>Company</h3><a href="about.html">About Us</a><a href="auth.html">Contact</a><a href="auth.html">Careers</a><a href="networking.html">Partnerships</a></div>
+<div><h3>Legal</h3><a href="#">Privacy Policy</a><a href="#">Terms of Service</a><a href="#">Cookie Policy</a></div>
+</div>
+<div class="footer-bottom">
+<a class="mini-brand" href="index.html"><img src="../ASSETS/logo/logo.png" alt="A.E CONNECT SPACE logo"><span>A.E CONNECT SPACE</span></a>
+<p>&copy; 2026 A.E CONNECT SPACE. All rights reserved.</p>
+<div class="socials" aria-label="Social links"><a href="#" aria-label="X">X</a><a href="#" aria-label="LinkedIn">in</a><a href="#" aria-label="Instagram">ig</a><a href="#top" aria-label="Back to top">&uarr;</a></div>
+</div>
+</div>
+</footer>
+
+<div class="community-modal" id="discussionModal" hidden>
+<div class="community-modal-backdrop" data-close-discussion></div>
+<section class="community-modal-panel" role="dialog" aria-modal="true" aria-labelledby="newDiscussionTitle">
+<button class="community-modal-close" type="button" data-close-discussion aria-label="Close new discussion">&times;</button>
+<span class="opportunity-pill">New Discussion</span>
+<h2 id="newDiscussionTitle">Ask The Community</h2>
+<form id="discussionForm">
+<div class="form-two">
+<label>Your Name<input id="discussionName" type="text" placeholder="Your name" required></label>
+<label>Topic<select id="discussionTopic" required><option>Economics</option><option>Geography</option><option>Computer Science</option><option>Nursing</option><option>Accounting</option><option>Engineering</option><option>Political Science</option><option>Statistics</option></select></label>
+</div>
+<label>Question Title<input id="discussionTitle" type="text" placeholder="What do you want to ask?" required></label>
+<label>Details<textarea id="discussionBody" rows="4" placeholder="Add context so people can give useful replies..." required></textarea></label>
+<button type="submit">Post Discussion</button>
+</form>
+</section>
+</div>
+
+<div class="community-modal" id="groupModal" hidden>
+<div class="community-modal-backdrop" data-close-group></div>
+<section class="community-modal-panel" role="dialog" aria-modal="true" aria-labelledby="newGroupTitle">
+<button class="community-modal-close" type="button" data-close-group aria-label="Close new group">&times;</button>
+<span class="opportunity-pill">New Group</span>
+<h2 id="newGroupTitle">Create A Study Group</h2>
+<form id="groupForm">
+<div class="form-two">
+<label>Group Name<input id="groupName" type="text" placeholder="Example: Data Science Students" required></label>
+<label>Main Topic<select id="groupTopic" required><option>Economics</option><option>Geography</option><option>Computer Science</option><option>Nursing</option><option>Accounting</option><option>Engineering</option><option>Political Science</option><option>Statistics</option><option>Research</option><option>Other</option></select></label>
+</div>
+<label>Group Picture<input id="groupPicture" type="file" accept="image/*"></label>
+<div class="group-picture-preview" id="groupPicturePreview"><span>GP</span><p>No group picture selected</p></div>
+<label>What The Group Is For<textarea id="groupDescription" rows="3" placeholder="Tell students what they will learn, share, or discuss here..." required></textarea></label>
+<label>Group Features<input id="groupFeatures" type="text" placeholder="Example: Group Chat, PDFs, Peer Review" required></label>
+<button type="submit">Create Group</button>
+</form>
+</section>
+</div>
+
+<div class="community-modal" id="groupProfileModal" hidden>
+<div class="community-modal-backdrop" data-close-profile></div>
+<section class="community-modal-panel group-profile-panel" role="dialog" aria-modal="true" aria-labelledby="groupProfileTitle">
+<button class="community-modal-close" type="button" data-close-profile aria-label="Close group profile">&times;</button>
+<div class="group-profile-photo-frame" id="groupProfilePhotoFrame"></div>
+<div class="group-profile-zoom" aria-label="Profile picture zoom controls">
+<button type="button" data-profile-zoom="out">Zoom Out</button>
+<input id="groupProfileZoom" type="range" min="1" max="2.4" step="0.1" value="1" aria-label="Profile picture zoom">
+<button type="button" data-profile-zoom="in">Zoom In</button>
+</div>
+<span class="opportunity-pill" id="groupProfileTopic">Study Group</span>
+<h2 id="groupProfileTitle">Group Profile</h2>
+<p id="groupProfileDescription"></p>
+<strong id="groupProfileFeatures"></strong>
+<div class="group-profile-actions">
+<button type="button" id="groupProfileChatButton">Open Chat</button>
+</div>
+</section>
+</div>
+
+<div class="group-chat-modal" id="groupChatModal" hidden>
+<div class="group-chat-backdrop" data-close-chat></div>
+<section class="group-chat-panel" role="dialog" aria-modal="true" aria-labelledby="groupChatTitle">
+<aside class="group-chat-sidebar">
+<h2>Groups</h2>
+<div id="groupChatList"></div>
+</aside>
+<div class="group-chat-room">
+<header class="group-chat-header">
+<button class="group-chat-back" type="button" data-close-chat aria-label="Close group chat">&larr;</button>
+<button class="group-chat-profile" type="button" id="groupChatProfileButton"><span id="groupChatAvatar">GC</span><div><h2 id="groupChatTitle">Group Chat</h2><p id="groupChatStatus">Online</p></div></button>
+<div class="group-call-actions">
+<button type="button" data-audio-call aria-label="Start audio call">Audio</button>
+<button type="button" data-video-call aria-label="Start video call">Video</button>
+</div>
+<button class="group-chat-close" type="button" data-close-chat aria-label="Close chat">&times;</button>
+</header>
+<div class="group-chat-messages" id="groupChatMessages"></div>
+<div class="group-typing" id="groupTyping" hidden>Someone is typing...</div>
+<form class="group-chat-compose" id="groupChatForm">
+<label class="attach-button" aria-label="Attach file">+
+<input id="groupAttachment" type="file" hidden>
+</label>
+<input id="groupMessageInput" type="text" placeholder="Message group..." autocomplete="off">
+<button class="voice-button" id="voiceButton" type="button" aria-label="Record voice note">Mic</button>
+<button type="submit">Send</button>
+</form>
+</div>
+</section>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="../SCRPIT/backend-config.js"></script>
+<script src="../SCRPIT/ae-backend.js"></script>
+<script>
+const menuToggle=document.querySelector('.menu-toggle');
+const homeNavLinks=document.querySelector('.home-nav-links');
+if(menuToggle&&homeNavLinks){menuToggle.addEventListener('click',()=>{const expanded=menuToggle.getAttribute('aria-expanded')==='true';menuToggle.setAttribute('aria-expanded',String(!expanded));homeNavLinks.classList.toggle('is-open');});}
+
+const defaultDiscussions=[
+{id:'excel-economics',name:'Kwame Mensah',initials:'KM',topic:'Economics',time:'2 hours ago',title:'What Excel skills should an Economics student master by Level 300?',body:'I am currently in Level 200 and trying to figure out which Excel functions are absolutely essential before my internship applications.',likes:56,replies:[{name:'Ama Boateng',text:'Start with pivot tables, XLOOKUP, IF statements, charts, and cleaning messy datasets. Then learn how to explain insights clearly.'},{name:'Daniel Owusu',text:'Also practice basic dashboards. Employers like students who can turn raw data into decisions.'}],connected:false},
+{id:'gis-remote-sensing',name:'Akosua Darko',initials:'AD',topic:'Geography',time:'5 hours ago',title:'GIS vs Remote Sensing - which one should I prioritize first?',body:'I am a Level 200 Geography student and my department is pushing us toward GIS, but I also hear remote sensing is in high demand.',likes:42,replies:[{name:'Kofi Asante',text:'Learn basic GIS first because it helps you understand layers, coordinate systems, and map layouts. Remote sensing becomes easier after that.'}],connected:false},
+{id:'portfolio-cs',name:'Yaw Boateng',initials:'YB',topic:'Computer Science',time:'1 day ago',title:'How to build a coding portfolio with zero experience',body:'I just started Level 100 Computer Science and want to know the best way to start building projects that employers actually care about.',likes:73,replies:[{name:'Kwame Asante',text:'Build tiny but finished projects. A calculator is fine if it is clean, hosted, and documented. Then grow into APIs and dashboards.'}],connected:false},
+{id:'clinical-placement',name:'Nana Ama',initials:'NA',topic:'Nursing',time:'1 day ago',title:'Best nursing clinical placements in Accra - reviews and tips',body:'Has anyone done clinical placement at Korle-Bu or 37 Military Hospital? I want honest reviews about which departments give the best hands-on experience.',likes:38,replies:[{name:'Grace Owusu',text:'Korle-Bu is intense but you learn fast. Go with a notebook, ask questions respectfully, and volunteer for tasks.'}],connected:false},
+{id:'cpa-acca',name:'Efua Osei',initials:'EO',topic:'Accounting',time:'2 days ago',title:'CPA vs ACCA - which certification is better for Ghana?',body:'I am in Level 300 Accounting and starting to think about certifications. Is CPA recognized enough here, or should I go for ACCA?',likes:49,replies:[{name:'Samuel Adjei',text:'Both are respected. ACCA is more internationally portable, CPA Ghana is strong locally. Your career goal should guide you.'}],connected:false},
+{id:'public-speaking',name:'Kofi Asante',initials:'KA',topic:'Engineering',time:'3 days ago',title:'Public speaking clubs and workshops for non-comm students?',body:'I am an Engineering student but I know public speaking is critical. Are there any Toastmasters clubs or workshops open to all students?',likes:28,replies:[{name:'Abena Frimpong',text:'Toastmasters Accra has open meetings. Also check campus debate clubs even if you are not competing.'}],connected:false},
+{id:'policy-research',name:'Abena Frimpong',initials:'AF',topic:'Political Science',time:'4 days ago',title:'Landing your first policy research role - advice needed',body:'I have been applying to think tanks and NGOs for research assistant roles but getting no responses. Any advice on standing out?',likes:21,replies:[{name:'Kojo Mensah',text:'Send a short writing sample. A 2-page policy brief can make your application stronger than a CV alone.'}],connected:false},
+{id:'python-statistics',name:'Samuel Owusu',initials:'SO',topic:'Statistics',time:'5 days ago',title:'Is Python really necessary for Statistics students?',body:'My professor says R is enough, but I keep seeing job postings that require Python. Should I learn both or focus on one?',likes:61,replies:[{name:'Esi Boateng',text:'Learn R deeply, then add Python basics for data cleaning and automation. You do not need to master everything at once.'}],connected:false}
+];
+
+const storageKey='aeConnectCommunityDiscussions';
+const joinedGroupsKey='aeConnectJoinedAcademicGroups';
+const groupChatsKey='aeConnectAcademicGroupChats';
+const createdGroupsKey='aeConnectCreatedAcademicGroups';
+const discussionList=document.getElementById('discussionList');
+const discussionSearch=document.getElementById('discussionSearch');
+const topicButtons=[...document.querySelectorAll('[data-topic]')];
+const discussionModal=document.getElementById('discussionModal');
+const discussionForm=document.getElementById('discussionForm');
+const groupModal=document.getElementById('groupModal');
+const groupForm=document.getElementById('groupForm');
+const groupPicture=document.getElementById('groupPicture');
+const groupPicturePreview=document.getElementById('groupPicturePreview');
+const groupProfileModal=document.getElementById('groupProfileModal');
+const groupProfilePhotoFrame=document.getElementById('groupProfilePhotoFrame');
+const groupProfileZoom=document.getElementById('groupProfileZoom');
+const groupProfileTopic=document.getElementById('groupProfileTopic');
+const groupProfileTitle=document.getElementById('groupProfileTitle');
+const groupProfileDescription=document.getElementById('groupProfileDescription');
+const groupProfileFeatures=document.getElementById('groupProfileFeatures');
+const groupProfileChatButton=document.getElementById('groupProfileChatButton');
+const academicCommunityGrid=document.getElementById('academicCommunityGrid');
+const groupChatModal=document.getElementById('groupChatModal');
+const groupChatList=document.getElementById('groupChatList');
+const groupChatMessages=document.getElementById('groupChatMessages');
+const groupChatTitle=document.getElementById('groupChatTitle');
+const groupChatStatus=document.getElementById('groupChatStatus');
+const groupChatAvatar=document.getElementById('groupChatAvatar');
+const groupChatProfileButton=document.getElementById('groupChatProfileButton');
+const groupChatForm=document.getElementById('groupChatForm');
+const groupMessageInput=document.getElementById('groupMessageInput');
+const groupAttachment=document.getElementById('groupAttachment');
+const groupTyping=document.getElementById('groupTyping');
+const voiceButton=document.getElementById('voiceButton');
+let activeTopic='all';
+let activeGroupId='economics';
+let activeProfileGroupId='economics';
+let groupPictureDataUrl='';
+let profileZoomLevel=1;
+let typingTimer=null;
+let botTypingTimer=null;
+let voiceStart=null;
+let voiceTimer=null;
+let backendAcademicGroups=[];
+let backendGroupChats={};
+
+const defaultAcademicGroups=[
+{id:'economics',title:'Economics Students',text:'Econometrics, Excel, Stata, policy writing, internships.',features:'Group Chat • Resources • Announcements'},
+{id:'gis',title:'GIS Community',text:'QGIS, ArcGIS, remote sensing, GPS, cartography, drone mapping.',features:'Map Reviews • Files • Discussions'},
+{id:'python',title:'Python Learners',text:'Python basics, automation, data analysis, portfolio projects.',features:'Code Help • Project Rooms'},
+{id:'nursing',title:'Nursing Students',text:'Clinical documentation, public health, research, care practice.',features:'Announcements • Resource Sharing'},
+{id:'law',title:'Law Students',text:'Legal research, case analysis, advocacy, legal writing.',features:'Discussion Boards • PDFs'},
+{id:'research',title:'Research Methods',text:'Survey design, literature review, citations, analysis, reporting.',features:'Resource Library • Peer Review'}
+];
+
+function getCreatedGroups(){
+try{return JSON.parse(localStorage.getItem(createdGroupsKey)||'[]');}
+catch{return [];}
+}
+
+function saveCreatedGroups(groups){
+localStorage.setItem(createdGroupsKey,JSON.stringify(groups));
+}
+
+function allAcademicGroups(){
+return [...backendAcademicGroups,...getCreatedGroups(),...defaultAcademicGroups];
+}
+
+const starterChats={
+economics:[{from:'Kwame',text:'Welcome Economics people. Drop internship tips, Excel questions, and policy resources here.',mine:false,type:'text',time:'8:40 AM'},{from:'Ama',text:'I can share a simple Excel dashboard checklist later today.',mine:false,type:'text',time:'8:44 AM'}],
+gis:[{from:'Akosua',text:'Please share QGIS map layouts here for peer review before submission.',mine:false,type:'text',time:'9:10 AM'}],
+python:[{from:'Yaw',text:'Python learners, start with small scripts. Today we are sharing portfolio project ideas.',mine:false,type:'text',time:'10:02 AM'}],
+nursing:[{from:'Grace',text:'Clinical documentation resources can go here. Ask placement questions too.',mine:false,type:'text',time:'11:12 AM'}],
+law:[{from:'Esther',text:'Law group is open for case analysis, legal research links, and writing practice.',mine:false,type:'text',time:'12:05 PM'}],
+research:[{from:'Samuel',text:'Share survey design, literature review, citation, and analysis questions here.',mine:false,type:'text',time:'1:18 PM'}]
+};
+
+function escapeHtml(value){
+return String(value||'').replace(/[&<>"']/g,character=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[character]));
+}
+
+function groupInitials(title){
+return String(title||'Group').split(/\s+/).filter(Boolean).map(part=>part[0]).join('').slice(0,2).toUpperCase()||'GP';
+}
+
+function groupAvatarMarkup(group,className='group-avatar'){
+if(group.picture){
+return `<span class="${className} image"><img src="${escapeHtml(group.picture)}" alt="${escapeHtml(group.title)} group picture"></span>`;
+}
+return `<span class="${className}">${escapeHtml(groupInitials(group.title))}</span>`;
+}
+
+function fileToDataUrl(file){
+return new Promise((resolve,reject)=>{
+const reader=new FileReader();
+reader.onload=()=>resolve(reader.result);
+reader.onerror=reject;
+reader.readAsDataURL(file);
+});
+}
+
+function renderCreatePicturePreview(){
+if(groupPictureDataUrl){
+groupPicturePreview.innerHTML=`<img src="${escapeHtml(groupPictureDataUrl)}" alt="Selected group picture"><p>Group picture selected</p>`;
+return;
+}
+groupPicturePreview.innerHTML='<span>GP</span><p>No group picture selected</p>';
+}
+
+function getSavedDiscussions(){
+try{return JSON.parse(localStorage.getItem(storageKey)||'[]');}
+catch{return [];}
+}
+
+function saveDiscussions(items){
+localStorage.setItem(storageKey,JSON.stringify(items));
+}
+
+function getJoinedGroups(){
+try{return JSON.parse(localStorage.getItem(joinedGroupsKey)||'[]');}
+catch{return [];}
+}
+
+function saveJoinedGroups(groups){
+localStorage.setItem(joinedGroupsKey,JSON.stringify(groups));
+}
+
+function getGroupChats(){
+try{return JSON.parse(localStorage.getItem(groupChatsKey)||'{}');}
+catch{return {};}
+}
+
+function saveGroupChats(chats){
+localStorage.setItem(groupChatsKey,JSON.stringify(chats));
+}
+
+function groupById(id){
+return allAcademicGroups().find(group=>group.id===id)||allAcademicGroups()[0];
+}
+
+function chatMessagesFor(groupId){
+const chats=getGroupChats();
+if(chats[groupId]) return chats[groupId];
+if(backendGroupChats[groupId]) return [...(starterChats[groupId]||[]),...backendGroupChats[groupId]];
+return starterChats[groupId]||[];
+}
+
+function saveMessage(groupId,message){
+const chats=getGroupChats();
+const current=chats[groupId]||chatMessagesFor(groupId)||[];
+chats[groupId]=[...current,message];
+saveGroupChats(chats);
+const group=groupById(groupId);
+if(window.AEBackend&&window.AEBackend.isReady()&&group&&group.backend){
+window.AEBackend.createGroupMessage(groupId,message);
+}
+}
+
+function renderProfilePhoto(group){
+const scale=`scale(${profileZoomLevel})`;
+if(group.picture){
+groupProfilePhotoFrame.innerHTML=`<img src="${escapeHtml(group.picture)}" alt="${escapeHtml(group.title)} group picture" style="transform:${scale}">`;
+return;
+}
+groupProfilePhotoFrame.innerHTML=`<span style="transform:${scale}">${escapeHtml(groupInitials(group.title))}</span>`;
+}
+
+function openGroupProfile(groupId){
+activeProfileGroupId=groupId;
+const group=groupById(groupId);
+profileZoomLevel=1;
+groupProfileZoom.value=profileZoomLevel;
+groupProfileTopic.textContent=group.topic||'Study Group';
+groupProfileTitle.textContent=group.title;
+groupProfileDescription.textContent=group.text;
+groupProfileFeatures.textContent=group.features;
+renderProfilePhoto(group);
+groupProfileModal.hidden=false;
+document.body.classList.add('community-modal-open');
+}
+
+function updateProfileZoom(value){
+profileZoomLevel=Math.min(2.4,Math.max(1,Number(value)||1));
+groupProfileZoom.value=profileZoomLevel;
+renderProfilePhoto(groupById(activeProfileGroupId));
+}
+
+function renderAcademicGroups(){
+const joined=getJoinedGroups();
+academicCommunityGrid.innerHTML=allAcademicGroups().map(group=>{
+const isJoined=joined.includes(group.id);
+return `<article class="academic-community-card${isJoined?' joined':''}"><button class="group-card-profile" type="button" data-view-group="${escapeHtml(group.id)}">${groupAvatarMarkup(group)}<span><b>${escapeHtml(group.title)}</b><small>View group profile</small></span></button><p>${escapeHtml(group.text)}</p><strong>${escapeHtml(group.features)}</strong><div class="academic-card-actions"><button type="button" data-join-group="${escapeHtml(group.id)}">${isJoined?'Open Chat':'Join Group'}</button>${isJoined?`<button class="leave-group-button" type="button" data-leave-group="${escapeHtml(group.id)}">Leave Group</button>`:''}</div></article>`;
+}).join('');
+}
+
+function renderGroupChatList(){
+const joined=getJoinedGroups();
+groupChatList.innerHTML=allAcademicGroups().map(group=>`<div class="group-list-row ${group.id===activeGroupId?'active':''}"><button type="button" data-open-chat-group="${escapeHtml(group.id)}">${groupAvatarMarkup(group,'group-list-avatar')}<div><strong>${escapeHtml(group.title)}</strong><small>${joined.includes(group.id)?'Joined group':'Tap to join'}</small></div></button><button class="group-list-profile" type="button" data-view-group="${escapeHtml(group.id)}">Profile</button></div>`).join('');
+}
+
+function messageBubble(message){
+if(message.type==='system'){
+return `<div class="chat-system-message">${escapeHtml(message.text)} <span>${escapeHtml(message.time)}</span></div>`;
+}
+if(message.type==='voice'){
+return `<div class="chat-bubble ${message.mine?'mine':'theirs'}"><small>${escapeHtml(message.from)}</small><p class="voice-note"><span></span> Voice note ${escapeHtml(message.duration||'0:03')}</p><time>${escapeHtml(message.time)}</time></div>`;
+}
+if(message.type==='file'){
+return `<div class="chat-bubble ${message.mine?'mine':'theirs'}"><small>${escapeHtml(message.from)}</small><p>Attachment: ${escapeHtml(message.text)}</p><time>${escapeHtml(message.time)}</time></div>`;
+}
+return `<div class="chat-bubble ${message.mine?'mine':'theirs'}"><small>${escapeHtml(message.from)}</small><p>${escapeHtml(message.text)}</p><time>${escapeHtml(message.time)}</time></div>`;
+}
+
+function renderGroupChat(){
+const group=groupById(activeGroupId);
+const joined=getJoinedGroups();
+groupChatTitle.textContent=group.title;
+groupChatStatus.textContent=joined.includes(group.id)?'Online • Group chat open':'Preview • Join to participate';
+groupChatAvatar.innerHTML=group.picture?`<img src="${escapeHtml(group.picture)}" alt="${escapeHtml(group.title)} group picture">`:escapeHtml(groupInitials(group.title));
+groupChatMessages.innerHTML=chatMessagesFor(group.id).map(messageBubble).join('');
+groupChatMessages.scrollTop=groupChatMessages.scrollHeight;
+renderGroupChatList();
+}
+
+async function openGroupChat(groupId){
+activeGroupId=groupId;
+const joined=getJoinedGroups();
+if(!joined.includes(groupId)){
+joined.push(groupId);
+saveJoinedGroups(joined);
+renderAcademicGroups();
+}
+const group=groupById(groupId);
+if(window.AEBackend&&window.AEBackend.isReady()&&group&&group.backend&&!backendGroupChats[groupId]){
+const messages=await window.AEBackend.listGroupMessages(groupId);
+if(messages) backendGroupChats[groupId]=messages;
+}
+renderGroupChat();
+groupChatModal.hidden=false;
+document.body.classList.add('community-modal-open');
+groupMessageInput.focus();
+}
+
+function currentTime(){
+return new Date().toLocaleTimeString([], {hour:'numeric',minute:'2-digit'});
+}
+
+function showBotTyping(){
+clearTimeout(botTypingTimer);
+groupTyping.textContent=`${groupById(activeGroupId).title} member is typing...`;
+groupTyping.hidden=false;
+botTypingTimer=setTimeout(()=>{
+saveMessage(activeGroupId,{from:'A.E Mentor',text:'Nice question. Share your level and what you have tried so the group can guide you better.',mine:false,type:'text',time:currentTime()});
+groupTyping.hidden=true;
+renderGroupChat();
+},1300);
+}
+
+function allDiscussions(){
+return [...getSavedDiscussions(),...defaultDiscussions];
+}
+
+function persistDefaultInteraction(id, updater){
+const saved=getSavedDiscussions();
+let target=saved.find(item=>item.id===id);
+if(!target){
+const base=defaultDiscussions.find(item=>item.id===id);
+if(!base) return;
+target=JSON.parse(JSON.stringify(base));
+saved.push(target);
+}
+updater(target);
+saveDiscussions(saved);
+}
+
+function discussionCard(item){
+return `<article class="discussion-card" data-id="${escapeHtml(item.id)}"><div class="discussion-avatar">${escapeHtml(item.initials)}</div><div class="discussion-main"><div class="discussion-meta"><strong>${escapeHtml(item.name)}</strong><span>in</span><b>${escapeHtml(item.topic)}</b><small>${escapeHtml(item.time)}</small></div><h3>${escapeHtml(item.title)}</h3><p>${escapeHtml(item.body)}</p><div class="discussion-actions"><button type="button" data-toggle-replies="${escapeHtml(item.id)}">${item.replies.length} replies</button><button type="button" data-like-discussion="${escapeHtml(item.id)}">${item.likes} likes</button><button type="button" data-connect="${escapeHtml(item.id)}">${item.connected?'Connected':'Connect'}</button></div><div class="reply-panel" id="replies-${escapeHtml(item.id)}" hidden><div class="reply-list">${item.replies.map(reply=>`<div class="reply-item"><strong>${escapeHtml(reply.name)}</strong><p>${escapeHtml(reply.text)}</p></div>`).join('')}</div><form class="reply-form" data-reply-form="${escapeHtml(item.id)}"><input type="text" name="name" placeholder="Your name" required><input type="text" name="reply" placeholder="Write a helpful reply..." required><button type="submit">Reply</button></form></div></div></article>`;
+}
+
+function renderDiscussions(){
+const term=discussionSearch.value.trim().toLowerCase();
+const filtered=allDiscussions().filter(item=>{
+const matchesTopic=activeTopic==='all'||item.topic===activeTopic;
+const text=`${item.name} ${item.topic} ${item.title} ${item.body}`.toLowerCase();
+return matchesTopic&&text.includes(term);
+});
+discussionList.innerHTML=filtered.map(discussionCard).join('')||'<p class="events-empty">No discussion matches your search yet.</p>';
+}
+
+topicButtons.forEach(button=>button.addEventListener('click',()=>{activeTopic=button.dataset.topic;topicButtons.forEach(item=>item.classList.toggle('active',item===button));renderDiscussions();}));
+discussionSearch.addEventListener('input',renderDiscussions);
+
+academicCommunityGrid.addEventListener('click',event=>{
+const profileButton=event.target.closest('[data-view-group]');
+if(profileButton){
+openGroupProfile(profileButton.dataset.viewGroup);
+return;
+}
+const leaveButton=event.target.closest('[data-leave-group]');
+if(leaveButton){
+const joined=getJoinedGroups().filter(groupId=>groupId!==leaveButton.dataset.leaveGroup);
+saveJoinedGroups(joined);
+renderAcademicGroups();
+if(activeGroupId===leaveButton.dataset.leaveGroup&&!groupChatModal.hidden){
+groupChatModal.hidden=true;
+document.body.classList.remove('community-modal-open');
+}
+return;
+}
+const joinButton=event.target.closest('[data-join-group]');
+if(!joinButton) return;
+const joined=getJoinedGroups();
+const groupId=joinButton.dataset.joinGroup;
+if(!joined.includes(groupId)){
+joined.push(groupId);
+saveJoinedGroups(joined);
+renderAcademicGroups();
+}
+openGroupChat(groupId);
+});
+
+groupChatList.addEventListener('click',event=>{
+const profileButton=event.target.closest('[data-view-group]');
+if(profileButton){
+openGroupProfile(profileButton.dataset.viewGroup);
+return;
+}
+const button=event.target.closest('[data-open-chat-group]');
+if(!button) return;
+openGroupChat(button.dataset.openChatGroup);
+});
+
+groupChatProfileButton.addEventListener('click',()=>openGroupProfile(activeGroupId));
+
+document.querySelectorAll('[data-close-chat]').forEach(button=>button.addEventListener('click',()=>{
+groupChatModal.hidden=true;
+document.body.classList.remove('community-modal-open');
+clearInterval(voiceTimer);
+voiceStart=null;
+voiceButton.textContent='Mic';
+}));
+
+document.querySelectorAll('[data-audio-call],[data-video-call]').forEach(button=>button.addEventListener('click',()=>{
+const callType=button.hasAttribute('data-audio-call')?'Audio call':'Video call';
+saveMessage(activeGroupId,{from:'System',text:`${callType} started. In the full app this will connect group members live.`,mine:false,type:'system',time:currentTime()});
+renderGroupChat();
+}));
+
+groupMessageInput.addEventListener('input',()=>{
+clearTimeout(typingTimer);
+groupTyping.textContent='You are typing...';
+groupTyping.hidden=false;
+typingTimer=setTimeout(()=>{groupTyping.hidden=true;},800);
+});
+
+groupChatForm.addEventListener('submit',event=>{
+event.preventDefault();
+const text=groupMessageInput.value.trim();
+if(!text) return;
+saveMessage(activeGroupId,{from:'You',text,mine:true,type:'text',time:currentTime()});
+groupMessageInput.value='';
+groupTyping.hidden=true;
+renderGroupChat();
+showBotTyping();
+});
+
+groupAttachment.addEventListener('change',()=>{
+const file=groupAttachment.files[0];
+if(!file) return;
+saveMessage(activeGroupId,{from:'You',text:file.name,mine:true,type:'file',time:currentTime()});
+groupAttachment.value='';
+renderGroupChat();
+});
+
+voiceButton.addEventListener('click',()=>{
+if(!voiceStart){
+voiceStart=Date.now();
+voiceButton.textContent='Stop 0:00';
+voiceTimer=setInterval(()=>{
+const seconds=Math.floor((Date.now()-voiceStart)/1000);
+voiceButton.textContent=`Stop 0:${String(seconds).padStart(2,'0')}`;
+},500);
+return;
+}
+const seconds=Math.max(1,Math.floor((Date.now()-voiceStart)/1000));
+clearInterval(voiceTimer);
+saveMessage(activeGroupId,{from:'You',mine:true,type:'voice',duration:`0:${String(seconds).padStart(2,'0')}`,time:currentTime()});
+voiceStart=null;
+voiceButton.textContent='Mic';
+renderGroupChat();
+showBotTyping();
+});
+
+discussionList.addEventListener('click',event=>{
+const replyToggle=event.target.closest('[data-toggle-replies]');
+const likeButton=event.target.closest('[data-like-discussion]');
+const connectButton=event.target.closest('[data-connect]');
+if(replyToggle){
+const panel=document.getElementById(`replies-${replyToggle.dataset.toggleReplies}`);
+panel.hidden=!panel.hidden;
+}
+if(likeButton){
+persistDefaultInteraction(likeButton.dataset.likeDiscussion,item=>{item.likes+=1;});
+renderDiscussions();
+}
+if(connectButton){
+persistDefaultInteraction(connectButton.dataset.connect,item=>{item.connected=!item.connected;});
+renderDiscussions();
+}
+});
+
+discussionList.addEventListener('submit',event=>{
+const form=event.target.closest('[data-reply-form]');
+if(!form) return;
+event.preventDefault();
+const formData=new FormData(form);
+persistDefaultInteraction(form.dataset.replyForm,item=>{item.replies.push({name:formData.get('name'),text:formData.get('reply')});});
+renderDiscussions();
+const panel=document.getElementById(`replies-${form.dataset.replyForm}`);
+if(panel) panel.hidden=false;
+});
+
+document.getElementById('startDiscussionButton').addEventListener('click',()=>{discussionModal.hidden=false;document.body.classList.add('community-modal-open');document.getElementById('discussionName').focus();});
+document.querySelectorAll('[data-close-discussion]').forEach(button=>button.addEventListener('click',()=>{discussionModal.hidden=true;document.body.classList.remove('community-modal-open');}));
+
+document.getElementById('createGroupButton').addEventListener('click',()=>{groupModal.hidden=false;document.body.classList.add('community-modal-open');document.getElementById('groupName').focus();});
+document.querySelectorAll('[data-close-group]').forEach(button=>button.addEventListener('click',()=>{groupModal.hidden=true;document.body.classList.remove('community-modal-open');}));
+
+groupPicture.addEventListener('change',async()=>{
+const file=groupPicture.files[0];
+groupPictureDataUrl=file?await fileToDataUrl(file):'';
+renderCreatePicturePreview();
+});
+
+document.querySelectorAll('[data-close-profile]').forEach(button=>button.addEventListener('click',()=>{
+groupProfileModal.hidden=true;
+document.body.classList.remove('community-modal-open');
+}));
+
+groupProfileZoom.addEventListener('input',()=>updateProfileZoom(groupProfileZoom.value));
+document.querySelectorAll('[data-profile-zoom]').forEach(button=>button.addEventListener('click',()=>{
+const direction=button.dataset.profileZoom==='in'?0.2:-0.2;
+updateProfileZoom(profileZoomLevel+direction);
+}));
+
+groupProfileChatButton.addEventListener('click',()=>{
+groupProfileModal.hidden=true;
+openGroupChat(activeProfileGroupId);
+});
+
+groupForm.addEventListener('submit',async event=>{
+event.preventDefault();
+const title=document.getElementById('groupName').value.trim();
+const topic=document.getElementById('groupTopic').value;
+const text=document.getElementById('groupDescription').value.trim();
+const features=document.getElementById('groupFeatures').value.trim().replace(/\s*,\s*/g,' • ');
+const groupId=`custom-${Date.now()}`;
+const group={id:groupId,title,topic,text,features:features||`${topic} • Group Chat`,picture:groupPictureDataUrl,custom:true};
+let savedGroup=null;
+if(window.AEBackend&&window.AEBackend.isReady()){
+savedGroup=await window.AEBackend.createCommunityGroup(group);
+}
+if(savedGroup){
+backendAcademicGroups.unshift(savedGroup);
+}else{
+const groups=getCreatedGroups();
+groups.unshift(group);
+saveCreatedGroups(groups);
+}
+const joined=getJoinedGroups();
+joined.push(groupId);
+saveJoinedGroups(joined);
+saveMessage(groupId,{from:'System',text:`${title} was created. Invite classmates and start the first conversation.`,mine:false,type:'system',time:currentTime()});
+groupForm.reset();
+groupPictureDataUrl='';
+renderCreatePicturePreview();
+groupModal.hidden=true;
+document.body.classList.remove('community-modal-open');
+renderAcademicGroups();
+openGroupChat(groupId);
+});
+
+discussionForm.addEventListener('submit',event=>{
+event.preventDefault();
+const name=document.getElementById('discussionName').value.trim();
+const topic=document.getElementById('discussionTopic').value;
+const title=document.getElementById('discussionTitle').value.trim();
+const body=document.getElementById('discussionBody').value.trim();
+const saved=getSavedDiscussions();
+saved.unshift({id:`discussion-${Date.now()}`,name,initials:name.split(/\s+/).map(part=>part[0]).join('').slice(0,2).toUpperCase()||'AE',topic,time:'Just now',title,body,likes:0,replies:[],connected:false});
+saveDiscussions(saved);
+discussionForm.reset();
+discussionModal.hidden=true;
+document.body.classList.remove('community-modal-open');
+activeTopic='all';
+topicButtons.forEach(button=>button.classList.toggle('active',button.dataset.topic==='all'));
+renderDiscussions();
+});
+
+document.addEventListener('keydown',event=>{
+if(event.key!=='Escape') return;
+if(!discussionModal.hidden) discussionModal.hidden=true;
+if(!groupModal.hidden) groupModal.hidden=true;
+if(!groupProfileModal.hidden) groupProfileModal.hidden=true;
+if(!groupChatModal.hidden) groupChatModal.hidden=true;
+document.body.classList.remove('community-modal-open');
+});
+renderCreatePicturePreview();
+async function loadCommunityBackend(){
+if(window.AEBackend&&window.AEBackend.isReady()){
+const groups=await window.AEBackend.listCommunityGroups();
+backendAcademicGroups=groups||[];
+}
+renderAcademicGroups();
+renderDiscussions();
+}
+loadCommunityBackend();
+</script>
+</body>
+</html>

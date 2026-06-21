@@ -1,0 +1,301 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A.E CONNECT CHAT | A.E CONNECT SPACE</title>
+<link rel="stylesheet" href="../STYLE/style.css?v=ae-connect-chat-20260617">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+<nav class="navbar">
+<div class="logo">
+<img src="../ASSETS/logo/logo.png" alt="A.E CONNECT SPACE logo">
+<span>A.E CONNECT SPACE</span>
+</div>
+
+<ul class="nav-links">
+<li><a href="index.html">Home</a></li>
+<li><a href="programs.html">Programs</a></li>
+<li><a href="networking.html">Community</a></li>
+<li><a href="skills.html">Skills Hub</a></li>
+<li><a href="opportunities.html">Opportunities</a></li>
+<li><a href="scholarships.html">Scholarships</a></li>
+<li><a href="entrepreneurship.html">Entrepreneurship</a></li>
+<li><a href="events.html">Events</a></li>
+<li><a href="stories.html">Stories</a></li>
+<li><a href="resources.html">Resources</a></li><li><a href="about.html">About</a></li>
+</ul>
+</nav>
+
+<main class="chat-app">
+<aside class="chat-sidebar">
+<a class="chat-back-link" href="networking.html">Back To A.E CONNECT NETWORK</a>
+<div class="chat-profile-card">
+<div class="chat-avatar">AE</div>
+<div>
+<h2>A.E CONNECT CHAT</h2>
+<p>POST. CHAT. CONNECT. GROW.</p>
+</div>
+</div>
+
+<div class="chat-search">
+<input type="search" id="chatSearch" placeholder="Search rooms, posts, people...">
+</div>
+
+<div class="chat-room-list" id="chatRoomList">
+<button class="active" type="button" data-room="General Community">General Community<span>214 members</span></button>
+<button type="button" data-room="Economics Students">Economics Students<span>88 members</span></button>
+<button type="button" data-room="GIS Community">GIS Community<span>63 members</span></button>
+<button type="button" data-room="Python Learners">Python Learners<span>121 members</span></button>
+<button type="button" data-room="Entrepreneurship Hub">Entrepreneurship Hub<span>156 members</span></button>
+<button type="button" data-room="Researchers Hub">Researchers Hub<span>74 members</span></button>
+</div>
+
+<section class="chat-mini-panel">
+<h3>ONLINE NOW</h3>
+<p>Akosua Addo</p>
+<p>Kwame Mensah</p>
+<p>Efua Nartey</p>
+</section>
+</aside>
+
+<section class="chat-feed">
+<div class="chat-feed-head">
+<div>
+<span>COMMUNITY FEED</span>
+<h1 id="activeRoomTitle">GENERAL COMMUNITY</h1>
+<p>Share updates, ask questions, find collaborators, and support other students.</p>
+</div>
+<a href="#chatPanel">Open Chat Panel</a>
+</div>
+
+<section class="post-composer">
+<div class="composer-top">
+<div class="chat-avatar">AA</div>
+<textarea id="postInput" rows="3" placeholder="What opportunity, question, update, or idea do you want to share?"></textarea>
+</div>
+<div class="composer-actions">
+<button type="button" data-post-type="Question">Question</button>
+<button type="button" data-post-type="Opportunity">Opportunity</button>
+<button type="button" data-post-type="Project">Project</button>
+<button type="button" id="publishPost">Post To Community</button>
+</div>
+</section>
+
+<div class="feed-filter-bar">
+<button class="active" type="button" data-feed-filter="all">All Posts</button>
+<button type="button" data-feed-filter="Question">Questions</button>
+<button type="button" data-feed-filter="Opportunity">Opportunities</button>
+<button type="button" data-feed-filter="Project">Projects</button>
+</div>
+
+<div class="feed-list" id="feedList"></div>
+</section>
+
+<aside class="chat-panel" id="chatPanel">
+<div class="chat-panel-head">
+<div>
+<span>LIVE CHAT</span>
+<h2 id="chatPanelTitle">GENERAL COMMUNITY</h2>
+</div>
+<small id="messageCount">3 messages</small>
+</div>
+
+<div class="message-list" id="messageList"></div>
+
+<div class="message-box">
+<input type="text" id="messageInput" placeholder="Write a message...">
+<button type="button" id="sendMessage">Send</button>
+</div>
+</aside>
+</main>
+
+<script>
+const chatPosts = [
+{id:1, room:'General Community', type:'Question', author:'Akosua Addo', role:'Economics Student', text:'Who is available this weekend to form a study and internship application group?', likes:18, comments:['I am interested.', 'Add me to the group.']},
+{id:2, room:'General Community', type:'Opportunity', author:'A.E CONNECT Admin', role:'Community Lead', text:'Share one real opportunity you found this week so other students can also apply.', likes:42, comments:['Scholarship call posted today.', 'I found a research assistant role.']},
+{id:3, room:'Entrepreneurship Hub', type:'Project', author:'Efua Nartey', role:'Student Entrepreneur', text:'I need two students to test a campus fashion order page before I launch publicly.', likes:27, comments:['I can help with feedback.', 'Send the link when ready.']},
+{id:4, room:'GIS Community', type:'Question', author:'Kwame Mensah', role:'GIS Analyst', text:'Anyone learning QGIS should start with digitizing, map layout, and basic spatial joins. Who wants a practice group?', likes:31, comments:['I want to join.', 'Please include remote sensing too.']},
+{id:5, room:'Python Learners', type:'Project', author:'Selorm Tetteh', role:'Computer Science Student', text:'Let us build a simple student budget tracker in Python this week and share screenshots here.', likes:24, comments:['Great idea.', 'Can beginners join?']},
+{id:6, room:'Researchers Hub', type:'Opportunity', author:'Dr. Mensah', role:'Research Mentor', text:'Looking for student volunteers to support a short survey project on youth employment.', likes:36, comments:['Interested.', 'What skills are needed?']}
+];
+
+const roomMessages = {
+'General Community': ['Welcome to the general community.', 'Please share serious opportunities and useful questions.', 'Let us keep the space helpful and professional.'],
+'Economics Students': ['Drop econometrics questions here.', 'We can organize Excel and Stata sessions.'],
+'GIS Community': ['Share maps, QGIS questions, and field survey ideas here.', 'Remote sensing practice group starts soon.'],
+'Python Learners': ['Beginners are welcome.', 'Post errors and project ideas here.'],
+'Entrepreneurship Hub': ['Share business ideas, products, and customer feedback.', 'Who is selling something this week?'],
+'Researchers Hub': ['Share research methods questions and collaboration requests.', 'Keep posts clear and ethical.']
+};
+
+const feedList = document.getElementById('feedList');
+const chatSearch = document.getElementById('chatSearch');
+const roomButtons = Array.from(document.querySelectorAll('[data-room]'));
+const feedFilterButtons = Array.from(document.querySelectorAll('[data-feed-filter]'));
+const activeRoomTitle = document.getElementById('activeRoomTitle');
+const chatPanelTitle = document.getElementById('chatPanelTitle');
+const postInput = document.getElementById('postInput');
+const publishPost = document.getElementById('publishPost');
+const messageList = document.getElementById('messageList');
+const messageInput = document.getElementById('messageInput');
+const sendMessage = document.getElementById('sendMessage');
+const messageCount = document.getElementById('messageCount');
+let activeRoom = 'General Community';
+let activeFeedFilter = 'all';
+let selectedPostType = 'Question';
+
+function escapeHTML(value){
+return String(value).replace(/[&<>"']/g, character => ({
+'&':'&amp;',
+'<':'&lt;',
+'>':'&gt;',
+'"':'&quot;',
+"'":'&#39;'
+}[character]));
+}
+
+function renderFeed(){
+const query = (chatSearch.value || '').trim().toLowerCase();
+const visiblePosts = chatPosts.filter(post => {
+const roomMatch = activeRoom === 'General Community' || post.room === activeRoom || post.room === 'General Community';
+const typeMatch = activeFeedFilter === 'all' || post.type === activeFeedFilter;
+const searchText = `${post.author} ${post.role} ${post.text} ${post.type} ${post.room}`.toLowerCase();
+return roomMatch && typeMatch && (!query || searchText.includes(query));
+});
+feedList.innerHTML = '';
+visiblePosts.forEach(post => {
+const article = document.createElement('article');
+article.className = 'social-post';
+article.dataset.type = post.type;
+article.innerHTML = `
+<div class="post-author">
+<div class="chat-avatar">${escapeHTML(post.author.split(' ').map(part => part[0]).join('').slice(0,2))}</div>
+<div><h3>${escapeHTML(post.author)}</h3><p>${escapeHTML(post.role)} • ${escapeHTML(post.room)}</p></div>
+</div>
+<span class="post-type">${escapeHTML(post.type)}</span>
+<p class="post-text">${escapeHTML(post.text)}</p>
+<div class="post-stats"><span>${post.likes} likes</span><span>${post.comments.length} comments</span></div>
+<div class="post-actions">
+<button type="button" data-like="${post.id}">Like</button>
+<button type="button" data-toggle-comments="${post.id}">Comment</button>
+<button type="button" data-share="${post.id}">Share</button>
+</div>
+<div class="comment-box" id="comments-${post.id}" hidden>
+<div class="comment-list">${post.comments.map(comment => `<p>${escapeHTML(comment)}</p>`).join('')}</div>
+<div class="comment-input-row"><input type="text" placeholder="Write a comment..." data-comment-input="${post.id}"><button type="button" data-add-comment="${post.id}">Post</button></div>
+</div>
+`;
+feedList.appendChild(article);
+});
+}
+
+function renderMessages(){
+const messages = roomMessages[activeRoom] || [];
+messageList.innerHTML = '';
+messages.forEach((message, index) => {
+const item = document.createElement('div');
+item.className = index % 2 === 0 ? 'message-item' : 'message-item message-own';
+item.textContent = message;
+messageList.appendChild(item);
+});
+messageCount.textContent = `${messages.length} messages`;
+}
+
+roomButtons.forEach(button => {
+button.addEventListener('click', () => {
+activeRoom = button.dataset.room;
+roomButtons.forEach(item => item.classList.remove('active'));
+button.classList.add('active');
+activeRoomTitle.textContent = activeRoom.toUpperCase();
+chatPanelTitle.textContent = activeRoom.toUpperCase();
+renderFeed();
+renderMessages();
+});
+});
+
+feedFilterButtons.forEach(button => {
+button.addEventListener('click', () => {
+activeFeedFilter = button.dataset.feedFilter;
+feedFilterButtons.forEach(item => item.classList.remove('active'));
+button.classList.add('active');
+renderFeed();
+});
+});
+
+document.querySelectorAll('[data-post-type]').forEach(button => {
+button.addEventListener('click', () => {
+selectedPostType = button.dataset.postType;
+});
+});
+
+publishPost.addEventListener('click', () => {
+const text = postInput.value.trim();
+if(!text) return;
+chatPosts.unshift({
+id: Date.now(),
+room: activeRoom,
+type: selectedPostType,
+author: 'Akosua Addo',
+role: 'A.E CONNECT Member',
+text,
+likes: 0,
+comments: []
+});
+postInput.value = '';
+renderFeed();
+});
+
+feedList.addEventListener('click', event => {
+const likeButton = event.target.closest('[data-like]');
+const commentToggle = event.target.closest('[data-toggle-comments]');
+const addComment = event.target.closest('[data-add-comment]');
+if(likeButton){
+const post = chatPosts.find(item => item.id == likeButton.dataset.like);
+if(post){
+post.likes += 1;
+renderFeed();
+}
+}
+if(commentToggle){
+const box = document.getElementById(`comments-${commentToggle.dataset.toggleComments}`);
+if(box) box.hidden = !box.hidden;
+}
+if(addComment){
+const input = document.querySelector(`[data-comment-input="${addComment.dataset.addComment}"]`);
+const post = chatPosts.find(item => item.id == addComment.dataset.addComment);
+if(input && post && input.value.trim()){
+post.comments.push(input.value.trim());
+renderFeed();
+const box = document.getElementById(`comments-${post.id}`);
+if(box) box.hidden = false;
+}
+}
+});
+
+sendMessage.addEventListener('click', () => {
+const message = messageInput.value.trim();
+if(!message) return;
+roomMessages[activeRoom] = roomMessages[activeRoom] || [];
+roomMessages[activeRoom].push(message);
+messageInput.value = '';
+renderMessages();
+});
+
+messageInput.addEventListener('keydown', event => {
+if(event.key === 'Enter') sendMessage.click();
+});
+
+chatSearch.addEventListener('input', renderFeed);
+
+renderFeed();
+renderMessages();
+</script>
+</body>
+</html>

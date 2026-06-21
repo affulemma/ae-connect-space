@@ -1,0 +1,158 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI TOOL GUIDE | A.E CONNECT SPACE</title>
+<link rel="stylesheet" href="../STYLE/style.css?v=ai-tool-detail-20260618">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body class="resources-page ai-tools-page">
+<nav class="navbar">
+<div class="logo"><img src="../ASSETS/logo/logo.png" alt="A.E CONNECT SPACE logo"><span>A.E CONNECT SPACE</span></div>
+<ul class="nav-links">
+<li><a href="index.html">Home</a></li>
+<li><a href="programs.html">Programs</a></li>
+<li><a href="networking.html">Community</a></li>
+<li><a href="skills.html">Skills Hub</a></li>
+<li><a href="opportunities.html">Opportunities</a></li>
+<li><a href="scholarships.html">Scholarships</a></li>
+<li><a href="entrepreneurship.html">Entrepreneurship</a></li>
+<li><a href="events.html">Events</a></li>
+<li><a href="stories.html">Stories</a></li>
+<li><a href="resources.html">Resources</a></li><li><a href="about.html">About</a></li>
+</ul>
+</nav>
+
+<main class="ai-tool-detail-page">
+<a class="back-link" href="ai-tools.html">Back To AI Tools</a>
+<section class="ai-tool-detail-hero">
+<span id="toolCategory" class="section-kicker">AI TOOL</span>
+<h1 id="toolName">AI TOOL</h1>
+<p id="toolUse">Learn what this AI tool does, who developed it, how students can use it, and where to access the official platform.</p>
+</section>
+
+<section class="ai-tool-detail-layout">
+<article class="ai-tool-main-card">
+<h2 id="overviewHeading">WHAT THIS TOOL IS ABOUT</h2>
+<p id="toolOverview"></p>
+<div class="detail-info-grid">
+<div>
+<strong>COMPANY / DEVELOPER</strong>
+<span id="toolCompany"></span>
+</div>
+<div>
+<strong>BEST FOR</strong>
+<span id="toolBestFor"></span>
+</div>
+<div>
+<strong>CATEGORY</strong>
+<span id="toolCategoryText"></span>
+</div>
+</div>
+</article>
+
+<article class="ai-tool-side-card">
+<h2>STUDENT USE CASES</h2>
+<ul id="studentUses"></ul>
+</article>
+</section>
+
+<section class="ai-tool-learning-section">
+<div>
+<span class="section-kicker">HOW TO USE IT</span>
+<h2 id="howToHeading">HOW STUDENTS CAN USE THIS TOOL</h2>
+</div>
+<div class="ai-tool-steps" id="toolSteps"></div>
+</section>
+
+<section class="ai-tool-link-section">
+<div>
+<span class="section-kicker">OFFICIAL LINK</span>
+<h2>READY TO TRY THE TOOL?</h2>
+<p>After understanding what the tool is for, open the official website below. Always check pricing, privacy, and school rules before uploading sensitive academic, personal, or company information.</p>
+</div>
+<a id="officialToolLink" href="#" target="_blank" rel="noopener noreferrer">Open Official Tool</a>
+</section>
+</main>
+
+<footer><p>&copy; A.E CONNECT SPACE</p></footer>
+
+<script>
+const params = new URLSearchParams(window.location.search);
+const tool = {
+name: params.get('name') || 'AI Tool',
+category: params.get('category') || 'AI TOOL',
+use: params.get('use') || 'This AI tool helps students work faster, learn better, and build practical skills.',
+url: params.get('url') || 'ai-tools.html'
+};
+
+const companyMap = {
+'ChatGPT':'OpenAI','Claude':'Anthropic','Google Gemini':'Google','Microsoft Copilot':'Microsoft','Perplexity':'Perplexity AI','Poe':'Quora','You.com':'You.com','Meta AI':'Meta','NotebookLM':'Google','Elicit':'Elicit','Consensus':'Consensus','Semantic Scholar':'Allen Institute for AI','ResearchRabbit':'ResearchRabbit','Connected Papers':'Connected Papers','Scite':'scite','Litmaps':'Litmaps','SciSpace':'Typeset','Scholarcy':'Scholarcy','ChatPDF':'ChatPDF','Humata':'Humata',
+'Grammarly':'Grammarly','QuillBot':'QuillBot','Wordtune':'AI21 Labs','Jasper':'Jasper AI','Copy.ai':'Copy.ai','Writesonic':'Writesonic','Rytr':'Rytr','HyperWrite':'OthersideAI','Sudowrite':'Sudowrite','Jenni AI':'Jenni AI','Paperpal':'Cactus Communications',
+'Gamma':'Gamma','Beautiful.ai':'Beautiful.ai','Tome':'Tome','Canva':'Canva','Pitch':'Pitch','Plus AI':'Plus Docs','SlidesAI':'SlidesAI','Prezi AI':'Prezi','PopAi':'PopAi','Microsoft Designer':'Microsoft',
+'GitHub Copilot':'GitHub, Microsoft, and OpenAI','Cursor':'Anysphere','Replit AI':'Replit','Windsurf':'Windsurf','Tabnine':'Tabnine','Sourcegraph Cody':'Sourcegraph','CodeRabbit':'CodeRabbit','V0':'Vercel','Bolt':'StackBlitz','Lovable':'Lovable','Devin':'Cognition',
+'Adobe Firefly':'Adobe','Midjourney':'Midjourney','DALL-E':'OpenAI','Leonardo AI':'Leonardo AI','Ideogram':'Ideogram','Stable Diffusion':'Stability AI','Playground AI':'Playground','Freepik AI':'Freepik','Recraft':'Recraft','Clipdrop':'Stability AI','Krea':'Krea',
+'Figma AI':'Figma','Uizard':'Uizard','Framer':'Framer','Galileo AI':'Galileo AI','Relume':'Relume','Kittl':'Kittl','Khroma':'Khroma',
+'Runway':'Runway','Synthesia':'Synthesia','Pika':'Pika','Luma AI':'Luma Labs','HeyGen':'HeyGen','Descript':'Descript','Kapwing':'Kapwing','InVideo AI':'InVideo','OpusClip':'OpusClip','Veed':'Veed',
+'ElevenLabs':'ElevenLabs','Suno':'Suno','Udio':'Udio','AIVA':'AIVA','Mubert':'Mubert','Murf':'Murf AI','Speechify':'Speechify','Otter.ai':'Otter.ai','Krisp':'Krisp','Adobe Podcast':'Adobe',
+'Julius AI':'Julius AI','Akkio':'Akkio','Obviously AI':'Obviously AI','Polymer':'Polymer Search','Rows AI':'Rows','Tableau Pulse':'Tableau, a Salesforce company','Microsoft Power BI':'Microsoft','DataRobot':'DataRobot','Dataiku':'Dataiku',
+'Notion AI':'Notion','Airtable AI':'Airtable','Zapier AI':'Zapier','Make':'Make','Asana AI':'Asana','ClickUp AI':'ClickUp','Slack AI':'Slack, a Salesforce company','Microsoft 365 Copilot':'Microsoft','Gemini For Workspace':'Google','HubSpot AI':'HubSpot','Salesforce Einstein':'Salesforce','Shopify Magic':'Shopify',
+'Khanmigo':'Khan Academy','Quizlet':'Quizlet','Knowt':'Knowt','Socratic':'Google','Duolingo Max':'Duolingo','Coursera Coach':'Coursera',
+'Teal':'Teal','Kickresume':'Kickresume','Rezi':'Rezi','Jobscan':'Jobscan','Resume.io':'Resume.io','Yoodli':'Yoodli'
+};
+
+const useCases = {
+RESEARCH:['Summarize articles, papers, and PDFs.','Find useful sources before writing assignments.','Compare ideas and build literature review notes.','Turn research questions into clearer study plans.'],
+PRESENTATION:['Create slide outlines from a topic.','Design stronger class presentations and pitch decks.','Turn reports into speaker notes.','Improve visual storytelling before presenting.'],
+WRITING:['Draft outlines before writing essays or reports.','Improve grammar, clarity, tone, and structure.','Create better emails, captions, proposals, and summaries.','Check whether your message sounds professional.'],
+CODING:['Understand programming concepts with examples.','Generate starter code and learn how it works.','Debug simple errors and improve code quality.','Build portfolio projects faster.'],
+DESIGN:['Create UI ideas, brand concepts, layouts, and design directions.','Generate inspiration before designing posters or websites.','Improve visual consistency for projects.','Build mockups before development.'],
+IMAGE:['Generate image ideas, posters, product visuals, and creative concepts.','Edit images for presentations and business content.','Create visuals when you do not have a camera or designer.','Support branding, campaigns, and student projects.'],
+VIDEO:['Create video concepts, scripts, short clips, and visual stories.','Turn text or images into video content.','Prepare educational, marketing, or event videos.','Repurpose long content into shorter clips.'],
+AUDIO:['Generate voices, music, narration, or clean audio.','Turn text into speech for learning or content creation.','Transcribe lectures, interviews, and meetings.','Improve sound quality for recordings.'],
+DATA:['Explore datasets and spreadsheets.','Create charts, dashboards, and insights.','Build predictions and business analysis.','Explain data patterns in simple language.'],
+PRODUCTIVITY:['Plan tasks, summarize notes, and organize ideas.','Brainstorm study, business, and project plans.','Create checklists and workflows.','Save time on repeated academic or work tasks.'],
+BUSINESS:['Create marketing content, sales messages, and customer ideas.','Automate business tasks and workflows.','Support CRM, e-commerce, and operations.','Prepare reports, proposals, and business plans.'],
+EDUCATION:['Practice difficult topics with explanations.','Create quizzes, flashcards, and revision plans.','Get guided learning support.','Study at your own pace.'],
+CAREER:['Build stronger resumes and cover letters.','Prepare for interviews and public speaking.','Match skills to job descriptions.','Organize job and internship applications.']
+};
+
+const steps = {
+RESEARCH:['Enter your research topic or upload your reading material.','Ask for a summary, key arguments, methods, findings, and limitations.','Compare the output with your original source and confirm accuracy.','Use the results as study support, then write in your own words and cite properly.'],
+PRESENTATION:['Describe your topic, audience, and presentation goal.','Ask for an outline, slide structure, examples, and speaking notes.','Edit the design and content to match your course or event.','Practice the presentation and verify every fact before presenting.'],
+WRITING:['Start with your assignment goal, audience, and required format.','Ask for an outline or draft support, not final work to copy blindly.','Revise the output with your own understanding and examples.','Check grammar, references, originality, and your lecturer’s rules.'],
+CODING:['Describe what you want to build and the language you are using.','Ask for a simple explanation before asking for full code.','Run and test the code yourself.','Document what you learned so the project becomes your portfolio evidence.'],
+DESIGN:['Explain the design goal, audience, colors, and format.','Generate a few layout or concept options.','Choose one direction and refine typography, spacing, and brand consistency.','Export or recreate the final design in your preferred design tool.'],
+IMAGE:['Write a clear prompt describing subject, style, format, and purpose.','Generate different options and compare them.','Edit the best result for clarity and professionalism.','Use images responsibly and check usage rights before publishing.'],
+VIDEO:['Write the topic, audience, duration, and message.','Generate a script, storyboard, or video draft.','Edit pacing, captions, visuals, and sound.','Review the final video before sharing publicly.'],
+AUDIO:['Choose whether you need transcription, voiceover, music, or noise cleanup.','Upload or enter your script/audio where appropriate.','Review the transcript, voice, or sound quality.','Download the result and credit or license it correctly when required.'],
+DATA:['Upload or connect your dataset if the tool supports it.','Ask clear questions about trends, charts, forecasts, or errors.','Validate the results with your own calculations or data knowledge.','Turn insights into a report, dashboard, or presentation.'],
+PRODUCTIVITY:['Tell the tool what you are trying to organize or complete.','Ask for a plan, checklist, summary, or workflow.','Adjust the output to your real schedule and priorities.','Use it consistently to track progress.'],
+BUSINESS:['Describe your product, customer, problem, and business goal.','Ask for marketing ideas, pricing options, content, or workflow support.','Test the output with real customers or business data.','Improve the result using feedback and market evidence.'],
+EDUCATION:['Enter the topic you are struggling with.','Ask for simple explanations, examples, quizzes, and practice questions.','Try answering before looking at the suggested solution.','Review mistakes and repeat until you understand.'],
+CAREER:['Add your career goal, skills, experience, and target role.','Ask for resume, cover letter, interview, or profile support.','Customize every output to your real experience.','Apply, track responses, and keep improving your portfolio.']
+};
+
+const category = tool.category.toUpperCase();
+const company = companyMap[tool.name] || `${tool.name} official team`;
+const selectedUses = useCases[category] || useCases.PRODUCTIVITY;
+const selectedSteps = steps[category] || steps.PRODUCTIVITY;
+
+document.title = `${tool.name.toUpperCase()} | A.E CONNECT SPACE`;
+document.getElementById('toolCategory').textContent = category;
+document.getElementById('toolName').textContent = tool.name.toUpperCase();
+document.getElementById('toolUse').textContent = tool.use;
+document.getElementById('toolOverview').textContent = `${tool.name} is an AI tool students can use for ${tool.use.charAt(0).toLowerCase() + tool.use.slice(1)} It should be treated as a support tool: it can help you move faster, understand ideas better, and create drafts, but you still need to think, verify, edit, and learn from the process.`;
+document.getElementById('toolCompany').textContent = company;
+document.getElementById('toolBestFor').textContent = tool.use;
+document.getElementById('toolCategoryText').textContent = category;
+document.getElementById('studentUses').innerHTML = selectedUses.map(item => `<li>${item}</li>`).join('');
+document.getElementById('toolSteps').innerHTML = selectedSteps.map((item, index) => `<article><strong>${String(index + 1).padStart(2,'0')}</strong><p>${item}</p></article>`).join('');
+document.getElementById('officialToolLink').href = tool.url;
+document.getElementById('officialToolLink').textContent = `Open ${tool.name} Official Website`;
+</script>
+</body>
+</html>

@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Events | A.E CONNECT SPACE</title>
+<link rel="stylesheet" href="../STYLE/style.css?v=events-20260619">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body class="home-page events-page">
+<nav class="home-footer-nav" aria-label="Main navigation">
+<a class="mini-brand" href="index.html"><img src="../ASSETS/logo/logo.png" alt="A.E CONNECT SPACE logo"><span>A.E CONNECT SPACE</span></a>
+<button class="menu-toggle" type="button" aria-label="Toggle navigation" aria-expanded="false">&#9776;</button>
+<ul class="home-nav-links">
+<li><a href="index.html">Home</a></li>
+<li><a href="programs.html">Programs</a></li>
+<li><a href="skills.html">Skills Hub</a></li>
+<li><a href="opportunities.html">Opportunities</a></li>
+<li><a href="scholarships.html">Scholarships</a></li>
+<li><a href="entrepreneurship.html">Entrepreneurship</a></li>
+<li><a href="networking.html">Community</a></li>
+<li><a class="active" href="events.html">Events</a></li>
+<li><a href="stories.html">Stories</a></li>
+<li><a href="resources.html">Resources</a></li>
+<li><a href="about.html">About</a></li>
+<li><a class="nav-cta" href="auth.html">Get Started</a></li>
+</ul>
+</nav>
+
+<main>
+<header class="events-hero" id="top">
+<div class="home-container events-hero-copy">
+<span class="events-pill">Events</span>
+<h1>Workshops, Webinars &amp; Meetups</h1>
+<p>Build skills in real-time with hands-on workshops, expert-led webinars, and networking meetups tailored for university students.</p>
+<div class="events-hero-actions">
+<a href="#eventList">Explore Events</a>
+<a href="#postEvent">Post an Event</a>
+</div>
+</div>
+</header>
+
+<section class="featured-events-section">
+<div class="home-container">
+<h2 class="events-mini-heading"><span></span>Featured Events</h2>
+<div class="featured-events-grid">
+<article class="featured-event-card">
+<div><b>Workshop</b><small>Virtual (Zoom)</small></div>
+<h3>Data Analytics Workshop: From Excel to Power BI</h3>
+<p>A hands-on workshop covering data cleaning in Excel, analysis with pivot tables, and Power BI dashboards.</p>
+<footer><span>2026-06-15</span><span>145/300</span></footer>
+</article>
+<article class="featured-event-card">
+<div><b>Webinar</b><small>Virtual (Google Meet)</small></div>
+<h3>Career Roadmap Webinar: Computer Science Edition</h3>
+<p>Hear from software engineers about the skills that matter and how to build a strong portfolio.</p>
+<footer><span>2026-06-20</span><span>210/500</span></footer>
+</article>
+<article class="featured-event-card">
+<div><b>Meetup</b><small>Accra International Conference Centre</small></div>
+<h3>Young Leaders Career Summit</h3>
+<p>A full-day summit bringing students from all fields together for keynotes and networking.</p>
+<footer><span>2026-07-25</span><span>320/500</span></footer>
+</article>
+</div>
+</div>
+</section>
+
+<section class="event-tools-section" aria-label="Event tools">
+<div class="home-container events-tools">
+<label class="event-search">
+<span>&#8981;</span>
+<input id="eventSearch" type="search" placeholder="Search events...">
+</label>
+<div class="event-filters" aria-label="Event filters">
+<button class="active" type="button" data-filter="all">All</button>
+<button type="button" data-filter="Workshop">Workshops</button>
+<button type="button" data-filter="Webinar">Webinars</button>
+<button type="button" data-filter="Meetup">Meetups</button>
+</div>
+</div>
+</section>
+
+<section class="events-list-section" id="eventList">
+<div class="home-container events-layout">
+<div class="events-list" id="eventsList" aria-live="polite"></div>
+<aside class="post-event-panel" id="postEvent">
+<span class="events-pill">Post Event</span>
+<h2>Share an Upcoming Event</h2>
+<form id="eventForm">
+<label>Event Title<input id="eventTitle" type="text" placeholder="Career fair, webinar, workshop..." required></label>
+<div class="form-two">
+<label>Type<select id="eventType" required><option>Workshop</option><option>Webinar</option><option>Meetup</option></select></label>
+<label>Program<input id="eventProgram" type="text" placeholder="All Programs"></label>
+</div>
+<div class="form-two">
+<label>Date<input id="eventDate" type="date" required></label>
+<label>Time<input id="eventTime" type="text" placeholder="10:00 AM - 2:00 PM"></label>
+</div>
+<label>Location<input id="eventLocation" type="text" placeholder="Virtual, campus, Accra..."></label>
+<label>Organizer<input id="eventOrganizer" type="text" placeholder="Name or organization"></label>
+<label>Short Description<textarea id="eventDescription" rows="4" placeholder="What should students expect?" required></textarea></label>
+<label>Event Flyer<input id="eventFlyer" type="file" accept="image/*"></label>
+<button type="submit">Post Event</button>
+</form>
+</aside>
+</div>
+</section>
+</main>
+
+<footer class="home-footer">
+<div class="home-container">
+<section class="newsletter">
+<div>
+<h2>Stay in the Loop</h2>
+<p>Get weekly updates on new programs, skill roadmaps, events, and opportunities delivered straight to your inbox.</p>
+</div>
+<form>
+<label class="sr-only" for="events-newsletter-email">Email address</label>
+<input id="events-newsletter-email" type="email" placeholder="your@email.com">
+<button type="submit">Subscribe</button>
+</form>
+</section>
+<div class="footer-columns">
+<div><h3>Platform</h3><a href="programs.html">Programs Roadmap</a><a href="skills.html">Skills Hub</a><a href="opportunities.html">Opportunities</a><a href="scholarships.html">Scholarships</a><a href="stories.html">Success Stories</a></div>
+<div><h3>Resources</h3><a href="events.html">Events</a><a href="resources.html">Resources Library</a><a href="skills.html">Skill Exchange</a><a href="resources.html">Blog & Guides</a></div>
+<div><h3>Company</h3><a href="about.html">About Us</a><a href="auth.html">Contact</a><a href="auth.html">Careers</a><a href="networking.html">Partnerships</a></div>
+<div><h3>Legal</h3><a href="#">Privacy Policy</a><a href="#">Terms of Service</a><a href="#">Cookie Policy</a></div>
+</div>
+<div class="footer-bottom">
+<a class="mini-brand" href="index.html"><img src="../ASSETS/logo/logo.png" alt="A.E CONNECT SPACE logo"><span>A.E CONNECT SPACE</span></a>
+<p>&copy; 2026 A.E CONNECT SPACE. All rights reserved.</p>
+<div class="socials" aria-label="Social links"><a href="#" aria-label="X">X</a><a href="#" aria-label="LinkedIn">in</a><a href="#" aria-label="Instagram">ig</a><a href="#top" aria-label="Back to top">&uarr;</a></div>
+</div>
+</div>
+</footer>
+
+<script>
+const menuToggle=document.querySelector('.menu-toggle');
+const homeNavLinks=document.querySelector('.home-nav-links');
+if(menuToggle&&homeNavLinks){menuToggle.addEventListener('click',()=>{const expanded=menuToggle.getAttribute('aria-expanded')==='true';menuToggle.setAttribute('aria-expanded',String(!expanded));homeNavLinks.classList.toggle('is-open');});}
+
+const defaultEvents=[
+{type:'Workshop',program:'Economics',extra:'Business Administration',title:'Data Analytics Workshop: From Excel to Power BI',description:'A hands-on workshop covering data cleaning in Excel, analysis with pivot tables, and creating interactive dashboards in Power BI. Perfect for Economics, Business, and Statistics students.',date:'2026-06-15',time:'10:00 AM - 2:00 PM',location:'Virtual (Zoom)',organizer:'Dr. Kwame Asiedu, Data Lead at Ghana Revenue Authority',attending:'145 attending'},
+{type:'Webinar',program:'Computer Science',title:'Career Roadmap Webinar: Computer Science Edition',description:'Hear from software engineers at top tech companies about what skills actually matter, how to build a portfolio, and how to ace technical interviews.',date:'2026-06-20',time:'6:00 PM - 7:30 PM',location:'Virtual (Google Meet)',organizer:'Sarah Addo, Senior Engineer at Hubtel',attending:'210 attending'},
+{type:'Workshop',program:'Geography & GIS',title:'GIS Mapping Bootcamp with QGIS',description:'Full-day intensive bootcamp on QGIS. Learn to create maps, perform spatial analysis, and produce professional cartographic outputs. Laptops required.',date:'2026-07-05',time:'9:00 AM - 4:00 PM',location:'University of Ghana, Geography Department',attending:'45 attending'},
+{type:'Meetup',program:'Nursing',title:'Nursing Skills Fair: Clinical Simulation Day',description:'Hands-on clinical simulations, vital signs workshops, and networking with practicing nurses. Open to all nursing students Level 200 and above.',date:'2026-07-12',time:'8:00 AM - 3:00 PM',location:'Korle-Bu Teaching Hospital, Accra',attending:'80 attending'},
+{type:'Meetup',program:'All Programs',title:'Young Leaders Career Summit',description:'A full-day summit bringing together students from all fields for keynote speeches, panel discussions, networking sessions, and career fair booths.',date:'2026-07-25',time:'9:00 AM - 5:00 PM',location:'Accra International Conference Centre',attending:'320 attending'},
+{type:'Workshop',program:'Business Administration',extra:'Communication Studies',title:'Digital Marketing Masterclass for Business Students',description:'Learn SEO, social media strategy, content marketing, and Google Ads. Bring your laptop for the practical session on running a real ad campaign.',date:'2026-08-02',time:'2:00 PM - 5:00 PM',location:'Virtual (Zoom)',organizer:'Nana Adjoa, Marketing Director at Asaase Radio',attending:'95 attending'},
+{type:'Workshop',program:'Law',title:'Legal Research & Writing Bootcamp',description:'Intensive training in legal research methodologies, case law analysis, and professional legal writing. Led by practicing lawyers.',date:'2026-08-10',time:'10:00 AM - 3:00 PM',location:'Ghana School of Law, Accra',attending:'35 attending'},
+{type:'Workshop',program:'All Programs',title:'Public Speaking & Presentation Skills Workshop',description:'Master the art of public speaking, slide design, and confident delivery. Open to students from ALL programs. Limited slots available.',date:'2026-08-18',time:'11:00 AM - 2:00 PM',location:'British Council, Accra',organizer:'Thomas Aheto, Toastmasters Accra President',attending:'60 attending'}
+];
+
+const eventsList=document.getElementById('eventsList');
+const eventForm=document.getElementById('eventForm');
+const eventSearch=document.getElementById('eventSearch');
+const filterButtons=[...document.querySelectorAll('[data-filter]')];
+let activeFilter='all';
+
+function getPostedEvents(){
+try{return JSON.parse(localStorage.getItem('aeConnectPostedEvents')||'[]');}
+catch{return [];}
+}
+
+function savePostedEvents(events){
+localStorage.setItem('aeConnectPostedEvents',JSON.stringify(events));
+}
+
+function formatDateParts(dateValue){
+const date=new Date(`${dateValue}T00:00:00`);
+if(Number.isNaN(date.getTime())) return {month:'TBA',day:'--'};
+return {month:date.toLocaleString('en-US',{month:'short'}).toUpperCase(),day:String(date.getDate())};
+}
+
+function escapeHtml(value){
+return String(value||'').replace(/[&<>"']/g,character=>({
+'&':'&amp;',
+'<':'&lt;',
+'>':'&gt;',
+'"':'&quot;',
+"'":'&#39;'
+}[character]));
+}
+
+function eventCard(event,index){
+const date=formatDateParts(event.date);
+const flyer=event.flyer?`<img class="event-flyer" src="${event.flyer}" alt="${escapeHtml(event.title)} flyer">`:'';
+const extra=event.extra?`<span>${escapeHtml(event.extra)}</span>`:'';
+const organizer=event.organizer?`<small>Speaker: ${escapeHtml(event.organizer)}</small>`:'';
+return `<article class="event-row" data-type="${event.type}" style="--delay:${index*35}ms">
+<div class="event-date"><span>${date.month}</span><strong>${date.day}</strong></div>
+<div class="event-main">${flyer}<div class="event-tags"><span>${escapeHtml(event.type)}</span><span>${escapeHtml(event.program||'All Programs')}</span>${extra}</div><h3>${escapeHtml(event.title)}</h3><p>${escapeHtml(event.description)}</p>${organizer}<footer><span>${escapeHtml(event.time||'Time TBA')}</span><span>${escapeHtml(event.location||'Location TBA')}</span><span>${escapeHtml(event.attending||'New post')}</span></footer></div>
+<a class="event-register" href="auth.html">Register</a>
+</article>`;
+}
+
+function renderEvents(){
+const search=eventSearch.value.trim().toLowerCase();
+const events=[...defaultEvents,...getPostedEvents()];
+const filtered=events.filter(event=>{
+const matchesFilter=activeFilter==='all'||event.type===activeFilter;
+const content=`${event.title} ${event.description} ${event.program} ${event.location}`.toLowerCase();
+return matchesFilter&&content.includes(search);
+});
+eventsList.innerHTML=filtered.length?filtered.map(eventCard).join(''):'<p class="events-empty">No event matches your search yet.</p>';
+}
+
+filterButtons.forEach(button=>{
+button.addEventListener('click',()=>{
+activeFilter=button.dataset.filter;
+filterButtons.forEach(item=>item.classList.toggle('active',item===button));
+renderEvents();
+});
+});
+
+eventSearch.addEventListener('input',renderEvents);
+
+eventForm.addEventListener('submit',event=>{
+event.preventDefault();
+const file=document.getElementById('eventFlyer').files[0];
+const newEvent={
+type:document.getElementById('eventType').value,
+program:document.getElementById('eventProgram').value||'All Programs',
+title:document.getElementById('eventTitle').value,
+description:document.getElementById('eventDescription').value,
+date:document.getElementById('eventDate').value,
+time:document.getElementById('eventTime').value,
+location:document.getElementById('eventLocation').value,
+organizer:document.getElementById('eventOrganizer').value,
+attending:'Community post'
+};
+const finish=()=>{
+const posted=getPostedEvents();
+posted.unshift(newEvent);
+savePostedEvents(posted);
+eventForm.reset();
+renderEvents();
+document.getElementById('eventList').scrollIntoView({behavior:'smooth'});
+};
+if(file){
+const reader=new FileReader();
+reader.onload=()=>{newEvent.flyer=reader.result;finish();};
+reader.readAsDataURL(file);
+}else{
+finish();
+}
+});
+
+renderEvents();
+</script>
+</body>
+</html>

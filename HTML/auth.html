@@ -1,0 +1,233 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SIGN UP / LOGIN | A.E CONNECT SPACE</title>
+<link rel="stylesheet" href="../STYLE/style.css?v=auth-20260618">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body class="home-page auth-page">
+<nav class="home-footer-nav" aria-label="Main navigation">
+<a class="mini-brand" href="index.html"><img src="../ASSETS/logo/logo.png" alt="A.E CONNECT SPACE logo"><span>A.E CONNECT SPACE</span></a>
+<button class="menu-toggle" type="button" aria-label="Toggle navigation" aria-expanded="false">&#9776;</button>
+<ul class="home-nav-links">
+<li><a href="index.html">Home</a></li>
+<li><a href="programs.html">Programs</a></li>
+<li><a href="skills.html">Skills Hub</a></li>
+<li><a href="opportunities.html">Opportunities</a></li>
+<li><a href="scholarships.html">Scholarships</a></li>
+<li><a href="entrepreneurship.html">Entrepreneurship</a></li>
+<li><a href="networking.html">Community</a></li>
+<li><a href="events.html">Events</a></li>
+<li><a href="stories.html">Stories</a></li>
+<li><a href="resources.html">Resources</a></li>
+<li><a href="about.html">About</a></li>
+<li><a class="nav-cta active" href="auth.html">Get Started</a></li>
+</ul>
+</nav>
+
+<main class="auth-shell">
+<section class="auth-brand-panel">
+<span class="section-kicker">A.E CONNECT ACCOUNT</span>
+<h1>CONNECT. LEARN. GROW.</h1>
+<p>Create your A.E CONNECT SPACE profile to access student resources, skills, stories, opportunities, communities, and entrepreneurship tools in one place.</p>
+<div class="auth-benefits">
+<article><strong>01</strong><span>Build a student profile</span></article>
+<article><strong>02</strong><span>Save your learning pathway</span></article>
+<article><strong>03</strong><span>Join a professional student ecosystem</span></article>
+</div>
+</section>
+
+<section class="auth-card">
+<div class="auth-tabs">
+<button type="button" class="active" data-auth-tab="signup">SIGN UP</button>
+<button type="button" data-auth-tab="login">LOGIN</button>
+</div>
+
+<form id="signupForm" class="auth-form">
+<h2>CREATE ACCOUNT</h2>
+<label>FULL NAME
+<input id="signupName" type="text" placeholder="Enter your full name" required>
+</label>
+<label>EMAIL
+<input id="signupEmail" type="email" placeholder="you@example.com" required>
+</label>
+<label>UNIVERSITY / SCHOOL
+<input id="signupSchool" type="text" placeholder="Enter your school or university" required>
+</label>
+<label>PROGRAM / INTEREST
+<input id="signupProgram" type="text" placeholder="Example: Economics, Nursing, AI, Business" required>
+</label>
+<label>PASSWORD
+<span class="password-field">
+<input id="signupPassword" type="password" placeholder="Create a password" minlength="6" required>
+<button type="button" class="password-toggle" data-toggle-password="signupPassword" aria-label="Show password">Show</button>
+</span>
+</label>
+<button type="submit">Create Account</button>
+<p class="auth-note">Your account is saved through the A.E CONNECT backend when the site is running on the server.</p>
+</form>
+
+<form id="loginForm" class="auth-form" hidden>
+<h2>WELCOME BACK</h2>
+<label>EMAIL
+<input id="loginEmail" type="email" placeholder="you@example.com" required>
+</label>
+<label>PASSWORD
+<span class="password-field">
+<input id="loginPassword" type="password" placeholder="Enter your password" required>
+<button type="button" class="password-toggle" data-toggle-password="loginPassword" aria-label="Show password">Show</button>
+</span>
+</label>
+<button type="submit">Login</button>
+<p class="auth-note">Use the same email and password you used to create your A.E CONNECT account.</p>
+</form>
+
+<section id="memberPanel" class="member-panel" hidden>
+<span>ACCOUNT ACTIVE</span>
+<h2 id="memberName">WELCOME</h2>
+<p id="memberInfo"></p>
+<div class="member-actions">
+<a href="networking.html">Open Network</a>
+<a href="skills.html">Open Skills Hub</a>
+<button type="button" id="logoutBtn">Logout</button>
+</div>
+</section>
+
+<p id="authMessage" class="auth-message" aria-live="polite"></p>
+</section>
+</main>
+
+<footer><p>&copy; A.E CONNECT SPACE</p></footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="../SCRPIT/backend-config.js"></script>
+<script src="../SCRPIT/ae-backend.js"></script>
+<script>
+const accountKey = 'aeConnectAccount';
+const sessionKey = 'aeConnectSession';
+const tabs = document.querySelectorAll('[data-auth-tab]');
+const signupForm = document.getElementById('signupForm');
+const loginForm = document.getElementById('loginForm');
+const memberPanel = document.getElementById('memberPanel');
+const authMessage = document.getElementById('authMessage');
+const logoutBtn = document.getElementById('logoutBtn');
+const passwordToggles = document.querySelectorAll('[data-toggle-password]');
+
+function showMessage(message, type = 'success'){
+authMessage.textContent = message;
+authMessage.dataset.type = type;
+}
+
+function getAccount(){
+return JSON.parse(localStorage.getItem(accountKey) || 'null');
+}
+
+function saveSession(account){
+localStorage.setItem(accountKey, JSON.stringify(account));
+localStorage.setItem(sessionKey, account.email);
+}
+
+function setActiveTab(tabName){
+tabs.forEach(tab => tab.classList.toggle('active', tab.dataset.authTab === tabName));
+signupForm.hidden = tabName !== 'signup';
+loginForm.hidden = tabName !== 'login';
+memberPanel.hidden = true;
+showMessage('');
+}
+
+function showMember(account){
+signupForm.hidden = true;
+loginForm.hidden = true;
+memberPanel.hidden = false;
+tabs.forEach(tab => tab.classList.remove('active'));
+document.getElementById('memberName').textContent = `WELCOME, ${account.name.toUpperCase()}`;
+document.getElementById('memberInfo').textContent = `${account.school} | ${account.program} | ${account.email}`;
+}
+
+function openLandingPage(){
+window.location.href = 'index.html';
+}
+
+tabs.forEach(tab => {
+tab.addEventListener('click', () => setActiveTab(tab.dataset.authTab));
+});
+
+passwordToggles.forEach(button => {
+button.addEventListener('click', () => {
+const input = document.getElementById(button.dataset.togglePassword);
+const isHidden = input.type === 'password';
+input.type = isHidden ? 'text' : 'password';
+button.textContent = isHidden ? 'Hide' : 'Show';
+button.setAttribute('aria-label', isHidden ? 'Hide password' : 'Show password');
+});
+});
+
+signupForm.addEventListener('submit', async event => {
+event.preventDefault();
+const account = {
+name: document.getElementById('signupName').value.trim(),
+email: document.getElementById('signupEmail').value.trim().toLowerCase(),
+school: document.getElementById('signupSchool').value.trim(),
+program: document.getElementById('signupProgram').value.trim(),
+password: document.getElementById('signupPassword').value
+};
+let savedAccount = null;
+if(window.AEBackend&&window.AEBackend.isReady()){
+savedAccount = await window.AEBackend.createAccount(account);
+}
+if(savedAccount){
+saveSession(savedAccount);
+showMessage('Account created successfully. Opening A.E CONNECT SPACE...');
+openLandingPage();
+return;
+}
+saveSession(account);
+showMessage('Account created. Opening A.E CONNECT SPACE...');
+openLandingPage();
+});
+
+loginForm.addEventListener('submit', async event => {
+event.preventDefault();
+const email = document.getElementById('loginEmail').value.trim().toLowerCase();
+const password = document.getElementById('loginPassword').value;
+let account = null;
+if(window.AEBackend&&window.AEBackend.isReady()){
+account = await window.AEBackend.loginAccount({email,password});
+if(account){
+saveSession(account);
+showMessage('Login successful. Opening A.E CONNECT SPACE...');
+openLandingPage();
+return;
+}
+}
+account = getAccount();
+if(!account || account.email !== email || account.password !== password){
+showMessage('Login failed. Check your email and password or create an account first.', 'error');
+return;
+}
+saveSession(account);
+showMessage('Login successful. Opening A.E CONNECT SPACE...');
+openLandingPage();
+});
+
+logoutBtn.addEventListener('click', () => {
+localStorage.removeItem(sessionKey);
+setActiveTab('login');
+showMessage('You have logged out.');
+});
+
+const savedAccount = getAccount();
+const savedSession = localStorage.getItem(sessionKey);
+if(savedAccount && savedSession === savedAccount.email){
+openLandingPage();
+} else {
+setActiveTab('signup');
+}
+</script>
+<script>const menuToggle=document.querySelector('.menu-toggle');const homeNavLinks=document.querySelector('.home-nav-links');if(menuToggle&&homeNavLinks){menuToggle.addEventListener('click',()=>{const expanded=menuToggle.getAttribute('aria-expanded')==='true';menuToggle.setAttribute('aria-expanded',String(!expanded));homeNavLinks.classList.toggle('is-open');});}</script>
+</body>
+</html>
