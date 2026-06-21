@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -6,6 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>A.E CONNECT CHAT | A.E CONNECT SPACE</title>
 <link rel="stylesheet" href="../STYLE/style.css?v=ae-connect-chat-20260617">
+<link rel="stylesheet" href="../STYLE/responsive.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -177,7 +178,7 @@ article.dataset.type = post.type;
 article.innerHTML = `
 <div class="post-author">
 <div class="chat-avatar">${escapeHTML(post.author.split(' ').map(part => part[0]).join('').slice(0,2))}</div>
-<div><h3>${escapeHTML(post.author)}</h3><p>${escapeHTML(post.role)} • ${escapeHTML(post.room)}</p></div>
+<div><h3>${escapeHTML(post.author)}</h3><p>${escapeHTML(post.role)} � ${escapeHTML(post.room)}</p></div>
 </div>
 <span class="post-type">${escapeHTML(post.type)}</span>
 <p class="post-text">${escapeHTML(post.text)}</p>

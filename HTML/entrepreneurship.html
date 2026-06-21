@@ -1,4 +1,4 @@
-ï»¿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -6,6 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Entrepreneurship Hub | A.E CONNECT SPACE</title>
 <link rel="stylesheet" href="../STYLE/style.css?v=entrepreneurship-hub-20260617b">
+<link rel="stylesheet" href="../STYLE/responsive.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -528,8 +529,8 @@ function renderDiscussionPosts(){
 const posts = [...backendDiscussions, ...getStoredItems(businessDiscussionsKey)];
 const partners = [...backendPartners, ...getStoredItems(partnerProfilesKey)];
 const customHtml = [
-...posts.map(item=>`<article class="community-post-card"><span>${item.category}</span><h3>${item.title}</h3><p>${item.details}</p><small>Started by ${item.name} â€¢ ${item.time}</small></article>`),
-...partners.map(item=>`<article class="community-post-card partner"><span>Partner Profile</span><h3>${item.idea}</h3><p>${item.name} brings ${item.skills}. Looking for: ${item.needs}</p><small>Contact: ${item.contact} â€¢ ${item.time}</small></article>`)
+...posts.map(item=>`<article class="community-post-card"><span>${item.category}</span><h3>${item.title}</h3><p>${item.details}</p><small>Started by ${item.name} • ${item.time}</small></article>`),
+...partners.map(item=>`<article class="community-post-card partner"><span>Partner Profile</span><h3>${item.idea}</h3><p>${item.name} brings ${item.skills}. Looking for: ${item.needs}</p><small>Contact: ${item.contact} • ${item.time}</small></article>`)
 ].join('');
 const baseHtml = `
 <article><h3>Business Ideas</h3><p>Test ideas, get feedback, and discover problems worth solving.</p></article>
