@@ -66,15 +66,15 @@ max-width:100%;
 font:inherit;
 }
 
-:where(main,section,header,footer,nav,.home-container,.about-container,.programs,.about-section,.books-section,.enterprise-section,.network-section,.community-tools-section,.opportunity-tools-section,.opportunity-list-section,.scholarships-section,.resources-section){
+:where(main,section,header,footer,nav,.home-container,.about-container,.programs,.about-section,.books-section,.community-section,.enterprise-section,.network-section,.community-tools-section,.opportunity-tools-section,.opportunity-list-section,.scholarships-section,.resources-section){
 max-width:100%;
 }
 
-:where(.program-grid,.about-grid,.books-grid,.readiness-grid,.tertiary-pathway-grid,.timeline-steps,.journey-grid,.roadmap-grid,.story-grid,.stats-grid,.impact-row,.mission-grid,.footer-columns,.enterprise-grid,.listing-grid,.match-grid,.community-grid,.mindset-grid,.opportunity-grid,.network-grid,.network-flow-grid,.skill-cluster-grid,.resource-card-section,.material-grid,.ai-tools-grid,.featured-events-grid,.featured-opportunity-grid,.scholarship-grid,.about-values-grid,.about-team-grid,.about-wings-grid){
+:where(.program-grid,.about-grid,.books-grid,.readiness-grid,.tertiary-pathway-grid,.timeline-steps,.journey-grid,.roadmap-grid,.story-grid,.stats-grid,.impact-row,.mission-grid,.community-join-grid,.footer-columns,.enterprise-grid,.listing-grid,.match-grid,.community-grid,.mindset-grid,.opportunity-grid,.network-grid,.network-flow-grid,.skill-cluster-grid,.resource-card-section,.material-grid,.ai-tools-grid,.featured-events-grid,.featured-opportunity-grid,.scholarship-grid,.about-values-grid,.about-team-grid,.about-wings-grid){
 min-width:0;
 }
 
-:where(.program-card,.about-card,.book-card,.journey-card,.roadmap-card,.story-card,.enterprise-card,.listing-card,.match-card,.community-post-card,.network-card,.opportunity-card,.scholarship-card,.resource-path-card,.ai-tool-card,.material-book-card,.about-value-card,.about-team-card,.tertiary-pathway-card,.readiness-grid article,.timeline-steps article){
+:where(.program-card,.about-card,.book-card,.journey-card,.roadmap-card,.story-card,.community-join-card,.enterprise-card,.listing-card,.match-card,.community-post-card,.network-card,.opportunity-card,.scholarship-card,.resource-path-card,.ai-tool-card,.material-book-card,.about-value-card,.about-team-card,.tertiary-pathway-card,.readiness-grid article,.timeline-steps article){
 min-width:0;
 max-width:100%;
 }
@@ -85,12 +85,12 @@ body{
 font-size:16px;
 }
 
-:where(.programs,.about-section,.books-section,.enterprise-section,.network-section,.community-tools-section,.opportunity-tools-section,.opportunity-list-section,.scholarships-section,.resources-section,.tertiary-readiness,.tertiary-pathways,.tertiary-timeline,.tertiary-support){
+:where(.programs,.about-section,.books-section,.community-section,.enterprise-section,.network-section,.community-tools-section,.opportunity-tools-section,.opportunity-list-section,.scholarships-section,.resources-section,.tertiary-readiness,.tertiary-pathways,.tertiary-timeline,.tertiary-support){
 padding-left:5%;
 padding-right:5%;
 }
 
-:where(.program-grid,.about-grid,.books-grid,.readiness-grid,.tertiary-pathway-grid,.timeline-steps,.journey-grid,.roadmap-grid,.story-grid,.stats-grid,.impact-row,.enterprise-grid,.listing-grid,.match-grid,.community-grid,.network-grid,.opportunity-grid,.skill-cluster-grid,.featured-events-grid,.featured-opportunity-grid,.scholarship-grid,.resource-card-section,.material-grid,.ai-tools-grid,.about-values-grid,.about-team-grid,.about-wings-grid){
+:where(.program-grid,.about-grid,.books-grid,.readiness-grid,.tertiary-pathway-grid,.timeline-steps,.journey-grid,.roadmap-grid,.story-grid,.stats-grid,.impact-row,.community-join-grid,.enterprise-grid,.listing-grid,.match-grid,.community-grid,.network-grid,.opportunity-grid,.skill-cluster-grid,.featured-events-grid,.featured-opportunity-grid,.scholarship-grid,.resource-card-section,.material-grid,.ai-tools-grid,.about-values-grid,.about-team-grid,.about-wings-grid){
 grid-template-columns:repeat(2,minmax(0,1fr)) !important;
 }
 
@@ -198,7 +198,7 @@ text-align:center;
 white-space:normal;
 }
 
-:where(.programs,.about-section,.books-section,.enterprise-section,.network-section,.community-tools-section,.opportunity-tools-section,.opportunity-list-section,.scholarships-section,.resources-section,.skills-section,.tertiary-readiness,.tertiary-pathways,.tertiary-timeline,.tertiary-support){
+:where(.programs,.about-section,.books-section,.community-section,.enterprise-section,.network-section,.community-tools-section,.opportunity-tools-section,.opportunity-list-section,.scholarships-section,.resources-section,.skills-section,.tertiary-readiness,.tertiary-pathways,.tertiary-timeline,.tertiary-support){
 padding:48px 18px !important;
 margin-left:0 !important;
 margin-right:0 !important;
@@ -209,7 +209,7 @@ border-radius:0;
 width:min(100% - 28px,1180px) !important;
 }
 
-:where(.program-grid,.about-grid,.books-grid,.readiness-grid,.tertiary-pathway-grid,.timeline-steps,.journey-grid,.roadmap-grid,.story-grid,.stats-grid,.impact-row,.enterprise-grid,.listing-grid,.match-grid,.community-grid,.network-grid,.opportunity-grid,.skill-cluster-grid,.featured-events-grid,.featured-opportunity-grid,.scholarship-grid,.resource-card-section,.material-grid,.ai-tools-grid,.about-values-grid,.about-team-grid,.about-wings-grid,.network-flow-grid){
+:where(.program-grid,.about-grid,.books-grid,.readiness-grid,.tertiary-pathway-grid,.timeline-steps,.journey-grid,.roadmap-grid,.story-grid,.stats-grid,.impact-row,.community-join-grid,.enterprise-grid,.listing-grid,.match-grid,.community-grid,.network-grid,.opportunity-grid,.skill-cluster-grid,.featured-events-grid,.featured-opportunity-grid,.scholarship-grid,.resource-card-section,.material-grid,.ai-tools-grid,.about-values-grid,.about-team-grid,.about-wings-grid,.network-flow-grid){
 grid-template-columns:1fr !important;
 gap:18px !important;
 }
@@ -239,12 +239,12 @@ line-height:1.15 !important;
 letter-spacing:0 !important;
 }
 
-:where(h3,.program-card h3,.about-card h3,.roadmap-card h3,.journey-card h3,.enterprise-card h3,.network-card h3,.opportunity-card h3){
+:where(h3,.program-card h3,.about-card h3,.roadmap-card h3,.journey-card h3,.community-join-card h3,.enterprise-card h3,.network-card h3,.opportunity-card h3){
 font-size:clamp(1.05rem,5.5vw,1.35rem) !important;
 line-height:1.25 !important;
 }
 
-:where(p,.about-intro,.home-hero p,.hero p,.section-heading p,.mission-copy p,.enterprise-hero p,.network-hero p,.tertiary-hero p){
+:where(p,.about-intro,.home-hero p,.hero p,.section-heading p,.mission-copy p,.community-join-card p,.enterprise-hero p,.network-hero p,.tertiary-hero p){
 font-size:clamp(0.95rem,4vw,1.05rem) !important;
 line-height:1.7 !important;
 }
@@ -256,7 +256,7 @@ align-items:stretch;
 gap:12px;
 }
 
-:where(.program-card,.about-card,.book-card,.journey-card,.roadmap-card,.story-card,.enterprise-card,.listing-card,.match-card,.community-post-card,.network-card,.opportunity-card,.scholarship-card,.resource-path-card,.ai-tool-card,.material-book-card,.about-value-card,.about-team-card,.tertiary-pathway-card,.readiness-grid article,.timeline-steps article){
+:where(.program-card,.about-card,.book-card,.journey-card,.roadmap-card,.story-card,.community-join-card,.enterprise-card,.listing-card,.match-card,.community-post-card,.network-card,.opportunity-card,.scholarship-card,.resource-path-card,.ai-tool-card,.material-book-card,.about-value-card,.about-team-card,.tertiary-pathway-card,.readiness-grid article,.timeline-steps article){
 padding:22px !important;
 }
 
@@ -349,7 +349,7 @@ body{
 font-size:15px;
 }
 
-:where(.programs,.about-section,.books-section,.enterprise-section,.network-section,.community-tools-section,.opportunity-tools-section,.opportunity-list-section,.scholarships-section,.resources-section,.skills-section,.tertiary-readiness,.tertiary-pathways,.tertiary-timeline,.tertiary-support){
+:where(.programs,.about-section,.books-section,.community-section,.enterprise-section,.network-section,.community-tools-section,.opportunity-tools-section,.opportunity-list-section,.scholarships-section,.resources-section,.skills-section,.tertiary-readiness,.tertiary-pathways,.tertiary-timeline,.tertiary-support){
 padding:38px 14px !important;
 }
 
@@ -365,7 +365,7 @@ padding:44px 14px !important;
 font-size:clamp(1.75rem,13vw,2.6rem) !important;
 }
 
-:where(.program-card,.about-card,.book-card,.journey-card,.roadmap-card,.story-card,.enterprise-card,.listing-card,.match-card,.community-post-card,.network-card,.opportunity-card,.scholarship-card,.resource-path-card,.ai-tool-card,.material-book-card,.about-value-card,.about-team-card,.tertiary-pathway-card,.readiness-grid article,.timeline-steps article){
+:where(.program-card,.about-card,.book-card,.journey-card,.roadmap-card,.story-card,.community-join-card,.enterprise-card,.listing-card,.match-card,.community-post-card,.network-card,.opportunity-card,.scholarship-card,.resource-path-card,.ai-tool-card,.material-book-card,.about-value-card,.about-team-card,.tertiary-pathway-card,.readiness-grid article,.timeline-steps article){
 padding:18px !important;
 }
 
