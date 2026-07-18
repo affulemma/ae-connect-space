@@ -26,3 +26,6 @@ for (const item of pathsToCopy) {
 
 await mkdir(path.join(dist, '.openai'), { recursive: true });
 await cp(path.join(root, '.openai', 'hosting.json'), path.join(dist, '.openai', 'hosting.json'));
+
+await mkdir(path.join(dist, 'server'), { recursive: true });
+await cp(path.join(root, 'SCRPIT', 'sites-static-server.js'), path.join(dist, 'server', 'index.js'));
