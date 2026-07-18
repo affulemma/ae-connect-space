@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Opportunity Detail | A.E CONNECT SPACE</title>
+<link rel="stylesheet" href="../STYLE/style.css">
+<link rel="stylesheet" href="../STYLE/responsive.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body class="home-page opportunities-page">
+<nav class="home-footer-nav" aria-label="Main navigation">
+<a class="mini-brand" href="index.html"><img src="../ASSETS/logo/logo.png" alt="A.E CONNECT SPACE logo"><span>A.E CONNECT SPACE</span></a>
+<button class="menu-toggle" type="button" aria-label="Toggle navigation" aria-expanded="false">&#9776;</button>
+<ul class="home-nav-links">
+<li><a href="index.html">Home</a></li>
+<li><a href="program-roadmaps.html">Program Roadmaps</a></li>
+<li><a href="skills.html">Skills Hub</a></li>
+<li><a class="active" href="opportunities.html">Opportunities</a></li>
+<li><a href="entrepreneurship.html">Entrepreneurship</a></li>
+<li><a href="networking.html">Community</a></li>
+<li><a class="nav-cta" href="auth.html">Get Started</a></li>
+</ul>
+</nav>
+
+<main>
+<header class="opportunities-hero" id="top">
+<div class="home-container" id="detailHero">
+<span class="opportunity-pill">Opportunity Detail</span>
+<h1>Opportunity</h1>
+<p>Review the opening, skills, deadline, and next step.</p>
+</div>
+</header>
+
+<section class="opportunity-list-section">
+<div class="home-container opportunity-list">
+<article class="opportunity-row" id="detailCard"></article>
+</div>
+</section>
+</main>
+
+<footer><p>&copy; A.E CONNECT SPACE</p></footer>
+
+<script>
+const opportunities=[
+{type:'Internship',location:'Accra, Ghana',title:'Data Analyst Intern',org:'Ghana Statistical Service',deadline:'2026-06-30',description:'Assist in national data collection, analysis, and reporting. Work with large datasets and contribute to policy-relevant research.',skills:['Excel','Data Analysis','SPSS','Report Writing'],programs:['Economics','Statistics','Business Administration']},
+{type:'Internship',location:'Accra, Ghana',title:'Software Engineering Intern',org:'Hubtel',deadline:'2026-07-15',description:'Join a leading fintech team building payment solutions. Work with modern web technologies and agile development practices.',skills:['Python','JavaScript','Git','Teamwork'],programs:['Computer Science','Engineering']},
+{type:'Research',location:'Accra, Ghana',title:'Research Assistant - Economics',org:'Institute of Economic Affairs',deadline:'2026-08-01',description:'Support economic policy research, literature reviews, and data compilation. Ideal for students interested in public policy.',skills:['Research Skills','Excel','Report Writing'],programs:['Economics','Political Science']},
+{type:'Job',location:'Kumasi, Ghana',title:'GIS Technician',org:'Survey and Mapping Division',deadline:'2026-08-20',description:'Create maps, analyze spatial data, and support land use planning projects using ArcGIS and QGIS.',skills:['GIS','QGIS','ArcGIS','Data Visualization'],programs:['Geography & GIS','Engineering']},
+{type:'Internship',location:'Accra, Ghana',title:'Nursing Clinical Placement',org:'Korle-Bu Teaching Hospital',deadline:'2026-09-01',description:'Gain hands-on clinical experience across multiple departments. Work alongside experienced nurses in patient care.',skills:['Patient Assessment','Teamwork','Healthcare IT'],programs:['Nursing']},
+{type:'Fellowship',location:'Accra, Ghana',title:'Youth Leadership Fellowship',org:'YALI West Africa',deadline:'2026-07-30',description:'Intensive leadership training for emerging African leaders. Includes mentorship, workshops, and project development.',skills:['Leadership','Public Speaking','Networking'],programs:['Political Science','Business Administration','Communication Studies','Law']},
+{type:'Fellowship',location:'Remote / Accra',title:'Data Science Fellowship',org:'Data Science Africa',deadline:'2026-08-30',description:'Intensive 3-month fellowship in machine learning, data visualization, and applied statistics. Mentorship included.',skills:['Python','Data Analysis','SQL'],programs:['Computer Science','Statistics','Economics']}
+];
+
+function slug(item){return item.title.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'');}
+const selected=opportunities.find(item=>slug(item)===new URLSearchParams(location.search).get('id'))||opportunities[0];
+document.title=`${selected.title} | A.E CONNECT SPACE`;
+document.querySelector('#detailHero h1').textContent=selected.title;
+document.querySelector('#detailHero p').textContent=`${selected.org} - ${selected.location}`;
+document.getElementById('detailCard').innerHTML=`<div class="opportunity-icon">&#9635;</div><div class="opportunity-info"><div class="opportunity-meta"><span>${selected.type}</span><small>${selected.location}</small></div><h3>${selected.title}</h3><p class="opportunity-org">${selected.org}</p><p>${selected.description}</p><div class="opportunity-tags">${selected.skills.map(skill=>`<span>${skill}</span>`).join('')}</div><div class="opportunity-programs">${selected.programs.map(program=>`<span>${program}</span>`).join('')}</div></div><div class="opportunity-action"><small>Deadline: ${selected.deadline}</small><a href="auth.html">Apply Now</a><a href="opportunities.html">Back to Opportunities</a></div>`;
+</script>
+<script src="../SCRPIT/mobile-nav.js"></script>
+</body>
+</html>

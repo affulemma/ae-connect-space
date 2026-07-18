@@ -1,0 +1,675 @@
+/* Global responsive safety layer for A.E CONNECT SPACE.
+   This file preserves the existing design while preventing mobile overflow. */
+
+html{
+width:100%;
+max-width:100%;
+overflow-x:hidden;
+text-size-adjust:100%;
+}
+
+/* Shared mobile navigation layer.
+   One script owns all menu state so iOS Safari, Android, and desktop behave consistently. */
+.ae-mobile-nav-overlay{
+position:fixed;
+inset:0;
+z-index:9997;
+border:0;
+padding:0;
+margin:0;
+background:rgba(7,23,43,0.44);
+opacity:0;
+transition:opacity 0.2s ease;
+cursor:pointer;
+}
+
+.ae-mobile-nav-overlay.ae-mobile-nav-active{
+opacity:1;
+}
+
+html.ae-mobile-nav-open,
+body.ae-mobile-nav-open{
+overflow:hidden !important;
+overscroll-behavior:none;
+touch-action:none;
+}
+
+.home-footer-nav,
+.navbar,
+.about-bottom-nav,
+.dashboard-sidebar{
+isolation:isolate;
+}
+
+.menu-toggle,
+.ae-mobile-menu-toggle{
+position:relative;
+z-index:10002 !important;
+touch-action:manipulation;
+-webkit-tap-highlight-color:transparent;
+user-select:none;
+}
+
+@media (max-width:768px){
+.home-footer-nav,
+.navbar,
+.about-bottom-nav,
+.dashboard-sidebar{
+position:fixed !important;
+top:0 !important;
+left:0 !important;
+right:0 !important;
+width:100% !important;
+z-index:10001 !important;
+min-height:62px;
+align-items:center !important;
+justify-content:space-between !important;
+overflow:visible !important;
+}
+
+.home-footer-nav .home-nav-links,
+.navbar .nav-links,
+.about-bottom-nav ul,
+.dashboard-sidebar nav{
+position:fixed !important;
+left:14px !important;
+right:14px !important;
+top:72px !important;
+z-index:10003 !important;
+display:flex !important;
+flex-direction:column !important;
+align-items:stretch !important;
+gap:8px !important;
+max-height:calc(100dvh - 92px);
+overflow:auto;
+padding:16px !important;
+border:1px solid rgba(10,35,66,0.1);
+border-radius:12px;
+background:#ffffff !important;
+box-shadow:0 24px 70px rgba(7,23,43,0.24);
+opacity:0;
+visibility:hidden;
+pointer-events:none;
+transform:translateY(-8px);
+transition:opacity 0.18s ease,transform 0.18s ease,visibility 0.18s ease;
+-webkit-overflow-scrolling:touch;
+}
+
+.home-footer-nav .home-nav-links.is-open,
+.navbar .nav-links.is-open,
+.about-bottom-nav ul.is-open,
+.dashboard-sidebar nav.is-open{
+opacity:1;
+visibility:visible;
+pointer-events:auto;
+transform:translateY(0);
+}
+
+.home-footer-nav .home-nav-links a,
+.navbar .nav-links a,
+.about-bottom-nav ul a,
+.dashboard-sidebar nav a{
+display:flex !important;
+align-items:center;
+justify-content:center;
+width:100%;
+min-height:42px;
+padding:10px 12px;
+border-radius:8px;
+color:#172033 !important;
+background:#ffffff;
+text-align:center;
+white-space:normal;
+}
+
+.home-footer-nav .home-nav-links a:hover,
+.home-footer-nav .home-nav-links a:focus-visible,
+.navbar .nav-links a:hover,
+.navbar .nav-links a:focus-visible,
+.about-bottom-nav ul a:hover,
+.about-bottom-nav ul a:focus-visible,
+.dashboard-sidebar nav a:hover,
+.dashboard-sidebar nav a:focus-visible{
+background:#fff4d8;
+color:#0a2342 !important;
+}
+
+.home-footer-nav .home-nav-links .nav-cta,
+.navbar .nav-links a[href="auth.html"],
+.about-bottom-nav ul .about-nav-cta,
+.dashboard-sidebar nav a.active{
+background:#f2a722 !important;
+color:#0a2342 !important;
+}
+
+.menu-toggle,
+.ae-mobile-menu-toggle{
+display:inline-grid !important;
+place-items:center;
+flex:0 0 auto;
+width:42px;
+height:38px;
+min-width:42px;
+border:0;
+border-radius:8px;
+background:#0a2342 !important;
+color:#ffffff !important;
+font-size:1.35rem;
+font-weight:900;
+line-height:1;
+box-shadow:0 10px 24px rgba(10,35,66,0.18);
+}
+
+.ae-mobile-nav-active .menu-toggle,
+.ae-mobile-nav-active .ae-mobile-menu-toggle{
+background:#f2a722 !important;
+color:#0a2342 !important;
+}
+
+.home-footer-nav + main,
+.navbar + main,
+.navbar + .hero,
+.navbar + section,
+.about-bottom-nav + main,
+.about-bottom-nav + section,
+.dashboard-sidebar + .dashboard-main{
+margin-top:62px !important;
+}
+}
+
+body{
+width:100%;
+max-width:100%;
+overflow-x:hidden;
+}
+
+*,
+*::before,
+*::after{
+box-sizing:border-box;
+}
+
+img,
+picture,
+video,
+canvas,
+svg,
+iframe{
+max-width:100%;
+height:auto;
+display:block;
+}
+
+table{
+max-width:100%;
+border-collapse:collapse;
+}
+
+pre,
+code{
+white-space:pre-wrap;
+word-break:break-word;
+}
+
+a,
+p,
+li,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+span,
+small,
+strong,
+b{
+overflow-wrap:anywhere;
+}
+
+input,
+select,
+textarea,
+button{
+max-width:100%;
+font:inherit;
+}
+
+:where(main,section,header,footer,nav,.home-container,.about-container,.programs,.about-section,.books-section,.community-section,.enterprise-section,.network-section,.community-tools-section,.opportunity-tools-section,.opportunity-list-section,.scholarships-section,.resources-section){
+max-width:100%;
+}
+
+:where(.program-grid,.about-grid,.books-grid,.readiness-grid,.tertiary-pathway-grid,.timeline-steps,.journey-grid,.roadmap-grid,.story-grid,.stats-grid,.impact-row,.mission-grid,.community-join-grid,.footer-columns,.enterprise-grid,.listing-grid,.match-grid,.community-grid,.mindset-grid,.opportunity-grid,.network-grid,.network-flow-grid,.skill-cluster-grid,.resource-card-section,.material-grid,.ai-tools-grid,.featured-events-grid,.featured-opportunity-grid,.scholarship-grid,.about-values-grid,.about-team-grid,.about-wings-grid){
+min-width:0;
+}
+
+:where(.program-card,.about-card,.book-card,.journey-card,.roadmap-card,.story-card,.community-join-card,.enterprise-card,.listing-card,.match-card,.community-post-card,.network-card,.opportunity-card,.scholarship-card,.resource-path-card,.ai-tool-card,.material-book-card,.about-value-card,.about-team-card,.tertiary-pathway-card,.readiness-grid article,.timeline-steps article){
+min-width:0;
+max-width:100%;
+}
+
+/* Tablet: 769px-1024px */
+@media (min-width:769px) and (max-width:1024px){
+body{
+font-size:16px;
+}
+
+:where(.programs,.about-section,.books-section,.community-section,.enterprise-section,.network-section,.community-tools-section,.opportunity-tools-section,.opportunity-list-section,.scholarships-section,.resources-section,.tertiary-readiness,.tertiary-pathways,.tertiary-timeline,.tertiary-support){
+padding-left:5%;
+padding-right:5%;
+}
+
+:where(.program-grid,.about-grid,.books-grid,.readiness-grid,.tertiary-pathway-grid,.timeline-steps,.journey-grid,.roadmap-grid,.story-grid,.stats-grid,.impact-row,.community-join-grid,.enterprise-grid,.listing-grid,.match-grid,.community-grid,.network-grid,.opportunity-grid,.skill-cluster-grid,.featured-events-grid,.featured-opportunity-grid,.scholarship-grid,.resource-card-section,.material-grid,.ai-tools-grid,.about-values-grid,.about-team-grid,.about-wings-grid){
+grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+}
+
+:where(.mission-grid,.about-mission-grid,.about-footer-grid,.network-feed-shell,.chat-shell,.student-roadmap-body,.opportunity-layout,.scholarship-layout,.events-layout,.stories-hero,.stories-dashboard,.auth-shell,.resource-detail-grid,.ai-tool-detail-grid,.book-layout,.materials-layout,.tertiary-hero,.tertiary-support){
+grid-template-columns:1fr !important;
+}
+
+:where(.home-footer-nav,.navbar){
+gap:14px;
+}
+
+:where(.home-nav-links,.nav-links){
+gap:12px;
+}
+
+:where(h1,.home-hero h1,.hero h1,.about-story-hero h1,.enterprise-hero h1,.network-hero h1,.tertiary-hero h1){
+font-size:clamp(2.3rem,6vw,4.5rem) !important;
+line-height:1.02 !important;
+}
+}
+
+/* Mobile: max-width 768px */
+@media (max-width:768px){
+body{
+font-size:15.5px;
+line-height:1.6;
+}
+
+:where(.home-footer-nav,.navbar,.about-bottom-nav){
+position:relative;
+top:auto;
+align-items:flex-start;
+padding:14px 18px;
+gap:12px;
+}
+
+.navbar{
+display:flex;
+flex-direction:column;
+}
+
+.logo,
+.mini-brand,
+.about-brand{
+max-width:100%;
+}
+
+.logo span,
+.mini-brand span,
+.about-brand span{
+white-space:normal;
+line-height:1.2;
+}
+
+.nav-links,
+.home-nav-links,
+.about-bottom-nav ul{
+width:100%;
+display:flex;
+flex-direction:column;
+align-items:stretch;
+gap:10px;
+margin-top:12px;
+padding:0;
+}
+
+.home-footer-nav .home-nav-links{
+display:none;
+position:absolute;
+left:14px;
+right:14px;
+top:calc(100% + 8px);
+z-index:100;
+padding:16px;
+border-radius:10px;
+background:#ffffff;
+box-shadow:0 18px 50px rgba(28,22,20,0.16);
+}
+
+.home-footer-nav .home-nav-links.is-open{
+display:flex;
+}
+
+.menu-toggle{
+display:block;
+flex:0 0 auto;
+}
+
+:where(.nav-links a,.home-nav-links a,.about-bottom-nav a){
+display:flex;
+align-items:center;
+justify-content:center;
+width:100%;
+min-height:40px;
+padding:10px 12px;
+text-align:center;
+border-radius:8px;
+}
+
+:where(.nav-cta,.about-nav-cta,.home-btn,.enterprise-actions a,.network-actions a,.tertiary-hero-actions a,.tertiary-support a,.events-hero-actions a,.stories-hero-actions a){
+width:100%;
+max-width:100%;
+justify-content:center;
+text-align:center;
+white-space:normal;
+}
+
+:where(.programs,.about-section,.books-section,.community-section,.enterprise-section,.network-section,.community-tools-section,.opportunity-tools-section,.opportunity-list-section,.scholarships-section,.resources-section,.skills-section,.tertiary-readiness,.tertiary-pathways,.tertiary-timeline,.tertiary-support){
+padding:48px 18px !important;
+margin-left:0 !important;
+margin-right:0 !important;
+border-radius:0;
+}
+
+:where(.home-container,.about-container){
+width:min(100% - 28px,1180px) !important;
+}
+
+:where(.program-grid,.about-grid,.books-grid,.readiness-grid,.tertiary-pathway-grid,.timeline-steps,.journey-grid,.roadmap-grid,.story-grid,.stats-grid,.impact-row,.community-join-grid,.enterprise-grid,.listing-grid,.match-grid,.community-grid,.network-grid,.opportunity-grid,.skill-cluster-grid,.featured-events-grid,.featured-opportunity-grid,.scholarship-grid,.resource-card-section,.material-grid,.ai-tools-grid,.about-values-grid,.about-team-grid,.about-wings-grid,.network-flow-grid){
+grid-template-columns:1fr !important;
+gap:18px !important;
+}
+
+:where(.mission-grid,.about-mission-grid,.about-footer-grid,.network-feed-shell,.chat-shell,.student-roadmap-body,.opportunity-layout,.scholarship-layout,.events-layout,.stories-hero,.stories-dashboard,.auth-shell,.resource-detail-grid,.ai-tool-detail-grid,.book-layout,.materials-layout,.tertiary-hero,.tertiary-support,.community-tools,.network-toolbar,.opportunity-row,.event-row,.scholarship-card-head,.scholarship-card footer,.footer-bottom,.newsletter,.section-row){
+grid-template-columns:1fr !important;
+display:grid;
+gap:18px;
+}
+
+:where(.home-hero,.hero,.enterprise-hero,.network-hero,.events-hero,.opportunities-hero,.scholarships-hero,.community-hero,.resources-hero,.skills-hero,.materials-hero,.book-hero,.tertiary-hero,.about-story-hero){
+min-height:auto !important;
+height:auto !important;
+padding:58px 18px !important;
+background-position:center !important;
+}
+
+:where(h1,.home-hero h1,.hero h1,.about-story-hero h1,.enterprise-hero h1,.network-hero h1,.tertiary-hero h1,.programs h1,.programs h2){
+font-size:clamp(2rem,12vw,3.25rem) !important;
+line-height:1.08 !important;
+letter-spacing:0 !important;
+}
+
+:where(h2,.section-heading h2,.mission-copy h2,.enterprise-section-head h2,.network-section-head h2,.tertiary-section-heading h2,.about-section h2){
+font-size:clamp(1.65rem,9vw,2.4rem) !important;
+line-height:1.15 !important;
+letter-spacing:0 !important;
+}
+
+:where(h3,.program-card h3,.about-card h3,.roadmap-card h3,.journey-card h3,.community-join-card h3,.enterprise-card h3,.network-card h3,.opportunity-card h3){
+font-size:clamp(1.05rem,5.5vw,1.35rem) !important;
+line-height:1.25 !important;
+}
+
+:where(p,.about-intro,.home-hero p,.hero p,.section-heading p,.mission-copy p,.community-join-card p,.enterprise-hero p,.network-hero p,.tertiary-hero p){
+font-size:clamp(0.95rem,4vw,1.05rem) !important;
+line-height:1.7 !important;
+}
+
+:where(.home-actions,.enterprise-actions,.network-actions,.events-hero-actions,.stories-hero-actions,.tertiary-hero-actions,.mission-tags,.marketplace-categories,.community-filters,.network-filters,.opportunity-categories){
+display:flex;
+flex-direction:column;
+align-items:stretch;
+gap:12px;
+}
+
+:where(.program-card,.about-card,.book-card,.journey-card,.roadmap-card,.story-card,.community-join-card,.enterprise-card,.listing-card,.match-card,.community-post-card,.network-card,.opportunity-card,.scholarship-card,.resource-path-card,.ai-tool-card,.material-book-card,.about-value-card,.about-team-card,.tertiary-pathway-card,.readiness-grid article,.timeline-steps article){
+padding:22px !important;
+}
+
+:where(.program-card img,.about-team-card img,.story-card-image,img[style]){
+width:100% !important;
+max-width:100% !important;
+height:auto !important;
+object-fit:cover;
+}
+
+:where(.newsletter form,.about-footer-form,.network-post-composer div,.community-modal-panel form,.auth-form){
+display:grid;
+grid-template-columns:1fr !important;
+gap:12px;
+}
+
+:where(.newsletter input,.newsletter button,.about-footer-form input,.about-footer-form button,.community-modal-panel input,.community-modal-panel select,.community-modal-panel textarea){
+width:100% !important;
+min-width:0;
+}
+
+:where(.footer-columns,.footer-bottom){
+text-align:left;
+}
+
+.socials{
+justify-content:flex-start;
+}
+
+:where(.community-modal-panel,.story-modal-panel,.group-chat-panel){
+width:min(100% - 24px,680px) !important;
+max-height:90vh;
+overflow:auto;
+}
+
+:where(.network-feed-side,.chat-sidebar,.feed-side-card){
+display:none;
+}
+
+:where(.event-sidebar,.scholarship-sidebar,.opportunity-sidebar,.stories-hero-panel){
+width:100%;
+max-width:100%;
+}
+
+:where(.program-card::after,.universal-skill-card::after,.resource-path-card::after,.material-book-card::after,.founder-card::after){
+max-width:45vw;
+right:-18px !important;
+}
+
+.group-chat-panel{
+width:100% !important;
+max-width:100vw;
+height:100dvh;
+grid-template-columns:1fr !important;
+}
+
+.group-chat-sidebar{
+display:none;
+}
+
+.chat-app{
+grid-template-columns:1fr !important;
+padding:72px 14px 32px !important;
+}
+
+.chat-sidebar,
+.chat-panel{
+height:auto !important;
+position:static !important;
+}
+
+.chat-sidebar{
+display:block;
+}
+
+:where(.chat-message-form,.chat-input-row){
+display:grid !important;
+grid-template-columns:1fr !important;
+gap:10px;
+}
+
+:where(.chat-message-form button,.chat-input-row button){
+width:100%;
+}
+}
+
+/* Small mobile: max-width 480px */
+@media (max-width:480px){
+body{
+font-size:15px;
+}
+
+:where(.programs,.about-section,.books-section,.community-section,.enterprise-section,.network-section,.community-tools-section,.opportunity-tools-section,.opportunity-list-section,.scholarships-section,.resources-section,.skills-section,.tertiary-readiness,.tertiary-pathways,.tertiary-timeline,.tertiary-support){
+padding:38px 14px !important;
+}
+
+:where(.home-container,.about-container){
+width:min(100% - 22px,1180px) !important;
+}
+
+:where(.home-hero,.hero,.enterprise-hero,.network-hero,.events-hero,.opportunities-hero,.scholarships-hero,.community-hero,.resources-hero,.skills-hero,.materials-hero,.book-hero,.tertiary-hero,.about-story-hero){
+padding:44px 14px !important;
+}
+
+:where(h1,.home-hero h1,.hero h1,.about-story-hero h1,.enterprise-hero h1,.network-hero h1,.tertiary-hero h1,.programs h1,.programs h2){
+font-size:clamp(1.75rem,13vw,2.6rem) !important;
+}
+
+:where(.program-card,.about-card,.book-card,.journey-card,.roadmap-card,.story-card,.community-join-card,.enterprise-card,.listing-card,.match-card,.community-post-card,.network-card,.opportunity-card,.scholarship-card,.resource-path-card,.ai-tool-card,.material-book-card,.about-value-card,.about-team-card,.tertiary-pathway-card,.readiness-grid article,.timeline-steps article){
+padding:18px !important;
+}
+
+:where(.home-footer-nav,.navbar,.about-bottom-nav){
+padding-left:12px;
+padding-right:12px;
+}
+
+.home-footer-nav .home-nav-links{
+left:10px;
+right:10px;
+}
+
+:where(.freedom-intro-panel,.pick-course-intro-panel,.newsletter,.testimonial-panel,.about-principle-card,.about-join-card,.tertiary-hero-panel){
+padding:22px 18px !important;
+}
+
+:where(.roadmap-card small){
+position:static !important;
+display:inline-flex;
+margin-bottom:12px;
+}
+}
+
+/* Final cascade override for the shared mobile navigation component. */
+@media (max-width:768px){
+.home-footer-nav,
+.navbar,
+.about-bottom-nav,
+.dashboard-sidebar{
+position:fixed !important;
+top:0 !important;
+left:0 !important;
+right:0 !important;
+width:100% !important;
+z-index:10001 !important;
+min-height:62px !important;
+align-items:center !important;
+justify-content:space-between !important;
+overflow:visible !important;
+}
+
+.home-footer-nav .home-nav-links,
+.navbar .nav-links,
+.about-bottom-nav ul,
+.dashboard-sidebar nav{
+position:fixed !important;
+left:14px !important;
+right:14px !important;
+top:72px !important;
+z-index:10003 !important;
+display:flex !important;
+flex-direction:column !important;
+align-items:stretch !important;
+gap:8px !important;
+max-height:calc(100dvh - 92px) !important;
+overflow:auto !important;
+padding:16px !important;
+border:1px solid rgba(10,35,66,0.1) !important;
+border-radius:12px !important;
+background:#ffffff !important;
+box-shadow:0 24px 70px rgba(7,23,43,0.24) !important;
+opacity:0 !important;
+visibility:hidden !important;
+pointer-events:none !important;
+transform:translateY(-8px) !important;
+transition:opacity 0.18s ease,transform 0.18s ease,visibility 0.18s ease !important;
+-webkit-overflow-scrolling:touch;
+}
+
+.home-footer-nav .home-nav-links.is-open,
+.navbar .nav-links.is-open,
+.about-bottom-nav ul.is-open,
+.dashboard-sidebar nav.is-open{
+opacity:1 !important;
+visibility:visible !important;
+pointer-events:auto !important;
+transform:translateY(0) !important;
+}
+
+.home-footer-nav .home-nav-links a,
+.navbar .nav-links a,
+.about-bottom-nav ul a,
+.dashboard-sidebar nav a{
+display:flex !important;
+align-items:center !important;
+justify-content:center !important;
+width:100% !important;
+min-height:42px !important;
+padding:10px 12px !important;
+border-radius:8px !important;
+color:#172033 !important;
+background:#ffffff !important;
+text-align:center !important;
+white-space:normal !important;
+}
+
+.home-footer-nav .home-nav-links .nav-cta,
+.navbar .nav-links a[href="auth.html"],
+.about-bottom-nav ul .about-nav-cta,
+.dashboard-sidebar nav a.active{
+background:#f2a722 !important;
+color:#0a2342 !important;
+}
+
+.menu-toggle,
+.ae-mobile-menu-toggle{
+display:inline-grid !important;
+place-items:center !important;
+flex:0 0 auto !important;
+width:42px !important;
+height:38px !important;
+min-width:42px !important;
+border:0 !important;
+border-radius:8px !important;
+background:#0a2342 !important;
+color:#ffffff !important;
+font-size:1.35rem !important;
+font-weight:900 !important;
+line-height:1 !important;
+box-shadow:0 10px 24px rgba(10,35,66,0.18) !important;
+}
+
+.ae-mobile-nav-active .menu-toggle,
+.ae-mobile-nav-active .ae-mobile-menu-toggle{
+background:#f2a722 !important;
+color:#0a2342 !important;
+}
+
+.home-footer-nav + main,
+.navbar + main,
+.navbar + .hero,
+.navbar + section,
+.about-bottom-nav + main,
+.about-bottom-nav + section{
+margin-top:62px !important;
+}
+}

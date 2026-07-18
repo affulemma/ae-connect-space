@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Skills Hub | A.E CONNECT SPACE</title>
+<link rel="stylesheet" href="../STYLE/style.css?v=universal-skills-20260618">
+<link rel="stylesheet" href="../STYLE/responsive.css">
+</head>
+<body class="home-page skills-hub-page">
+<nav class="home-footer-nav" aria-label="Main navigation">
+<a class="mini-brand" href="index.html"><img src="../ASSETS/logo/logo.png" alt="A.E CONNECT SPACE logo"><span>A.E CONNECT SPACE</span></a>
+<button class="menu-toggle" type="button" aria-label="Toggle navigation" aria-expanded="false">&#9776;</button>
+<ul class="home-nav-links">
+<li><a href="index.html">Home</a></li>
+<li><a href="programs.html">Programs</a></li>
+<li><a href="program-roadmaps.html">Program Roadmaps</a></li>
+<li><a class="active" href="skills.html">Skills Hub</a></li>
+<li><a href="opportunities.html">Opportunities</a></li>
+<li><a href="scholarships.html">Scholarships</a></li>
+<li><a href="entrepreneurship.html">Entrepreneurship</a></li>
+<li><a href="networking.html">Community</a></li>
+<li><a href="events.html">Events</a></li>
+<li><a href="stories.html">Stories</a></li>
+<li><a href="resources.html">Resources</a></li>
+<li><a href="about.html">About</a></li>
+<li><a class="nav-cta" href="auth.html">Get Started</a></li>
+</ul>
+</nav>
+
+<header class="skills-hero">
+<span>UNIVERSAL SKILLS HUB</span>
+<h1>Skills That Travel.</h1>
+<p>Practical skills for study, projects, internships, and early work.</p>
+</header>
+
+<main>
+<section class="skills-panel">
+<div class="skills-toolbar">
+<input type="search" id="skillSearch" placeholder="Search Excel, GIS, AI, Python, research, writing, marketing, law, public health...">
+<div class="skill-filter-row" aria-label="Skill level filters">
+<button class="active" type="button" data-level-filter="ALL">ALL</button>
+<button type="button" data-level-filter="BEGINNER">BEGINNER</button>
+<button type="button" data-level-filter="INTERMEDIATE">INTERMEDIATE</button>
+<button type="button" data-level-filter="ADVANCED">ADVANCED</button>
+</div>
+<div class="skill-filter-row category-row" aria-label="Skill category filters">
+<button class="active" type="button" data-category-filter="ALL">ALL SKILLS</button>
+<button type="button" data-category-filter="DATA & ANALYTICS">DATA & ANALYTICS</button>
+<button type="button" data-category-filter="DIGITAL & AI">DIGITAL & AI</button>
+<button type="button" data-category-filter="AI SKILLS">AI SKILLS</button>
+<button type="button" data-category-filter="GIS & ENVIRONMENT">GIS & ENVIRONMENT</button>
+<button type="button" data-category-filter="BUSINESS & FINANCE">BUSINESS & FINANCE</button>
+<button type="button" data-category-filter="RESEARCH & WRITING">RESEARCH & WRITING</button>
+<button type="button" data-category-filter="COMMUNICATION & CAREER">COMMUNICATION & CAREER</button>
+<button type="button" data-category-filter="HEALTH, LAW & SOCIETY">HEALTH, LAW & SOCIETY</button>
+</div>
+</div>
+
+<div class="skills-status" id="skillsStatus">Showing all universal skills.</div>
+
+<section class="skill-level-section" data-level-section="BEGINNER">
+<div class="skill-section-head">
+<span>BEGINNER</span>
+<h2>Start Here</h2>
+<p>Core skills for every student.</p>
+</div>
+<div class="universal-skill-grid" id="beginnerSkills"></div>
+</section>
+
+<section class="skill-level-section" data-level-section="INTERMEDIATE">
+<div class="skill-section-head">
+<span>INTERMEDIATE</span>
+<h2>Build Practical Depth</h2>
+<p>Skills for projects, research, and work tasks.</p>
+</div>
+<div class="universal-skill-grid" id="intermediateSkills"></div>
+</section>
+
+<section class="skill-level-section" data-level-section="ADVANCED">
+<div class="skill-section-head">
+<span>ADVANCED</span>
+<h2>Show Stronger Proof</h2>
+<p>Skills for portfolios, specialist work, and serious opportunities.</p>
+</div>
+<div class="universal-skill-grid" id="advancedSkills"></div>
+</section>
+</section>
+</main>
+
+<footer><p>&copy; A.E CONNECT SPACE</p></footer>
+
+<script>
+const universalSkills = [
+{title:'Microsoft Excel', level:'BEGINNER', category:'DATA & ANALYTICS', origin:'Economics, Accounting, Business, Statistics', summary:'Learn spreadsheets, formulas, tables, charts, cleaning data, budgets, and simple dashboards.', link:'accounting-microsoft-excel.html'},
+{title:'Research Methods', level:'BEGINNER', category:'RESEARCH & WRITING', origin:'Economics, Sociology, Public Health, Psychology', summary:'Understand how to ask research questions, collect evidence, review literature, and present findings.', link:'biochemistry-research-methods.html'},
+{title:'Report Writing', level:'BEGINNER', category:'RESEARCH & WRITING', origin:'Sociology, Anthropology, Business, Public Administration', summary:'Write clear academic, business, fieldwork, policy, and project reports people can understand.', link:'anthropology-report-writing.html'},
+{title:'Public Speaking', level:'BEGINNER', category:'COMMUNICATION & CAREER', origin:'Political Science, Law, Communication Studies, Business', summary:'Build confidence for presentations, interviews, advocacy, pitches, and classroom discussions.', link:'communication-studies-public-speaking.html'},
+{title:'Business Communication', level:'BEGINNER', category:'COMMUNICATION & CAREER', origin:'Business Administration, Management, Entrepreneurship', summary:'Write emails, proposals, updates, meeting notes, and professional messages clearly.', link:'business-administration-business-communication.html'},
+{title:'Canva Design', level:'BEGINNER', category:'DIGITAL & AI', origin:'Marketing, Entrepreneurship, Communication, Creative Design', summary:'Create flyers, social media posts, presentations, product visuals, and simple brand materials.', link:'communication-studies-content-creation.html'},
+{title:'Digital Literacy', level:'BEGINNER', category:'DIGITAL & AI', origin:'All Programs', summary:'Use online tools, cloud storage, documents, collaboration platforms, and basic digital workflows.', link:'information-technology-roadmap.html'},
+{title:'Career Portfolio Building', level:'BEGINNER', category:'COMMUNICATION & CAREER', origin:'All Programs', summary:'Organize projects, certificates, skills, CV evidence, and achievements into a professional portfolio.', link:'networking.html#user-profile'},
+
+{title:'Power BI', level:'INTERMEDIATE', category:'DATA & ANALYTICS', origin:'Economics, Accounting, Finance, Business Analytics', summary:'Turn data into dashboards, reports, charts, and business insights for decision-making.', link:'accounting-power-bi.html'},
+{title:'SPSS', level:'INTERMEDIATE', category:'DATA & ANALYTICS', origin:'Sociology, Public Health, Psychology, Political Science', summary:'Analyze surveys, research data, descriptive statistics, and social science datasets.', link:'behavioral-science-spss.html'},
+{title:'SQL', level:'INTERMEDIATE', category:'DATA & ANALYTICS', origin:'Computer Science, Data Science, Business Analytics, Statistics', summary:'Query databases, filter records, join tables, and prepare data for analysis.', link:'business-analytics-sql.html'},
+{title:'Python Programming', level:'INTERMEDIATE', category:'DIGITAL & AI', origin:'Computer Science, AI, Data Science, Finance, Science', summary:'Automate tasks, analyze data, build tools, and start coding practical projects.', link:'artificial-intelligence-python.html'},
+{title:'Digital Marketing', level:'INTERMEDIATE', category:'BUSINESS & FINANCE', origin:'Marketing, Entrepreneurship, Communication Studies', summary:'Use content, social media, SEO, campaigns, and analytics to grow visibility and sales.', link:'digital-marketing-roadmap.html'},
+{title:'Copywriting', level:'INTERMEDIATE', category:'COMMUNICATION & CAREER', origin:'Marketing, Advertising, Public Relations, Entrepreneurship', summary:'Write persuasive messages for brands, adverts, sales pages, emails, and social media.', link:'advertising-copywriting.html'},
+{title:'Project Management', level:'INTERMEDIATE', category:'BUSINESS & FINANCE', origin:'Business, Engineering, Agriculture, Development Studies', summary:'Plan work, manage tasks, timelines, teams, risks, and project delivery.', link:'business-administration-project-management.html'},
+{title:'QGIS', level:'INTERMEDIATE', category:'GIS & ENVIRONMENT', origin:'Geography, Environmental Science, Agriculture, Public Health', summary:'Create maps, analyze spatial data, digitize features, and visualize geographic patterns.', link:'geography-gis-qgis.html'},
+{title:'AutoCAD', level:'INTERMEDIATE', category:'GIS & ENVIRONMENT', origin:'Architecture, Engineering, Geography, Built Environment', summary:'Create technical drawings, plans, layouts, and design documentation.', link:'architecture-autocad.html'},
+{title:'Legal Research', level:'INTERMEDIATE', category:'HEALTH, LAW & SOCIETY', origin:'Law, Paralegal Studies, Political Science, Public Administration', summary:'Find cases, statutes, legal sources, authorities, and arguments for legal work.', link:'law-legal-research.html'},
+{title:'Monitoring & Evaluation', level:'INTERMEDIATE', category:'HEALTH, LAW & SOCIETY', origin:'Public Health, Sociology, Development Studies, NGOs', summary:'Track projects, measure outcomes, design indicators, and report impact.', link:'development-studies-monitoring-and-evaluation.html'},
+{title:'Data Visualization', level:'INTERMEDIATE', category:'DATA & ANALYTICS', origin:'Economics, Statistics, Public Health, Business, Science', summary:'Present data with charts, maps, dashboards, and visuals that make insights clear.', link:'economics-data-visualization.html'},
+
+{title:'Machine Learning', level:'ADVANCED', category:'DIGITAL & AI', origin:'Artificial Intelligence, Data Science, Statistics, Computer Science', summary:'Build models that learn from data for prediction, classification, automation, and AI products.', link:'artificial-intelligence-machine-learning.html'},
+{title:'ArcGIS Pro', level:'ADVANCED', category:'GIS & ENVIRONMENT', origin:'Geography / GIS, Urban Planning, Environmental Science', summary:'Use professional GIS tools for spatial analysis, map production, and geospatial projects.', link:'geography-gis-arcgis-pro.html'},
+{title:'Remote Sensing', level:'ADVANCED', category:'GIS & ENVIRONMENT', origin:'Geography, Environmental Science, Agriculture, Meteorology', summary:'Analyze satellite and aerial imagery for land use, climate, agriculture, and environment.', link:'geography-gis-remote-sensing.html'},
+{title:'Stata', level:'ADVANCED', category:'DATA & ANALYTICS', origin:'Economics, Agricultural Economics, Public Policy', summary:'Analyze economic, social, policy, and survey data with professional statistical workflows.', link:'economics-stata.html'},
+{title:'Financial Modelling', level:'ADVANCED', category:'BUSINESS & FINANCE', origin:'Accounting, Finance, Banking, Entrepreneurship', summary:'Build financial forecasts, valuation models, budgets, and business decision tools.', link:'banking-and-finance-financial-modelling.html'},
+{title:'QuickBooks', level:'ADVANCED', category:'BUSINESS & FINANCE', origin:'Accounting, Entrepreneurship, Small Business', summary:'Manage bookkeeping, invoices, expenses, financial records, and small business accounts.', link:'accounting-quickbooks.html'},
+{title:'Cloud Computing', level:'ADVANCED', category:'DIGITAL & AI', origin:'Computer Science, IT, Software Engineering, Cybersecurity', summary:'Understand cloud platforms, deployment, storage, infrastructure, and modern tech operations.', link:'cloud-computing-roadmap.html'},
+{title:'Cybersecurity', level:'ADVANCED', category:'DIGITAL & AI', origin:'Computer Science, IT, Network Engineering, Security Studies', summary:'Protect systems, data, networks, users, and organizations from digital threats.', link:'cybersecurity-roadmap.html'},
+{title:'Policy Analysis', level:'ADVANCED', category:'HEALTH, LAW & SOCIETY', origin:'Political Science, Public Administration, Public Health, Economics', summary:'Assess public problems, compare solutions, evaluate evidence, and write policy recommendations.', link:'political-science-public-policy-analysis.html'},
+{title:'Grant Writing', level:'ADVANCED', category:'RESEARCH & WRITING', origin:'Agribusiness, NGOs, Research, Development Studies', summary:'Write strong proposals for funding, projects, research, community work, and social impact.', link:'agribusiness-grant-writing.html'},
+
+{title:'AI Foundations', level:'BEGINNER', category:'AI SKILLS', origin:'All Programs', summary:'Understand what AI is, how it works, where it is used, and how students can apply it responsibly.', link:'artificial-intelligence-roadmap.html'},
+{title:'AI Tool Literacy', level:'BEGINNER', category:'AI SKILLS', origin:'All Programs', summary:'Learn how to use AI tools for learning, research, writing, brainstorming, planning, and productivity.', link:'artificial-intelligence-roadmap.html'},
+{title:'Prompt Engineering', level:'BEGINNER', category:'AI SKILLS', origin:'All Programs', summary:'Write clear prompts, improve responses, structure tasks, and guide AI tools toward useful outputs.', link:'artificial-intelligence-prompt-engineering.html'},
+{title:'AI For Research', level:'BEGINNER', category:'AI SKILLS', origin:'Research, Social Sciences, Health, Business', summary:'Use AI to support literature review, topic discovery, notes, summaries, and research organization.', link:'artificial-intelligence-prompt-engineering.html'},
+{title:'AI For Academic Writing', level:'BEGINNER', category:'AI SKILLS', origin:'All Programs', summary:'Use AI responsibly for outlines, clarity, grammar, citation planning, and writing improvement.', link:'artificial-intelligence-prompt-engineering.html'},
+{title:'AI Productivity', level:'BEGINNER', category:'AI SKILLS', origin:'All Programs', summary:'Use AI to plan tasks, summarize documents, organize schedules, draft messages, and save time.', link:'artificial-intelligence-prompt-engineering.html'},
+{title:'AI Ethics Basics', level:'BEGINNER', category:'AI SKILLS', origin:'All Programs', summary:'Understand fairness, bias, privacy, transparency, copyright, safety, and responsible AI use.', link:'artificial-intelligence-ai-ethics.html'},
+{title:'Python Basics For AI', level:'BEGINNER', category:'AI SKILLS', origin:'AI, Data Science, Computing, Economics', summary:'Start Python programming for AI, data tasks, automation, notebooks, and beginner projects.', link:'artificial-intelligence-python.html'},
+{title:'Data Basics For AI', level:'BEGINNER', category:'AI SKILLS', origin:'All Programs', summary:'Understand datasets, rows, columns, labels, missing values, patterns, and simple data preparation.', link:'data-science-data-cleaning.html'},
+{title:'No-Code AI Tools', level:'BEGINNER', category:'AI SKILLS', origin:'Business, Marketing, Education, Entrepreneurship', summary:'Use no-code AI platforms to create simple automations, content workflows, and prototypes.', link:'artificial-intelligence-roadmap.html'},
+
+{title:'Python For AI Projects', level:'INTERMEDIATE', category:'AI SKILLS', origin:'AI, Data Science, Computer Science', summary:'Use Python libraries and notebooks to build practical AI and machine learning projects.', link:'artificial-intelligence-python.html'},
+{title:'Machine Learning Basics', level:'INTERMEDIATE', category:'AI SKILLS', origin:'AI, Data Science, Statistics, Business', summary:'Learn supervised and unsupervised learning, model training, prediction, classification, and evaluation.', link:'artificial-intelligence-machine-learning.html'},
+{title:'Scikit-Learn', level:'INTERMEDIATE', category:'AI SKILLS', origin:'AI, Data Science, Computing', summary:'Use Scikit-learn to build machine learning models for classification, regression, clustering, and prediction.', link:'machine-learning-scikit-learn.html'},
+{title:'Data Preprocessing', level:'INTERMEDIATE', category:'AI SKILLS', origin:'AI, Data Science, Research', summary:'Clean, transform, encode, scale, and prepare data so models can learn from it properly.', link:'machine-learning-data-preprocessing.html'},
+{title:'Feature Engineering', level:'INTERMEDIATE', category:'AI SKILLS', origin:'AI, Analytics, Data Science', summary:'Create useful model inputs that improve prediction quality and reveal stronger data patterns.', link:'machine-learning-feature-engineering.html'},
+{title:'Model Evaluation', level:'INTERMEDIATE', category:'AI SKILLS', origin:'AI, Data Science, Statistics', summary:'Measure model quality using validation, accuracy, precision, recall, errors, and performance comparisons.', link:'artificial-intelligence-model-evaluation.html'},
+{title:'Natural Language Processing', level:'INTERMEDIATE', category:'AI SKILLS', origin:'AI, Linguistics, Communication, Research', summary:'Work with text, documents, sentiment, language tasks, chatbots, summaries, and classification.', link:'artificial-intelligence-natural-language-processing.html'},
+{title:'Computer Vision Basics', level:'INTERMEDIATE', category:'AI SKILLS', origin:'AI, Health, GIS, Engineering, Media', summary:'Analyze images and visual data for recognition, classification, detection, and inspection tasks.', link:'artificial-intelligence-computer-vision.html'},
+{title:'AI Chatbot Building', level:'INTERMEDIATE', category:'AI SKILLS', origin:'Business, Education, Computing, Customer Service', summary:'Design simple chatbots for student support, customer service, learning, information, and FAQs.', link:'artificial-intelligence-natural-language-processing.html'},
+{title:'AI Automation Workflows', level:'INTERMEDIATE', category:'AI SKILLS', origin:'Business, Admin, Entrepreneurship, IT', summary:'Build workflows that combine AI tools with documents, forms, emails, spreadsheets, and tasks.', link:'artificial-intelligence-prompt-engineering.html'},
+{title:'AI For Data Analysis', level:'INTERMEDIATE', category:'AI SKILLS', origin:'Economics, Business, Research, Public Health', summary:'Use AI and analytics tools to explore data, find patterns, summarize insights, and support decisions.', link:'data-science-data-visualization.html'},
+{title:'AI Dashboard Insights', level:'INTERMEDIATE', category:'AI SKILLS', origin:'Business Analytics, Accounting, Economics', summary:'Combine dashboards and AI-assisted interpretation to explain patterns and business performance.', link:'business-analytics-dashboard-design.html'},
+{title:'AI For Marketing', level:'INTERMEDIATE', category:'AI SKILLS', origin:'Marketing, Entrepreneurship, Communication', summary:'Use AI for customer research, content ideas, campaign planning, copywriting, and analytics.', link:'digital-marketing-marketing-automation.html'},
+{title:'AI Content Creation', level:'INTERMEDIATE', category:'AI SKILLS', origin:'Media, Marketing, Education, Creative Design', summary:'Use AI to support scripts, posts, visuals, content calendars, presentations, and learning materials.', link:'communication-studies-content-creation.html'},
+{title:'AI For GIS', level:'INTERMEDIATE', category:'AI SKILLS', origin:'Geography, GIS, Environment, Agriculture', summary:'Combine AI thinking with geospatial data, maps, classification, prediction, and spatial decision-making.', link:'geography-gis-gis-programming-python-for-gis.html'},
+{title:'AI For Economics', level:'INTERMEDIATE', category:'AI SKILLS', origin:'Economics, Finance, Policy, Research', summary:'Use AI and Python to support economic analysis, forecasting, data interpretation, and research workflows.', link:'economics-python-for-economics.html'},
+{title:'AI For Finance', level:'INTERMEDIATE', category:'AI SKILLS', origin:'Finance, Accounting, FinTech, Banking', summary:'Apply AI concepts to risk, fraud detection, forecasting, customer analytics, and financial decision-making.', link:'fintech-python.html'},
+{title:'AI For Cybersecurity', level:'INTERMEDIATE', category:'AI SKILLS', origin:'Cybersecurity, IT, Security Studies', summary:'Use AI-supported thinking for threat detection, log analysis, automation, and security monitoring.', link:'cybersecurity-python-scripting.html'},
+{title:'AI For Education', level:'INTERMEDIATE', category:'AI SKILLS', origin:'Education, Training, Teaching, EdTech', summary:'Use AI to support lesson planning, assessment ideas, tutoring, study guides, and learning resources.', link:'basic-education-roadmap.html'},
+{title:'AI For Healthcare', level:'INTERMEDIATE', category:'AI SKILLS', origin:'Health Sciences, Nursing, Public Health, Medicine', summary:'Understand AI use in health data, documentation, screening support, patient education, and public health.', link:'public-health-roadmap.html'},
+
+{title:'Deep Learning', level:'ADVANCED', category:'AI SKILLS', origin:'AI, Data Science, Computing, Engineering', summary:'Build neural network models for complex tasks involving images, language, prediction, and automation.', link:'artificial-intelligence-deep-learning.html'},
+{title:'Advanced NLP', level:'ADVANCED', category:'AI SKILLS', origin:'AI, Linguistics, Research, Software', summary:'Work with advanced language tasks, text classification, embeddings, chatbots, and document intelligence.', link:'machine-learning-nlp.html'},
+{title:'Advanced Computer Vision', level:'ADVANCED', category:'AI SKILLS', origin:'AI, Engineering, Health, GIS, Media', summary:'Build image classification, detection, recognition, and visual inspection workflows.', link:'machine-learning-computer-vision.html'},
+{title:'MLOps', level:'ADVANCED', category:'AI SKILLS', origin:'AI, Software Engineering, Cloud, Data Science', summary:'Deploy, monitor, version, maintain, and improve machine learning systems in production.', link:'artificial-intelligence-mlops.html'},
+{title:'Model Deployment', level:'ADVANCED', category:'AI SKILLS', origin:'AI, Software Engineering, Cloud Computing', summary:'Move AI models from notebooks into apps, APIs, cloud services, and usable products.', link:'machine-learning-model-deployment.html'},
+{title:'Data Engineering For AI', level:'ADVANCED', category:'AI SKILLS', origin:'AI, Data Science, Information Systems', summary:'Design pipelines, storage, processing, and data workflows that support reliable AI systems.', link:'artificial-intelligence-data-engineering.html'},
+{title:'Big Data For AI', level:'ADVANCED', category:'AI SKILLS', origin:'AI, Data Science, Statistics, Business', summary:'Work with large datasets, scalable analytics, and data systems used in AI projects.', link:'data-science-big-data-analytics.html'},
+{title:'Cloud AI Deployment', level:'ADVANCED', category:'AI SKILLS', origin:'AI, Cloud Computing, Software Engineering', summary:'Use cloud platforms to host AI apps, manage storage, scale models, and run intelligent services.', link:'cloud-computing-roadmap.html'},
+{title:'AWS For AI', level:'ADVANCED', category:'AI SKILLS', origin:'AI, Cloud Computing, Data Engineering', summary:'Use AWS concepts and services for AI data, deployment, storage, and scalable applications.', link:'cloud-computing-aws.html'},
+{title:'Azure For AI', level:'ADVANCED', category:'AI SKILLS', origin:'AI, Cloud Computing, Business, IT', summary:'Explore Microsoft cloud tools that support AI, data, enterprise systems, and app deployment.', link:'cloud-computing-azure.html'},
+{title:'Google Cloud For AI', level:'ADVANCED', category:'AI SKILLS', origin:'AI, Cloud Computing, Data Science', summary:'Use Google Cloud concepts for machine learning, data platforms, APIs, and AI applications.', link:'cloud-computing-google-cloud.html'},
+{title:'Docker For AI', level:'ADVANCED', category:'AI SKILLS', origin:'AI, Software Engineering, Cloud', summary:'Package AI apps and model workflows so they run consistently across machines and servers.', link:'cloud-computing-docker.html'},
+{title:'Kubernetes For AI', level:'ADVANCED', category:'AI SKILLS', origin:'AI, Cloud, DevOps, Software Engineering', summary:'Understand how containerized AI systems can be managed, scaled, and operated reliably.', link:'cloud-computing-kubernetes.html'},
+{title:'Serverless AI Apps', level:'ADVANCED', category:'AI SKILLS', origin:'AI, Cloud Computing, Product Development', summary:'Build AI-supported apps that scale without managing traditional server infrastructure.', link:'cloud-computing-serverless-computing.html'},
+{title:'AI Product Strategy', level:'ADVANCED', category:'AI SKILLS', origin:'Product Management, Entrepreneurship, Business', summary:'Plan AI products around user needs, value, workflows, risks, data, and business outcomes.', link:'product-management-roadmap.html'},
+{title:'AI Risk Management', level:'ADVANCED', category:'AI SKILLS', origin:'AI, Cybersecurity, Policy, Business', summary:'Identify AI risks around privacy, bias, security, misinformation, reliability, and governance.', link:'cybersecurity-risk-management.html'},
+{title:'Responsible AI Governance', level:'ADVANCED', category:'AI SKILLS', origin:'Law, Policy, AI, Public Administration', summary:'Create rules, documentation, review processes, and accountability systems for responsible AI use.', link:'artificial-intelligence-ai-ethics.html'},
+{title:'AI Research Project Design', level:'ADVANCED', category:'AI SKILLS', origin:'Research, AI, Social Sciences, Health', summary:'Design AI-supported research projects with clear questions, data needs, methods, and ethical limits.', link:'biochemistry-research-methods.html'},
+{title:'AI Portfolio Projects', level:'ADVANCED', category:'AI SKILLS', origin:'All Programs', summary:'Build evidence through AI dashboards, chatbots, classifiers, automation tools, and applied projects.', link:'networking.html#user-profile'},
+{title:'AI Startup Skills', level:'ADVANCED', category:'AI SKILLS', origin:'Entrepreneurship, Business, Product, Computing', summary:'Turn AI ideas into useful products with validation, prototypes, business models, and customer feedback.', link:'entrepreneurship.html'}
+];
+
+const levelContainers = {
+BEGINNER: document.getElementById('beginnerSkills'),
+INTERMEDIATE: document.getElementById('intermediateSkills'),
+ADVANCED: document.getElementById('advancedSkills')
+};
+const levelSections = Array.from(document.querySelectorAll('[data-level-section]'));
+const skillSearch = document.getElementById('skillSearch');
+const skillsStatus = document.getElementById('skillsStatus');
+const levelButtons = Array.from(document.querySelectorAll('[data-level-filter]'));
+const categoryButtons = Array.from(document.querySelectorAll('[data-category-filter]'));
+const themes = ['emerald','blue','purple','teal','brown','indigo','slate','gold'];
+let activeLevel = 'ALL';
+let activeCategory = 'ALL';
+
+function initials(title){
+return title.split(/\s+|&|\//).filter(Boolean).slice(0, 2).map(word => word[0]).join('');
+}
+
+function renderSkills(){
+Object.values(levelContainers).forEach(container => container.innerHTML = '');
+const query = (skillSearch.value || '').trim().toLowerCase();
+let visibleCount = 0;
+
+universalSkills.forEach((skill, index) => {
+const text = `${skill.title} ${skill.level} ${skill.category} ${skill.origin} ${skill.summary}`.toLowerCase();
+const levelMatch = activeLevel === 'ALL' || skill.level === activeLevel;
+const categoryMatch = activeCategory === 'ALL' || skill.category === activeCategory;
+const searchMatch = !query || text.includes(query);
+if(!(levelMatch && categoryMatch && searchMatch)) return;
+visibleCount += 1;
+
+const card = document.createElement('a');
+card.className = 'universal-skill-card';
+card.href = skill.link;
+card.dataset.theme = themes[index % themes.length];
+card.innerHTML = `
+<span class="skill-card-icon">${initials(skill.title)}</span>
+<h3>${skill.title}</h3>
+<p class="skill-card-origin">${skill.origin}</p>
+<p>${skill.summary}</p>
+<div class="skill-card-tags"><span>${skill.level}</span><span>${skill.category}</span><span>Universal Skill</span></div>
+<div class="skill-card-footer"><span>Anyone can learn this</span><strong>Open Skill -></strong></div>
+`;
+levelContainers[skill.level].appendChild(card);
+});
+
+levelSections.forEach(section => {
+section.hidden = section.querySelectorAll('.universal-skill-card').length === 0;
+});
+skillsStatus.textContent = `Showing ${visibleCount} universal skills.`;
+}
+
+levelButtons.forEach(button => {
+button.addEventListener('click', () => {
+activeLevel = button.dataset.levelFilter;
+levelButtons.forEach(item => item.classList.remove('active'));
+button.classList.add('active');
+renderSkills();
+});
+});
+
+categoryButtons.forEach(button => {
+button.addEventListener('click', () => {
+activeCategory = button.dataset.categoryFilter;
+categoryButtons.forEach(item => item.classList.remove('active'));
+button.classList.add('active');
+renderSkills();
+});
+});
+
+skillSearch.addEventListener('input', renderSkills);
+renderSkills();
+</script>
+<script src="../SCRPIT/mobile-nav.js"></script>
+</body>
+</html>

@@ -1,8 +1,0 @@
-{
-  "name": "ae-connect-space",
-  "version": "1.0.0",
-  "private": true,
-  "scripts": {
-    "build": "node SCRPIT/build-static-site.mjs"
-  }
-}

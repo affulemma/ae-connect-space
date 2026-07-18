@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI TOOLS | A.E CONNECT SPACE</title>
+<link rel="stylesheet" href="../STYLE/style.css?v=ai-tools-directory-20260618">
+<link rel="stylesheet" href="../STYLE/responsive.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body class="resources-page ai-tools-page">
+<nav class="navbar">
+<div class="logo"><img src="../ASSETS/logo/logo.png" alt="A.E CONNECT SPACE logo"><span>A.E CONNECT SPACE</span></div>
+<ul class="nav-links">
+<li><a href="index.html">Home</a></li>
+<li><a href="programs.html">Programs</a></li>
+<li><a href="program-roadmaps.html">Program Roadmaps</a></li>
+<li><a href="networking.html">Community</a></li>
+<li><a href="skills.html">Skills Hub</a></li>
+<li><a href="opportunities.html">Opportunities</a></li>
+<li><a href="scholarships.html">Scholarships</a></li>
+<li><a href="entrepreneurship.html">Entrepreneurship</a></li>
+<li><a href="events.html">Events</a></li>
+<li><a href="stories.html">Stories</a></li>
+<li><a href="resources.html">Resources</a></li><li><a href="about.html">About</a></li>
+</ul>
+</nav>
+
+<header class="ai-tools-hero">
+<a class="back-link" href="resources.html">Back To Resources</a>
+<span class="section-kicker">UNIVERSAL AI DIRECTORY</span>
+<h1>AI TOOLS</h1>
+<p>
+Explore AI tools for research, presentations, writing, coding, design, video, audio, data, productivity, business, education, and career growth.
+</p>
+</header>
+
+<main class="ai-tools-directory">
+<section class="ai-tools-control-panel">
+<div>
+<span class="section-kicker">FIND TOOLS</span>
+<h2>CHOOSE A CATEGORY</h2>
+</div>
+<div class="ai-tools-search-row">
+<input id="aiToolSearch" type="search" placeholder="Search AI tools, categories, or use cases...">
+<span id="aiToolStatus">Showing all tools.</span>
+</div>
+<div class="ai-tool-filters" id="aiToolFilters">
+<button type="button" class="active" data-ai-filter="ALL">ALL</button>
+<button type="button" data-ai-filter="RESEARCH">RESEARCH</button>
+<button type="button" data-ai-filter="PRESENTATION">PRESENTATION</button>
+<button type="button" data-ai-filter="WRITING">WRITING</button>
+<button type="button" data-ai-filter="CODING">CODING</button>
+<button type="button" data-ai-filter="DESIGN">DESIGN</button>
+<button type="button" data-ai-filter="IMAGE">IMAGE</button>
+<button type="button" data-ai-filter="VIDEO">VIDEO</button>
+<button type="button" data-ai-filter="AUDIO">AUDIO</button>
+<button type="button" data-ai-filter="DATA">DATA</button>
+<button type="button" data-ai-filter="PRODUCTIVITY">PRODUCTIVITY</button>
+<button type="button" data-ai-filter="BUSINESS">BUSINESS</button>
+<button type="button" data-ai-filter="EDUCATION">EDUCATION</button>
+<button type="button" data-ai-filter="CAREER">CAREER</button>
+</div>
+</section>
+
+<section class="ai-tools-grid" id="aiToolsGrid"></section>
+</main>
+
+<footer><p>&copy; A.E CONNECT SPACE</p></footer>
+
+<script>
+const aiTools = [
+{name:'ChatGPT', category:'PRODUCTIVITY', use:'General AI assistant for learning, writing, coding, brainstorming, planning, and problem solving.', url:'https://chat.openai.com/'},
+{name:'Claude', category:'PRODUCTIVITY', use:'AI assistant for writing, research support, analysis, coding, and long document work.', url:'https://claude.ai/'},
+{name:'Google Gemini', category:'PRODUCTIVITY', use:'AI assistant for search, writing, study support, Google Workspace tasks, and reasoning.', url:'https://gemini.google.com/'},
+{name:'Microsoft Copilot', category:'PRODUCTIVITY', use:'AI assistant for web answers, writing, Microsoft tools, productivity, and workplace tasks.', url:'https://copilot.microsoft.com/'},
+{name:'Perplexity', category:'RESEARCH', use:'AI answer engine for research, source discovery, explanations, and fast topic exploration.', url:'https://www.perplexity.ai/'},
+{name:'Poe', category:'PRODUCTIVITY', use:'Access multiple AI assistants in one place for writing, research, and experimentation.', url:'https://poe.com/'},
+{name:'You.com', category:'RESEARCH', use:'AI search and assistant platform for research, writing, coding, and web answers.', url:'https://you.com/'},
+{name:'Meta AI', category:'PRODUCTIVITY', use:'General AI assistant from Meta for answers, image ideas, planning, and everyday support.', url:'https://www.meta.ai/'},
+{name:'NotebookLM', category:'RESEARCH', use:'Google tool for studying uploaded notes, PDFs, sources, summaries, and audio overviews.', url:'https://notebooklm.google.com/'},
+{name:'Elicit', category:'RESEARCH', use:'Research assistant for finding papers, extracting claims, and reviewing academic literature.', url:'https://elicit.com/'},
+{name:'Consensus', category:'RESEARCH', use:'Find research-backed answers from scientific papers and academic evidence.', url:'https://consensus.app/'},
+{name:'Semantic Scholar', category:'RESEARCH', use:'Academic search engine with AI features for finding papers and research connections.', url:'https://www.semanticscholar.org/'},
+{name:'ResearchRabbit', category:'RESEARCH', use:'Discover related papers, authors, research networks, and literature maps.', url:'https://www.researchrabbit.ai/'},
+{name:'Connected Papers', category:'RESEARCH', use:'Build visual maps of academic papers connected to a research topic.', url:'https://www.connectedpapers.com/'},
+{name:'Scite', category:'RESEARCH', use:'Check how papers are cited and whether studies support or contrast claims.', url:'https://scite.ai/'},
+{name:'Litmaps', category:'RESEARCH', use:'Track literature maps, research discovery, and new papers around a topic.', url:'https://www.litmaps.com/'},
+{name:'SciSpace', category:'RESEARCH', use:'Read, understand, summarize, and ask questions about academic papers.', url:'https://typeset.io/'},
+{name:'Scholarcy', category:'RESEARCH', use:'Summarize research papers, extract key points, and create flashcard-style notes.', url:'https://www.scholarcy.com/'},
+{name:'ChatPDF', category:'RESEARCH', use:'Upload PDFs and ask questions about documents, notes, reports, and papers.', url:'https://www.chatpdf.com/'},
+{name:'Humata', category:'RESEARCH', use:'Ask questions across documents, summarize files, and extract useful insights.', url:'https://www.humata.ai/'},
+{name:'Grammarly', category:'WRITING', use:'Improve grammar, tone, clarity, professional writing, and communication.', url:'https://www.grammarly.com/'},
+{name:'QuillBot', category:'WRITING', use:'Paraphrase, summarize, check grammar, generate citations, and improve student writing.', url:'https://quillbot.com/'},
+{name:'Wordtune', category:'WRITING', use:'Rewrite sentences, improve tone, summarize text, and make writing clearer.', url:'https://www.wordtune.com/'},
+{name:'Jasper', category:'WRITING', use:'AI writing and marketing content platform for brands, campaigns, and business content.', url:'https://www.jasper.ai/'},
+{name:'Copy.ai', category:'WRITING', use:'Generate marketing copy, emails, social posts, product descriptions, and business content.', url:'https://www.copy.ai/'},
+{name:'Writesonic', category:'WRITING', use:'AI writing platform for blogs, ads, SEO content, emails, and marketing workflows.', url:'https://writesonic.com/'},
+{name:'Rytr', category:'WRITING', use:'Simple AI writing assistant for content ideas, emails, captions, and short copy.', url:'https://rytr.me/'},
+{name:'HyperWrite', category:'WRITING', use:'AI writing assistant for drafting, rewriting, researching, and productivity tasks.', url:'https://www.hyperwriteai.com/'},
+{name:'Sudowrite', category:'WRITING', use:'Creative writing assistant for stories, scenes, ideas, and fiction development.', url:'https://www.sudowrite.com/'},
+{name:'Jenni AI', category:'WRITING', use:'Academic writing assistant for essays, research drafts, citations, and paper structure.', url:'https://jenni.ai/'},
+{name:'Paperpal', category:'WRITING', use:'Academic writing, editing, language improvement, and research manuscript support.', url:'https://paperpal.com/'},
+{name:'Gamma', category:'PRESENTATION', use:'Create AI-powered presentations, documents, and visual pages quickly.', url:'https://gamma.app/'},
+{name:'Beautiful.ai', category:'PRESENTATION', use:'Build professional presentation decks with AI-assisted design and smart layouts.', url:'https://www.beautiful.ai/'},
+{name:'Tome', category:'PRESENTATION', use:'Create storytelling-style AI presentations, pitches, and visual narratives.', url:'https://tome.app/'},
+{name:'Canva', category:'PRESENTATION', use:'Design presentations, flyers, social graphics, documents, and AI-assisted visuals.', url:'https://www.canva.com/'},
+{name:'Pitch', category:'PRESENTATION', use:'Collaborative presentation software with AI support for modern teams.', url:'https://pitch.com/'},
+{name:'Plus AI', category:'PRESENTATION', use:'Create and edit presentations inside Google Slides and PowerPoint with AI.', url:'https://www.plusdocs.com/'},
+{name:'SlidesAI', category:'PRESENTATION', use:'Turn text into presentation slides for academic, business, and training content.', url:'https://www.slidesai.io/'},
+{name:'Prezi AI', category:'PRESENTATION', use:'Create dynamic presentations and visual storytelling experiences with AI support.', url:'https://prezi.com/ai/'},
+{name:'PopAi', category:'PRESENTATION', use:'AI tool for presentations, documents, PDF interaction, and content generation.', url:'https://www.popai.pro/'},
+{name:'Microsoft Designer', category:'DESIGN', use:'Create graphics, social posts, images, and design assets with AI.', url:'https://designer.microsoft.com/'},
+{name:'GitHub Copilot', category:'CODING', use:'AI coding assistant for code suggestions, explanations, debugging, and developer workflows.', url:'https://github.com/features/copilot'},
+{name:'Cursor', category:'CODING', use:'AI code editor for building, editing, understanding, and debugging software projects.', url:'https://www.cursor.com/'},
+{name:'Replit AI', category:'CODING', use:'Build apps, learn programming, generate code, and deploy projects in the browser.', url:'https://replit.com/ai'},
+{name:'Windsurf', category:'CODING', use:'AI coding environment for software development, code assistance, and project workflows.', url:'https://windsurf.com/'},
+{name:'Tabnine', category:'CODING', use:'AI code completion and developer assistant for teams and individual programmers.', url:'https://www.tabnine.com/'},
+{name:'Sourcegraph Cody', category:'CODING', use:'AI coding assistant that understands codebases and helps explain, edit, and generate code.', url:'https://sourcegraph.com/cody'},
+{name:'CodeRabbit', category:'CODING', use:'AI code review assistant for pull requests, bugs, suggestions, and team development.', url:'https://www.coderabbit.ai/'},
+{name:'V0', category:'CODING', use:'Generate user interfaces and frontend code from prompts.', url:'https://v0.dev/'},
+{name:'Bolt', category:'CODING', use:'Create, edit, and launch web applications from prompts in the browser.', url:'https://bolt.new/'},
+{name:'Lovable', category:'CODING', use:'Build full-stack web apps and prototypes from natural language prompts.', url:'https://lovable.dev/'},
+{name:'Devin', category:'CODING', use:'AI software engineering agent for planning and building software tasks.', url:'https://devin.ai/'},
+{name:'Adobe Firefly', category:'IMAGE', use:'Generate and edit images, graphics, text effects, and creative assets with AI.', url:'https://firefly.adobe.com/'},
+{name:'Midjourney', category:'IMAGE', use:'Generate high-quality creative images, visual concepts, and art from prompts.', url:'https://www.midjourney.com/'},
+{name:'DALL-E', category:'IMAGE', use:'Generate and edit images through OpenAI image tools.', url:'https://openai.com/index/dall-e-3/'},
+{name:'Leonardo AI', category:'IMAGE', use:'Create images, game assets, concept art, and design visuals with AI.', url:'https://leonardo.ai/'},
+{name:'Ideogram', category:'IMAGE', use:'Generate images, posters, typography visuals, logos, and creative concepts.', url:'https://ideogram.ai/'},
+{name:'Stable Diffusion', category:'IMAGE', use:'Image generation model ecosystem for creative visuals and image workflows.', url:'https://stability.ai/'},
+{name:'Playground AI', category:'IMAGE', use:'Generate and edit creative images, designs, graphics, and visual concepts.', url:'https://playground.com/'},
+{name:'Freepik AI', category:'IMAGE', use:'Create AI images, design assets, mockups, and stock-style graphics.', url:'https://www.freepik.com/ai'},
+{name:'Recraft', category:'IMAGE', use:'Generate vector art, illustrations, brand visuals, icons, and image assets.', url:'https://www.recraft.ai/'},
+{name:'Clipdrop', category:'IMAGE', use:'AI image editing tools for cleanup, background removal, upscaling, and generation.', url:'https://clipdrop.co/'},
+{name:'Krea', category:'IMAGE', use:'Generate and enhance images, visual concepts, product images, and creative designs.', url:'https://www.krea.ai/'},
+{name:'Figma AI', category:'DESIGN', use:'AI features for interface design, wireframes, design systems, and product design workflows.', url:'https://www.figma.com/ai/'},
+{name:'Uizard', category:'DESIGN', use:'Create UI mockups, wireframes, and app designs quickly with AI.', url:'https://uizard.io/'},
+{name:'Framer', category:'DESIGN', use:'Build and publish websites with AI-assisted layout and web design tools.', url:'https://www.framer.com/ai/'},
+{name:'Galileo AI', category:'DESIGN', use:'Generate interface designs, screens, and product UI concepts from prompts.', url:'https://www.usegalileo.ai/'},
+{name:'Relume', category:'DESIGN', use:'Plan websites, generate sitemaps, wireframes, and web copy with AI.', url:'https://www.relume.io/'},
+{name:'Kittl', category:'DESIGN', use:'AI design platform for logos, posters, merchandise, text effects, and brand visuals.', url:'https://www.kittl.com/'},
+{name:'Khroma', category:'DESIGN', use:'AI color palette generator for branding, design, and visual identity projects.', url:'https://www.khroma.co/'},
+{name:'Runway', category:'VIDEO', use:'AI video generation, editing, image-to-video, effects, and creative production.', url:'https://runwayml.com/'},
+{name:'Synthesia', category:'VIDEO', use:'Create AI avatar videos for training, presentations, education, and business communication.', url:'https://www.synthesia.io/'},
+{name:'Pika', category:'VIDEO', use:'Generate and edit videos from text, images, and creative prompts.', url:'https://pika.art/'},
+{name:'Luma AI', category:'VIDEO', use:'Create AI videos, 3D captures, and visual content from prompts and media.', url:'https://lumalabs.ai/'},
+{name:'HeyGen', category:'VIDEO', use:'Create AI avatar videos, translated videos, training content, and marketing videos.', url:'https://www.heygen.com/'},
+{name:'Descript', category:'VIDEO', use:'Edit video and audio like text, remove filler words, transcribe, and produce content.', url:'https://www.descript.com/'},
+{name:'Kapwing', category:'VIDEO', use:'Online video editor with AI tools for subtitles, clips, resizing, and social content.', url:'https://www.kapwing.com/'},
+{name:'InVideo AI', category:'VIDEO', use:'Create videos from prompts, scripts, product ideas, and marketing content.', url:'https://invideo.io/ai/'},
+{name:'OpusClip', category:'VIDEO', use:'Turn long videos into short clips for social media and content marketing.', url:'https://www.opus.pro/'},
+{name:'Veed', category:'VIDEO', use:'Online video editor with AI subtitles, avatars, screen recording, and social tools.', url:'https://www.veed.io/'},
+{name:'ElevenLabs', category:'AUDIO', use:'Generate AI voices, text-to-speech, dubbing, narration, and voice content.', url:'https://elevenlabs.io/'},
+{name:'Suno', category:'AUDIO', use:'Create AI-generated songs and music from text prompts.', url:'https://suno.com/'},
+{name:'Udio', category:'AUDIO', use:'Generate music and songs with AI for creative projects and content.', url:'https://www.udio.com/'},
+{name:'AIVA', category:'AUDIO', use:'Compose AI-generated music for videos, games, presentations, and creative work.', url:'https://www.aiva.ai/'},
+{name:'Mubert', category:'AUDIO', use:'Generate royalty-free AI music for videos, streams, apps, and content creation.', url:'https://mubert.com/'},
+{name:'Murf', category:'AUDIO', use:'Create AI voiceovers for presentations, videos, courses, and business content.', url:'https://murf.ai/'},
+{name:'Speechify', category:'AUDIO', use:'Text-to-speech tool for listening to documents, notes, articles, and study material.', url:'https://speechify.com/'},
+{name:'Otter.ai', category:'AUDIO', use:'Transcribe meetings, lectures, interviews, and voice conversations into notes.', url:'https://otter.ai/'},
+{name:'Krisp', category:'AUDIO', use:'Remove background noise and improve audio quality for calls, meetings, and recordings.', url:'https://krisp.ai/'},
+{name:'Adobe Podcast', category:'AUDIO', use:'Enhance speech recordings, improve audio quality, and create podcast-ready sound.', url:'https://podcast.adobe.com/'},
+{name:'Julius AI', category:'DATA', use:'Analyze datasets, create charts, explore data, and ask questions about spreadsheets.', url:'https://julius.ai/'},
+{name:'Akkio', category:'DATA', use:'No-code AI analytics and machine learning for business forecasting and data insights.', url:'https://www.akkio.com/'},
+{name:'Obviously AI', category:'DATA', use:'No-code machine learning platform for predictions, classification, and business analytics.', url:'https://www.obviously.ai/'},
+{name:'Polymer', category:'DATA', use:'Build data dashboards, explore spreadsheets, and turn data into insights.', url:'https://www.polymersearch.com/'},
+{name:'Rows AI', category:'DATA', use:'AI spreadsheet tool for formulas, data cleanup, research, and table workflows.', url:'https://rows.com/ai'},
+{name:'Tableau Pulse', category:'DATA', use:'AI-powered analytics insights for Tableau users and business intelligence teams.', url:'https://www.tableau.com/products/tableau-pulse'},
+{name:'Microsoft Power BI', category:'DATA', use:'Business intelligence platform with AI and Copilot features for reports and dashboards.', url:'https://powerbi.microsoft.com/'},
+{name:'DataRobot', category:'DATA', use:'Enterprise AI and machine learning platform for predictive modeling and analytics.', url:'https://www.datarobot.com/'},
+{name:'Dataiku', category:'DATA', use:'AI, data science, analytics, and machine learning platform for teams.', url:'https://www.dataiku.com/'},
+{name:'Notion AI', category:'PRODUCTIVITY', use:'Write, summarize, organize notes, manage knowledge, and plan projects inside Notion.', url:'https://www.notion.so/product/ai'},
+{name:'Airtable AI', category:'PRODUCTIVITY', use:'Add AI to databases, workflows, project management, and operations systems.', url:'https://www.airtable.com/platform/ai'},
+{name:'Zapier AI', category:'PRODUCTIVITY', use:'Automate workflows, connect apps, and build AI-powered business processes.', url:'https://zapier.com/ai'},
+{name:'Make', category:'PRODUCTIVITY', use:'Build automated workflows between apps, data sources, and AI services.', url:'https://www.make.com/'},
+{name:'Asana AI', category:'PRODUCTIVITY', use:'AI support for project planning, task summaries, team workflows, and work management.', url:'https://asana.com/product/ai'},
+{name:'ClickUp AI', category:'PRODUCTIVITY', use:'Project management with AI writing, summaries, tasks, planning, and productivity support.', url:'https://clickup.com/ai'},
+{name:'Slack AI', category:'PRODUCTIVITY', use:'AI summaries, search, and workplace knowledge features inside Slack.', url:'https://slack.com/features/ai'},
+{name:'Microsoft 365 Copilot', category:'BUSINESS', use:'AI assistant for Word, Excel, PowerPoint, Outlook, Teams, and workplace productivity.', url:'https://www.microsoft.com/microsoft-365/copilot'},
+{name:'Gemini For Workspace', category:'BUSINESS', use:'AI support across Gmail, Docs, Sheets, Slides, Meet, and Google Workspace.', url:'https://workspace.google.com/solutions/ai/'},
+{name:'HubSpot AI', category:'BUSINESS', use:'AI tools for marketing, sales, customer service, content, and CRM workflows.', url:'https://www.hubspot.com/artificial-intelligence'},
+{name:'Salesforce Einstein', category:'BUSINESS', use:'AI for sales, service, marketing, CRM insights, and business automation.', url:'https://www.salesforce.com/artificial-intelligence/'},
+{name:'Shopify Magic', category:'BUSINESS', use:'AI tools for e-commerce content, product descriptions, store management, and selling.', url:'https://www.shopify.com/magic'},
+{name:'Khanmigo', category:'EDUCATION', use:'AI tutor and teaching assistant from Khan Academy for learning support.', url:'https://www.khanmigo.ai/'},
+{name:'Quizlet', category:'EDUCATION', use:'Study flashcards, practice tests, AI learning support, and revision tools.', url:'https://quizlet.com/'},
+{name:'Knowt', category:'EDUCATION', use:'Create flashcards, summaries, notes, and study resources with AI support.', url:'https://knowt.com/'},
+{name:'Socratic', category:'EDUCATION', use:'Google learning app for explanations, homework support, and subject guidance.', url:'https://socratic.org/'},
+{name:'Duolingo Max', category:'EDUCATION', use:'AI-powered language learning features for explanations and conversation practice.', url:'https://www.duolingo.com/max'},
+{name:'Coursera Coach', category:'EDUCATION', use:'AI learning support within Coursera courses for explanations and course guidance.', url:'https://www.coursera.org/'},
+{name:'Teal', category:'CAREER', use:'AI resume builder, job tracker, cover letter support, and career organization.', url:'https://www.tealhq.com/'},
+{name:'Kickresume', category:'CAREER', use:'AI resume and cover letter builder for job applications and career branding.', url:'https://www.kickresume.com/'},
+{name:'Rezi', category:'CAREER', use:'AI resume builder designed for applicant tracking systems and job applications.', url:'https://www.rezi.ai/'},
+{name:'Jobscan', category:'CAREER', use:'Optimize resumes and LinkedIn profiles for job descriptions and applicant tracking systems.', url:'https://www.jobscan.co/'},
+{name:'Resume.io', category:'CAREER', use:'Build resumes, cover letters, and professional career documents.', url:'https://resume.io/'},
+{name:'Yoodli', category:'CAREER', use:'AI speech coach for interview practice, public speaking, and communication confidence.', url:'https://yoodli.ai/'}
+];
+
+const aiToolsGrid = document.getElementById('aiToolsGrid');
+const aiToolSearch = document.getElementById('aiToolSearch');
+const aiToolStatus = document.getElementById('aiToolStatus');
+const aiFilterButtons = document.querySelectorAll('[data-ai-filter]');
+let activeAiFilter = 'ALL';
+
+function renderAiTools(){
+const term = aiToolSearch.value.trim().toLowerCase();
+const filtered = aiTools.filter(tool => {
+const categoryMatch = activeAiFilter === 'ALL' || tool.category === activeAiFilter;
+const text = `${tool.name} ${tool.category} ${tool.use}`.toLowerCase();
+return categoryMatch && text.includes(term);
+});
+
+aiToolsGrid.innerHTML = filtered.map(tool => `
+<article class="ai-tool-card">
+<span>${tool.category}</span>
+<h2>${tool.name}</h2>
+<p>${tool.use}</p>
+<a href="ai-tool-detail.html?name=${encodeURIComponent(tool.name)}&category=${encodeURIComponent(tool.category)}&use=${encodeURIComponent(tool.use)}&url=${encodeURIComponent(tool.url)}">Learn About Tool</a>
+</article>
+`).join('');
+
+aiToolStatus.textContent = `Showing ${filtered.length} of ${aiTools.length} AI tools.`;
+}
+
+aiFilterButtons.forEach(button => {
+button.addEventListener('click', () => {
+activeAiFilter = button.dataset.aiFilter;
+aiFilterButtons.forEach(item => item.classList.remove('active'));
+button.classList.add('active');
+renderAiTools();
+});
+});
+
+aiToolSearch.addEventListener('input', renderAiTools);
+renderAiTools();
+</script>
+<script src="../SCRPIT/mobile-nav.js"></script>
+</body>
+</html>
