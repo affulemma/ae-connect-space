@@ -117,6 +117,10 @@ const opportunitySearch=document.getElementById('opportunitySearch');
 const filterButtons=[...document.querySelectorAll('[data-opportunity-filter]')];
 let activeOpportunityFilter='all';
 
+function opportunitySlug(item){
+return item.title.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'');
+}
+
 function renderOpportunities(){
 const term=opportunitySearch.value.trim().toLowerCase();
 const filtered=opportunities.filter(item=>{
@@ -124,7 +128,7 @@ const matchesFilter=activeOpportunityFilter==='all'||item.type===activeOpportuni
 const text=`${item.type} ${item.location} ${item.title} ${item.org} ${item.description} ${item.skills.join(' ')} ${item.programs.join(' ')}`.toLowerCase();
 return matchesFilter&&text.includes(term);
 });
-opportunityList.innerHTML=filtered.map(item=>`<article class="opportunity-row"><div class="opportunity-icon">&#9635;</div><div class="opportunity-info"><div class="opportunity-meta"><span>${item.type}</span><small>${item.location}</small></div><h3>${item.title}</h3><p class="opportunity-org">${item.org}</p><p>${item.description}</p><div class="opportunity-tags">${item.skills.map(skill=>`<span>${skill}</span>`).join('')}</div><div class="opportunity-programs">${item.programs.map(program=>`<span>${program}</span>`).join('')}</div></div><div class="opportunity-action"><small>Deadline: ${item.deadline}</small><a href="auth.html">Apply Now</a></div></article>`).join('')||'<p class="events-empty">No opportunity matches your search yet.</p>';
+opportunityList.innerHTML=filtered.map(item=>`<article class="opportunity-row"><div class="opportunity-icon">&#9635;</div><div class="opportunity-info"><div class="opportunity-meta"><span>${item.type}</span><small>${item.location}</small></div><h3>${item.title}</h3><p class="opportunity-org">${item.org}</p><p>${item.description}</p><div class="opportunity-tags">${item.skills.map(skill=>`<span>${skill}</span>`).join('')}</div><div class="opportunity-programs">${item.programs.map(program=>`<span>${program}</span>`).join('')}</div></div><div class="opportunity-action"><small>Deadline: ${item.deadline}</small><a href="opportunity-detail.html?id=${opportunitySlug(item)}">View Details</a><a href="auth.html">Apply Now</a></div></article>`).join('')||'<p class="events-empty">No opportunity matches your search yet.</p>';
 }
 
 filterButtons.forEach(button=>button.addEventListener('click',()=>{activeOpportunityFilter=button.dataset.opportunityFilter;filterButtons.forEach(item=>item.classList.toggle('active',item===button));renderOpportunities();}));

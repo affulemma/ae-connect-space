@@ -1,7 +1,7 @@
 (function(){
   const config = window.AE_BACKEND_CONFIG || {};
   const apiBaseUrl = String(config.apiBaseUrl || '').replace(/\/$/, '');
-  const sameOriginApi = window.location && /^https?:$/.test(window.location.protocol) ? window.location.origin : '';
+  const sameOriginApi = config.useSameOriginApi && window.location && /^https?:$/.test(window.location.protocol) ? window.location.origin : '';
   const hasKeys = Boolean(config.supabaseUrl && config.supabaseAnonKey);
   const hasClient = Boolean(window.supabase && hasKeys);
   const client = hasClient ? window.supabase.createClient(config.supabaseUrl, config.supabaseAnonKey) : null;
