@@ -140,10 +140,6 @@
 </footer>
 
 <script>
-const menuToggle=document.querySelector('.menu-toggle');
-const homeNavLinks=document.querySelector('.home-nav-links');
-if(menuToggle&&homeNavLinks){menuToggle.addEventListener('click',()=>{const expanded=menuToggle.getAttribute('aria-expanded')==='true';menuToggle.setAttribute('aria-expanded',String(!expanded));homeNavLinks.classList.toggle('is-open');});}
-
 const defaultEvents=[
 {type:'Workshop',program:'Economics',extra:'Business Administration',title:'Data Analytics Workshop: From Excel to Power BI',description:'A hands-on workshop covering data cleaning in Excel, analysis with pivot tables, and creating interactive dashboards in Power BI. Perfect for Economics, Business, and Statistics students.',date:'2026-06-15',time:'10:00 AM - 2:00 PM',location:'Virtual (Zoom)',organizer:'Dr. Kwame Asiedu, Data Lead at Ghana Revenue Authority',attending:'145 attending'},
 {type:'Webinar',program:'Computer Science',title:'Career Roadmap Webinar: Computer Science Edition',description:'Hear from software engineers at top tech companies about what skills actually matter, how to build a portfolio, and how to ace technical interviews.',date:'2026-06-20',time:'6:00 PM - 7:30 PM',location:'Virtual (Google Meet)',organizer:'Sarah Addo, Senior Engineer at Hubtel',attending:'210 attending'},

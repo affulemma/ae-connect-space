@@ -246,16 +246,6 @@
 </div>
 
 <script>
-const menuToggle=document.querySelector('.menu-toggle');
-const homeNavLinks=document.querySelector('.home-nav-links');
-if(menuToggle&&homeNavLinks){
-menuToggle.addEventListener('click',()=>{
-const expanded=menuToggle.getAttribute('aria-expanded')==='true';
-menuToggle.setAttribute('aria-expanded',String(!expanded));
-homeNavLinks.classList.toggle('is-open');
-});
-}
-
 const aboutPhotoButtons = document.querySelectorAll('[data-about-photo]');
 const aboutPhotoModal = document.getElementById('aboutPhotoModal');
 const aboutPhotoImage = document.getElementById('aboutPhotoImage');

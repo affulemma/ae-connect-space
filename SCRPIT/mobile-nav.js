@@ -1,6 +1,6 @@
 (function(){
-  const NAV_SELECTOR = '.home-footer-nav, .navbar, .about-bottom-nav';
-  const LINK_SELECTOR = '.home-nav-links, .nav-links, ul';
+  const NAV_SELECTOR = '.home-footer-nav, .navbar, .about-bottom-nav, .dashboard-sidebar';
+  const LINK_SELECTOR = '.home-nav-links, .nav-links, .dashboard-sidebar nav, ul';
   const OPEN_CLASS = 'ae-mobile-nav-open';
   const READY_CLASS = 'ae-mobile-nav-ready';
   const ACTIVE_CLASS = 'ae-mobile-nav-active';
@@ -9,6 +9,7 @@
   const media = window.matchMedia(MOBILE_QUERY);
   let activeMenu = null;
   let lastHandledAt = 0;
+  let lastHandledToggle = null;
   let overlay = null;
 
   function isMobile(){
@@ -117,8 +118,9 @@
     }
     if(!isMobile()) return;
     const now = Date.now();
-    if(event && event.type === 'click' && now - lastHandledAt < 450) return;
+    if(lastHandledToggle === toggle && now - lastHandledAt < 420) return;
     lastHandledAt = now;
+    lastHandledToggle = toggle;
     if(activeMenu && activeMenu.nav === nav){
       closeMenu();
     }else{
@@ -153,7 +155,17 @@
     if(!isMobile()) closeMenu();
   }
 
-  document.querySelectorAll(NAV_SELECTOR).forEach(prepareNav);
+  function initMobileNav(){
+    document.querySelectorAll(NAV_SELECTOR).forEach(prepareNav);
+    getOverlay();
+  }
+
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', initMobileNav, { once: true });
+  }else{
+    initMobileNav();
+  }
+
   document.addEventListener('keydown', event => {
     if(event.key === 'Escape') closeMenu();
   });

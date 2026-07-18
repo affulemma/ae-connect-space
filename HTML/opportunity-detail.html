@@ -44,10 +44,6 @@
 <footer><p>&copy; A.E CONNECT SPACE</p></footer>
 
 <script>
-const menuToggle=document.querySelector('.menu-toggle');
-const homeNavLinks=document.querySelector('.home-nav-links');
-if(menuToggle&&homeNavLinks){menuToggle.addEventListener('click',()=>{const expanded=menuToggle.getAttribute('aria-expanded')==='true';menuToggle.setAttribute('aria-expanded',String(!expanded));homeNavLinks.classList.toggle('is-open');});}
-
 const opportunities=[
 {type:'Internship',location:'Accra, Ghana',title:'Data Analyst Intern',org:'Ghana Statistical Service',deadline:'2026-06-30',description:'Assist in national data collection, analysis, and reporting. Work with large datasets and contribute to policy-relevant research.',skills:['Excel','Data Analysis','SPSS','Report Writing'],programs:['Economics','Statistics','Business Administration']},
 {type:'Internship',location:'Accra, Ghana',title:'Software Engineering Intern',org:'Hubtel',deadline:'2026-07-15',description:'Join a leading fintech team building payment solutions. Work with modern web technologies and agile development practices.',skills:['Python','JavaScript','Git','Teamwork'],programs:['Computer Science','Engineering']},

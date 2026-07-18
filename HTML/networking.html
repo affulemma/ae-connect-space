@@ -192,10 +192,6 @@
 <script src="../SCRPIT/backend-config.js"></script>
 <script src="../SCRPIT/ae-backend.js"></script>
 <script>
-const menuToggle=document.querySelector('.menu-toggle');
-const homeNavLinks=document.querySelector('.home-nav-links');
-if(menuToggle&&homeNavLinks){menuToggle.addEventListener('click',()=>{const expanded=menuToggle.getAttribute('aria-expanded')==='true';menuToggle.setAttribute('aria-expanded',String(!expanded));homeNavLinks.classList.toggle('is-open');});}
-
 const defaultDiscussions=[
 {id:'excel-economics',name:'Kwame Mensah',initials:'KM',topic:'Economics',time:'2 hours ago',title:'What Excel skills should an Economics student master by Level 300?',body:'I am currently in Level 200 and trying to figure out which Excel functions are absolutely essential before my internship applications.',likes:56,replies:[{name:'Ama Boateng',text:'Start with pivot tables, XLOOKUP, IF statements, charts, and cleaning messy datasets. Then learn how to explain insights clearly.'},{name:'Daniel Owusu',text:'Also practice basic dashboards. Employers like students who can turn raw data into decisions.'}],connected:false},
 {id:'gis-remote-sensing',name:'Akosua Darko',initials:'AD',topic:'Geography',time:'5 hours ago',title:'GIS vs Remote Sensing - which one should I prioritize first?',body:'I am a Level 200 Geography student and my department is pushing us toward GIS, but I also hear remote sensing is in high demand.',likes:42,replies:[{name:'Kofi Asante',text:'Learn basic GIS first because it helps you understand layers, coordinate systems, and map layouts. Remote sensing becomes easier after that.'}],connected:false},

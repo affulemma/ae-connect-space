@@ -36,7 +36,8 @@ touch-action:none;
 
 .home-footer-nav,
 .navbar,
-.about-bottom-nav{
+.about-bottom-nav,
+.dashboard-sidebar{
 isolation:isolate;
 }
 
@@ -52,7 +53,8 @@ user-select:none;
 @media (max-width:768px){
 .home-footer-nav,
 .navbar,
-.about-bottom-nav{
+.about-bottom-nav,
+.dashboard-sidebar{
 position:fixed !important;
 top:0 !important;
 left:0 !important;
@@ -67,7 +69,8 @@ overflow:visible !important;
 
 .home-footer-nav .home-nav-links,
 .navbar .nav-links,
-.about-bottom-nav ul{
+.about-bottom-nav ul,
+.dashboard-sidebar nav{
 position:fixed !important;
 left:14px !important;
 right:14px !important;
@@ -94,7 +97,8 @@ transition:opacity 0.18s ease,transform 0.18s ease,visibility 0.18s ease;
 
 .home-footer-nav .home-nav-links.is-open,
 .navbar .nav-links.is-open,
-.about-bottom-nav ul.is-open{
+.about-bottom-nav ul.is-open,
+.dashboard-sidebar nav.is-open{
 opacity:1;
 visibility:visible;
 pointer-events:auto;
@@ -103,7 +107,8 @@ transform:translateY(0);
 
 .home-footer-nav .home-nav-links a,
 .navbar .nav-links a,
-.about-bottom-nav ul a{
+.about-bottom-nav ul a,
+.dashboard-sidebar nav a{
 display:flex !important;
 align-items:center;
 justify-content:center;
@@ -122,14 +127,17 @@ white-space:normal;
 .navbar .nav-links a:hover,
 .navbar .nav-links a:focus-visible,
 .about-bottom-nav ul a:hover,
-.about-bottom-nav ul a:focus-visible{
+.about-bottom-nav ul a:focus-visible,
+.dashboard-sidebar nav a:hover,
+.dashboard-sidebar nav a:focus-visible{
 background:#fff4d8;
 color:#0a2342 !important;
 }
 
 .home-footer-nav .home-nav-links .nav-cta,
 .navbar .nav-links a[href="auth.html"],
-.about-bottom-nav ul .about-nav-cta{
+.about-bottom-nav ul .about-nav-cta,
+.dashboard-sidebar nav a.active{
 background:#f2a722 !important;
 color:#0a2342 !important;
 }
@@ -163,7 +171,8 @@ color:#0a2342 !important;
 .navbar + .hero,
 .navbar + section,
 .about-bottom-nav + main,
-.about-bottom-nav + section{
+.about-bottom-nav + section,
+.dashboard-sidebar + .dashboard-main{
 margin-top:62px !important;
 }
 }
@@ -554,7 +563,8 @@ margin-bottom:12px;
 @media (max-width:768px){
 .home-footer-nav,
 .navbar,
-.about-bottom-nav{
+.about-bottom-nav,
+.dashboard-sidebar{
 position:fixed !important;
 top:0 !important;
 left:0 !important;
@@ -569,7 +579,8 @@ overflow:visible !important;
 
 .home-footer-nav .home-nav-links,
 .navbar .nav-links,
-.about-bottom-nav ul{
+.about-bottom-nav ul,
+.dashboard-sidebar nav{
 position:fixed !important;
 left:14px !important;
 right:14px !important;
@@ -596,7 +607,8 @@ transition:opacity 0.18s ease,transform 0.18s ease,visibility 0.18s ease !import
 
 .home-footer-nav .home-nav-links.is-open,
 .navbar .nav-links.is-open,
-.about-bottom-nav ul.is-open{
+.about-bottom-nav ul.is-open,
+.dashboard-sidebar nav.is-open{
 opacity:1 !important;
 visibility:visible !important;
 pointer-events:auto !important;
@@ -605,7 +617,8 @@ transform:translateY(0) !important;
 
 .home-footer-nav .home-nav-links a,
 .navbar .nav-links a,
-.about-bottom-nav ul a{
+.about-bottom-nav ul a,
+.dashboard-sidebar nav a{
 display:flex !important;
 align-items:center !important;
 justify-content:center !important;
@@ -621,7 +634,8 @@ white-space:normal !important;
 
 .home-footer-nav .home-nav-links .nav-cta,
 .navbar .nav-links a[href="auth.html"],
-.about-bottom-nav ul .about-nav-cta{
+.about-bottom-nav ul .about-nav-cta,
+.dashboard-sidebar nav a.active{
 background:#f2a722 !important;
 color:#0a2342 !important;
 }
