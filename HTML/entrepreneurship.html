@@ -530,8 +530,8 @@ function renderDiscussionPosts(){
 const posts = [...backendDiscussions, ...getStoredItems(businessDiscussionsKey)];
 const partners = [...backendPartners, ...getStoredItems(partnerProfilesKey)];
 const customHtml = [
-...posts.map(item=>`<article class="community-post-card"><span>${item.category}</span><h3>${item.title}</h3><p>${item.details}</p><small>Started by ${item.name} • ${item.time}</small></article>`),
-...partners.map(item=>`<article class="community-post-card partner"><span>Partner Profile</span><h3>${item.idea}</h3><p>${item.name} brings ${item.skills}. Looking for: ${item.needs}</p><small>Contact: ${item.contact} • ${item.time}</small></article>`)
+...posts.map(item=>`<article class="community-post-card"><span>${item.category}</span><h3>${item.title}</h3><p>${item.details}</p><small>Started by ${item.name} ï¿½ ${item.time}</small></article>`),
+...partners.map(item=>`<article class="community-post-card partner"><span>Partner Profile</span><h3>${item.idea}</h3><p>${item.name} brings ${item.skills}. Looking for: ${item.needs}</p><small>Contact: ${item.contact} ï¿½ ${item.time}</small></article>`)
 ].join('');
 const baseHtml = `
 <article><h3>Business Ideas</h3><p>Test ideas, get feedback, and discover problems worth solving.</p></article>
@@ -675,7 +675,7 @@ document.addEventListener('keydown', event => {
 if(event.key === 'Escape' && sellerModal.classList.contains('active')) closeSellerModal();
 });
 </script>
-
+<script src="../SCRPIT/mobile-nav.js"></script>
 </body>
 </html>
 

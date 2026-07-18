@@ -65,5 +65,6 @@ document.querySelector('#detailHero h1').textContent=selected.title;
 document.querySelector('#detailHero p').textContent=`${selected.org} - ${selected.location}`;
 document.getElementById('detailCard').innerHTML=`<div class="opportunity-icon">&#9635;</div><div class="opportunity-info"><div class="opportunity-meta"><span>${selected.type}</span><small>${selected.location}</small></div><h3>${selected.title}</h3><p class="opportunity-org">${selected.org}</p><p>${selected.description}</p><div class="opportunity-tags">${selected.skills.map(skill=>`<span>${skill}</span>`).join('')}</div><div class="opportunity-programs">${selected.programs.map(program=>`<span>${program}</span>`).join('')}</div></div><div class="opportunity-action"><small>Deadline: ${selected.deadline}</small><a href="auth.html">Apply Now</a><a href="opportunities.html">Back to Opportunities</a></div>`;
 </script>
+<script src="../SCRPIT/mobile-nav.js"></script>
 </body>
 </html>

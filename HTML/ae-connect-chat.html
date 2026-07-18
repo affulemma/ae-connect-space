@@ -179,7 +179,7 @@ article.dataset.type = post.type;
 article.innerHTML = `
 <div class="post-author">
 <div class="chat-avatar">${escapeHTML(post.author.split(' ').map(part => part[0]).join('').slice(0,2))}</div>
-<div><h3>${escapeHTML(post.author)}</h3><p>${escapeHTML(post.role)} • ${escapeHTML(post.room)}</p></div>
+<div><h3>${escapeHTML(post.author)}</h3><p>${escapeHTML(post.role)} ï¿½ ${escapeHTML(post.room)}</p></div>
 </div>
 <span class="post-type">${escapeHTML(post.type)}</span>
 <p class="post-text">${escapeHTML(post.text)}</p>
@@ -299,5 +299,6 @@ chatSearch.addEventListener('input', renderFeed);
 renderFeed();
 renderMessages();
 </script>
+<script src="../SCRPIT/mobile-nav.js"></script>
 </body>
 </html>
