@@ -1,0 +1,13 @@
+[build]
+  command = "node SCRPIT/build-static-site.mjs"
+  publish = "dist/client"
+
+[[redirects]]
+  from = "/"
+  to = "/HTML/index.html"
+  status = 200
+
+[[redirects]]
+  from = "/index.html"
+  to = "/HTML/index.html"
+  status = 200
