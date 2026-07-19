@@ -12400,7 +12400,9 @@ line-height:1;
 display:inline-flex;
 align-items:center;
 justify-content:center;
+flex:0 0 auto;
 min-height:42px;
+min-width:92px;
 padding:0 16px;
 border:1px solid var(--dash-line);
 border-radius:999px;
@@ -12408,7 +12410,10 @@ background:white;
 color:var(--dash-ink);
 font-size:0.8rem;
 font-weight:900;
+line-height:1;
 text-decoration:none;
+text-align:center;
+white-space:nowrap;
 }
 
 .dashboard-welcome{
@@ -12793,6 +12798,21 @@ padding:18px;
 .progress-metrics{
 display:grid;
 grid-template-columns:1fr;
+}
+
+.dashboard-top-actions{
+display:grid;
+grid-template-columns:repeat(3,minmax(0,1fr));
+width:100%;
+gap:10px;
+}
+
+.dashboard-top-actions button,
+.dashboard-top-actions a{
+width:100%;
+min-width:0;
+padding:0 12px;
+white-space:nowrap;
 }
 
 .dashboard-welcome{

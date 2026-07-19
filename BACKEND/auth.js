@@ -52,10 +52,20 @@ export function observeAuthState(callback) {
   return onAuthStateChanged(auth, callback);
 }
 
-export function protectPage(redirectTo = "auth.html") {
-  return observeAuthState(user => {
-    if (!user) {
-      window.location.href = redirectTo;
-    }
+export function getCurrentUser() {
+  return new Promise(resolve => {
+    const unsubscribe = onAuthStateChanged(auth, user => {
+      unsubscribe();
+      resolve(user);
+    });
   });
+}
+
+export async function requireAuthenticatedUser(redirectTo = "auth.html") {
+  const user = await getCurrentUser();
+  if (!user) {
+    window.location.replace(redirectTo);
+    return null;
+  }
+  return user;
 }
