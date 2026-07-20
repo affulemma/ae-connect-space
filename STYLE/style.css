@@ -2969,7 +2969,10 @@ display:none;
 
 .group-chat-modal{
 position:fixed;
-inset:0;
+left:0;
+right:0;
+top:var(--community-chat-top,0);
+bottom:auto;
 z-index:20000;
 display:grid;
 place-items:center;
@@ -2991,7 +2994,10 @@ background:rgba(0,0,0,0.58);
 
 .group-chat-panel{
 position:fixed;
-inset:0;
+left:0;
+right:0;
+top:var(--community-chat-top,0);
+bottom:auto;
 z-index:1;
 width:100vw;
 height:100vh;
@@ -3351,6 +3357,7 @@ height:42px;
 border:1px solid #eee3db;
 border-radius:999px;
 padding:0 16px;
+font-size:16px;
 font-weight:700;
 outline:none;
 }
@@ -11067,7 +11074,7 @@ height:40px;
 .group-chat-compose input[type="text"]{
 height:40px;
 min-width:0;
-font-size:0.86rem;
+font-size:16px;
 padding:0 12px;
 }
 

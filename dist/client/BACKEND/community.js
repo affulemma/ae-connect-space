@@ -296,7 +296,17 @@ function isSmallScreen() {
 function updateChatViewportHeight() {
   if (!window.visualViewport) return;
   const height = Math.floor(window.visualViewport.height);
+  const top = Math.floor(window.visualViewport.offsetTop || 0);
   document.documentElement.style.setProperty("--community-chat-height", `${height}px`);
+  document.documentElement.style.setProperty("--community-chat-top", `${top}px`);
+}
+
+function keepComposerVisible() {
+  updateChatViewportHeight();
+  requestAnimationFrame(() => {
+    elements.groupChatForm.scrollIntoView({ block: "end", inline: "nearest" });
+    elements.groupChatMessages.scrollTop = elements.groupChatMessages.scrollHeight;
+  });
 }
 
 function watchChatViewport() {
@@ -308,6 +318,7 @@ function watchChatViewport() {
     window.visualViewport.removeEventListener("resize", updateChatViewportHeight);
     window.visualViewport.removeEventListener("scroll", updateChatViewportHeight);
     document.documentElement.style.removeProperty("--community-chat-height");
+    document.documentElement.style.removeProperty("--community-chat-top");
   };
 }
 
@@ -535,7 +546,10 @@ function bindEvents() {
   elements.groupMessageInput.addEventListener("input", () => {
     elements.groupTyping.textContent = "You are typing...";
     elements.groupTyping.hidden = elements.groupMessageInput.value.trim().length === 0;
+    keepComposerVisible();
   });
+  elements.groupMessageInput.addEventListener("focus", keepComposerVisible);
+  elements.groupMessageInput.addEventListener("blur", updateChatViewportHeight);
 
   elements.groupChatForm.addEventListener("submit", async event => {
     event.preventDefault();
