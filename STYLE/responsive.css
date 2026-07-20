@@ -479,6 +479,8 @@ right:-18px !important;
 width:100% !important;
 max-width:100vw;
 height:100dvh;
+max-height:none !important;
+overflow:hidden !important;
 grid-template-columns:1fr !important;
 }
 
