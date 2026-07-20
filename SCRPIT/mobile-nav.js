@@ -11,6 +11,7 @@
   let lastHandledAt = 0;
   let lastHandledToggle = null;
   let overlay = null;
+  let authNavReady = false;
 
   function isMobile(){
     return media.matches;
@@ -158,6 +159,69 @@
   function initMobileNav(){
     document.querySelectorAll(NAV_SELECTOR).forEach(prepareNav);
     getOverlay();
+    enhanceAuthNavigation();
+  }
+
+  function pagePrefix(){
+    return window.location.pathname.includes('/HTML/') ? '' : 'HTML/';
+  }
+
+  function dashboardHref(){
+    return `${pagePrefix()}dashboard.html`;
+  }
+
+  function authHref(){
+    return `${pagePrefix()}auth.html`;
+  }
+
+  function setDashboardNavLink(isSignedIn){
+    document.querySelectorAll('.home-nav-links, .nav-links').forEach(list => {
+      let item = list.querySelector('[data-student-dashboard-nav]');
+      const cta = list.querySelector('a.nav-cta');
+
+      if(isSignedIn){
+        if(!item){
+          item = document.createElement('li');
+          const link = document.createElement('a');
+          link.dataset.studentDashboardNav = 'true';
+          link.href = dashboardHref();
+          link.textContent = 'Student Dashboard';
+          item.appendChild(link);
+          if(cta && cta.closest('li')){
+            list.insertBefore(item, cta.closest('li'));
+          }else{
+            list.appendChild(item);
+          }
+        }
+        const link = item.querySelector('a');
+        link.href = dashboardHref();
+        link.classList.toggle('active', window.location.pathname.endsWith('/dashboard.html'));
+        if(cta && cta.getAttribute('href') && cta.getAttribute('href').includes('auth.html')){
+          cta.textContent = 'Profile';
+          cta.href = `${dashboardHref()}#profile`;
+        }
+        return;
+      }
+
+      if(item) item.remove();
+      if(cta && cta.textContent.trim() === 'Profile'){
+        cta.textContent = 'Get Started';
+        cta.href = authHref();
+      }
+    });
+  }
+
+  function enhanceAuthNavigation(){
+    if(authNavReady) return;
+    authNavReady = true;
+    import('../BACKEND/firebase-config.js')
+      .then(({ auth }) => import('https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js')
+        .then(({ onAuthStateChanged }) => {
+          onAuthStateChanged(auth, user => setDashboardNavLink(Boolean(user)));
+        }))
+      .catch(error => {
+        console.warn('A.E CONNECT auth navigation could not load:', error);
+      });
   }
 
   if(document.readyState === 'loading'){

@@ -1,16 +1,22 @@
 import { loginWithEmail, logoutUser, observeAuthState, registerWithEmail, requireAuthenticatedUser } from "./auth.js";
-import { db } from "./firebase-config.js";
+import { auth, db } from "./firebase-config.js";
 import { getUserDocument } from "./firestore.js";
 import {
   collection,
+  doc,
   getDocs,
   query,
+  serverTimestamp,
+  updateDoc,
   where
 } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+import { updateProfile } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
 
 const dashboardPath = "dashboard.html";
 const authPath = "auth.html";
 let authFlowInProgress = false;
+let dashboardUser = null;
+let dashboardProfile = {};
 
 function byId(id) {
   return document.getElementById(id);
@@ -612,7 +618,7 @@ function setupDashboardSearch() {
     { label: "Stories", description: "Read student success stories", href: "stories.html" },
     { label: "Resources", description: "Open resources and guides", href: "resources.html" },
     { label: "Saved", description: "Jump to saved dashboard items", href: "#saved" },
-    { label: "Profile", description: "Manage your account profile", href: "auth.html" }
+    { label: "Profile", description: "Manage your account profile", href: "#profile" }
   ];
 
   function closeSearch() {
@@ -628,6 +634,12 @@ function setupDashboardSearch() {
   }
 
   function navigateToResult(href) {
+    if (href === "#profile") {
+      closeSearch();
+      openDashboardProfileEditor();
+      return;
+    }
+
     if (href.startsWith("#")) {
       closeSearch();
       document.querySelector(href)?.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -706,6 +718,129 @@ function setupDashboardSearch() {
   renderSearchResults();
 }
 
+function setProfileMessage(message, type = "success") {
+  const messageElement = byId("dashboardProfileMessage");
+  if (!messageElement) return;
+  messageElement.textContent = message;
+  messageElement.dataset.type = type;
+}
+
+function setProfileInput(id, value) {
+  const input = byId(id);
+  if (input) input.value = value || "";
+}
+
+function fillDashboardProfileForm() {
+  const data = dashboardProfile || {};
+  setProfileInput("profileFullName", cleanUserValue(data.fullName) || cleanUserValue(dashboardUser?.displayName));
+  setProfileInput("profileEmail", cleanUserValue(data.email) || cleanUserValue(dashboardUser?.email));
+  setProfileInput("profileUniversity", cleanUserValue(data.university));
+  setProfileInput("profileProgramme", cleanUserValue(data.programme));
+  setProfileInput("profileLevel", cleanUserValue(data.level));
+  setProfileInput("profileCountry", cleanUserValue(data.country));
+}
+
+function openDashboardProfileEditor() {
+  const modal = byId("dashboardProfileModal");
+  if (!modal || !dashboardUser) return;
+  fillDashboardProfileForm();
+  setProfileMessage("");
+  modal.hidden = false;
+  document.body.classList.add("dashboard-profile-open");
+  byId("profileFullName")?.focus();
+}
+
+function closeDashboardProfileEditor() {
+  const modal = byId("dashboardProfileModal");
+  if (!modal) return;
+  modal.hidden = true;
+  document.body.classList.remove("dashboard-profile-open");
+}
+
+function applyProfileToDashboard(profile = {}) {
+  const fullName = cleanUserValue(profile.fullName) || cleanUserValue(dashboardUser?.displayName) || getUserFieldDefault("fullName");
+  const email = cleanUserValue(profile.email) || cleanUserValue(dashboardUser?.email);
+  const university = cleanUserValue(profile.university);
+  const programme = cleanUserValue(profile.programme);
+  const level = cleanUserValue(profile.level);
+  const country = cleanUserValue(profile.country);
+
+  setUserField("fullName", fullName);
+  setUserField("email", email);
+  setUserField("university", university);
+  setUserField("programme", programme);
+  setUserField("level", level);
+  setUserField("country", country);
+  setUserField("countryLabel", country ? `Country: ${country}` : getUserFieldDefault("countryLabel"));
+  setUserField("programmeLevel", formatProgrammeLevel(programme, level));
+}
+
+function setupDashboardProfileEditor() {
+  const modal = byId("dashboardProfileModal");
+  const form = byId("dashboardProfileForm");
+  if (!modal || !form) return;
+
+  document.querySelectorAll("[data-profile-edit-toggle]").forEach(button => {
+    button.addEventListener("click", openDashboardProfileEditor);
+  });
+
+  document.querySelectorAll("[data-profile-edit-close]").forEach(button => {
+    button.addEventListener("click", closeDashboardProfileEditor);
+  });
+
+  document.addEventListener("keydown", event => {
+    if (event.key === "Escape" && !modal.hidden) closeDashboardProfileEditor();
+  });
+
+  form.addEventListener("submit", async event => {
+    event.preventDefault();
+    if (!dashboardUser) return;
+
+    const submitButton = form.querySelector('button[type="submit"]');
+    submitButton.disabled = true;
+    setProfileMessage("Saving your profile...");
+
+    const updatedProfile = {
+      fullName: readValue("profileFullName"),
+      email: cleanUserValue(dashboardUser.email),
+      university: readValue("profileUniversity"),
+      programme: readValue("profileProgramme"),
+      level: readValue("profileLevel"),
+      country: readValue("profileCountry"),
+      updatedAt: serverTimestamp()
+    };
+
+    try {
+      await updateDoc(doc(db, "users", dashboardUser.uid), updatedProfile);
+      if (updatedProfile.fullName && auth.currentUser) {
+        await updateProfile(auth.currentUser, { displayName: updatedProfile.fullName });
+      }
+
+      dashboardProfile = {
+        ...dashboardProfile,
+        ...updatedProfile,
+        updatedAt: new Date()
+      };
+      applyProfileToDashboard(dashboardProfile);
+      setProfileMessage("Profile updated successfully.");
+      await loadPublishedDashboardRoadmaps(dashboardProfile);
+      await loadDashboardResources(dashboardProfile);
+      await loadDashboardOpportunities(dashboardProfile);
+      setTimeout(closeDashboardProfileEditor, 700);
+    } catch (error) {
+      console.error("[Dashboard] Failed to update profile", {
+        uid: dashboardUser.uid,
+        code: error.code,
+        message: error.message,
+        error
+      });
+      setProfileMessage("Profile could not be saved. Please check your connection and try again.", "error");
+    } finally {
+      submitButton.disabled = false;
+    }
+  });
+}
+
 function setupAuthRedirect() {
   if (!document.body.classList.contains("auth-page")) return;
 
@@ -725,28 +860,19 @@ function setupDashboardProtection() {
 async function loadDashboardProfile() {
   const user = await requireAuthenticatedUser(authPath);
   if (!user) return;
+  dashboardUser = user;
 
   try {
     const profile = await getUserDocument(user.uid);
     const data = profile || {};
-    const fullName = cleanUserValue(data.fullName) || cleanUserValue(user.displayName) || getUserFieldDefault("fullName");
-    const email = cleanUserValue(data.email) || cleanUserValue(user.email);
-    const university = cleanUserValue(data.university);
-    const programme = cleanUserValue(data.programme);
-    const level = cleanUserValue(data.level);
-    const country = cleanUserValue(data.country);
-
-    setUserField("fullName", fullName);
-    setUserField("email", email);
-    setUserField("university", university);
-    setUserField("programme", programme);
-    setUserField("level", level);
-    setUserField("country", country);
-    setUserField("countryLabel", country ? `Country: ${country}` : getUserFieldDefault("countryLabel"));
-    setUserField("programmeLevel", formatProgrammeLevel(programme, level));
+    dashboardProfile = data;
+    applyProfileToDashboard(data);
     await loadPublishedDashboardRoadmaps(data);
     await loadDashboardResources(data);
     await loadDashboardOpportunities(data);
+    if (window.location.hash === "#profile") {
+      openDashboardProfileEditor();
+    }
 
     console.info("[Dashboard] User profile loaded", {
       uid: user.uid,
@@ -770,5 +896,6 @@ setupRegisterForm();
 setupLoginForm();
 setupLogout();
 setupDashboardSearch();
+setupDashboardProfileEditor();
 setupAuthRedirect();
 setupDashboardProtection();

@@ -39,7 +39,7 @@
 </div>
 <div class="dashboard-top-actions">
 <button type="button" data-dashboard-search-toggle aria-expanded="false" aria-controls="dashboardSearchPanel">Search</button>
-<a href="auth.html">Profile</a>
+<button type="button" data-profile-edit-toggle>Profile</button>
 <button type="button" data-firebase-logout>Logout</button>
 <div class="dashboard-search-panel" id="dashboardSearchPanel" hidden>
 <label class="sr-only" for="dashboardSearchInput">Search dashboard</label>
@@ -191,6 +191,38 @@
 </aside>
 </section>
 </main>
+
+<div class="dashboard-profile-modal" id="dashboardProfileModal" hidden>
+<div class="dashboard-profile-backdrop" data-profile-edit-close></div>
+<section class="dashboard-profile-panel" role="dialog" aria-modal="true" aria-labelledby="dashboardProfileTitle">
+<button class="dashboard-profile-close" type="button" data-profile-edit-close aria-label="Close profile editor">&times;</button>
+<span>Student Profile</span>
+<h2 id="dashboardProfileTitle">Edit Profile</h2>
+<form id="dashboardProfileForm">
+<label>Full Name
+<input id="profileFullName" name="fullName" type="text" autocomplete="name" required>
+</label>
+<label>Email
+<input id="profileEmail" name="email" type="email" readonly>
+</label>
+<label>University
+<input id="profileUniversity" name="university" type="text" autocomplete="organization">
+</label>
+<label>Programme
+<input id="profileProgramme" name="programme" type="text">
+</label>
+<label>Level
+<input id="profileLevel" name="level" type="text">
+</label>
+<label>Country
+<input id="profileCountry" name="country" type="text" autocomplete="country-name">
+</label>
+<p id="dashboardProfileMessage" aria-live="polite"></p>
+<button type="submit">Save Profile</button>
+</form>
+</section>
+</div>
+
 <script type="module" src="../BACKEND/user.js"></script>
 <script src="../SCRPIT/mobile-nav.js"></script>
 </body>
