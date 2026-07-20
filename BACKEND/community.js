@@ -51,6 +51,7 @@ const state = {
   activeMessagesUnsubscribe: null,
   profileZoomLevel: 1,
   groupPictureDataUrl: "",
+  viewportCleanup: null,
   voiceStart: null,
   voiceTimer: null
 };
@@ -288,6 +289,33 @@ function unlockChatPageScroll() {
   window.scrollTo(0, scrollY);
 }
 
+function isSmallScreen() {
+  return window.matchMedia("(max-width: 768px)").matches;
+}
+
+function updateChatViewportHeight() {
+  if (!window.visualViewport) return;
+  const height = Math.floor(window.visualViewport.height);
+  document.documentElement.style.setProperty("--community-chat-height", `${height}px`);
+}
+
+function watchChatViewport() {
+  updateChatViewportHeight();
+  if (!window.visualViewport || state.viewportCleanup) return;
+  window.visualViewport.addEventListener("resize", updateChatViewportHeight);
+  window.visualViewport.addEventListener("scroll", updateChatViewportHeight);
+  state.viewportCleanup = () => {
+    window.visualViewport.removeEventListener("resize", updateChatViewportHeight);
+    window.visualViewport.removeEventListener("scroll", updateChatViewportHeight);
+    document.documentElement.style.removeProperty("--community-chat-height");
+  };
+}
+
+function stopWatchingChatViewport() {
+  if (state.viewportCleanup) state.viewportCleanup();
+  state.viewportCleanup = null;
+}
+
 function friendlyFirestoreError(error, action) {
   if (error?.code === "permission-denied") {
     return `${action} is blocked by Firestore rules. Publish the updated community rules, then refresh this page.`;
@@ -341,11 +369,15 @@ function openGroupChat(groupId) {
   subscribeToGroupMessages(groupId);
   elements.groupChatModal.hidden = false;
   lockChatPageScroll();
-  elements.groupMessageInput.focus();
+  watchChatViewport();
+  if (!isSmallScreen()) {
+    elements.groupMessageInput.focus();
+  }
 }
 
 function closeGroupChat() {
   elements.groupChatModal.hidden = true;
+  stopWatchingChatViewport();
   unlockChatPageScroll();
   clearInterval(state.voiceTimer);
   state.voiceStart = null;
