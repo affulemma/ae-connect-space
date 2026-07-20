@@ -1,0 +1,128 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function ownUserPath() {
+      return /databases/$(database)/documents/users/$(request.auth.uid);
+    }
+
+    function hasUserProfile() {
+      return signedIn() && exists(ownUserPath());
+    }
+
+    function userProfile() {
+      return get(ownUserPath());
+    }
+
+    function isAdmin() {
+      return hasUserProfile()
+        && userProfile().data.role == "admin";
+    }
+
+    function isOwner(userId) {
+      return signedIn() && request.auth.uid == userId;
+    }
+
+    function keepsExistingRole() {
+      return !request.resource.data.diff(resource.data).affectedKeys().hasAny(["role"]);
+    }
+
+    function createsStudentProfile(userId) {
+      return isOwner(userId)
+        && request.resource.data.uid == request.auth.uid
+        && request.resource.data.role == "student";
+    }
+
+    function isPublished() {
+      return resource.data.status == "Published";
+    }
+
+    match /users/{userId} {
+      allow create: if createsStudentProfile(userId) || isAdmin();
+      allow get: if isOwner(userId) || isAdmin();
+      allow list: if isAdmin();
+      allow update: if isAdmin() || (isOwner(userId) && keepsExistingRole());
+      allow delete: if isAdmin();
+    }
+
+    match /roadmaps/{roadmapId} {
+      allow read: if isAdmin() || (signedIn() && isPublished());
+      allow create, update, delete: if isAdmin();
+    }
+
+    match /opportunities/{opportunityId} {
+      allow read: if isAdmin() || (signedIn() && isPublished());
+      allow create, update, delete: if isAdmin();
+    }
+
+    match /savedOpportunities/{savedId} {
+      allow create: if signedIn()
+        && request.resource.data.userId == request.auth.uid;
+      allow read, update, delete: if signedIn()
+        && resource.data.userId == request.auth.uid;
+      allow list: if signedIn();
+    }
+
+    match /resources/{resourceId} {
+      allow read: if isAdmin() || (signedIn() && isPublished());
+      allow create, update, delete: if isAdmin();
+    }
+
+    match /stories/{storyId} {
+      allow read: if isAdmin() || isPublished();
+      allow create, update, delete: if isAdmin();
+    }
+
+    match /events/{eventId} {
+      allow read: if isAdmin() || isPublished();
+      allow create, update, delete: if isAdmin();
+    }
+
+    match /community/{postId} {
+      allow read: if signedIn();
+      allow create: if signedIn();
+      allow update, delete: if isAdmin();
+    }
+
+    match /communityGroups/{groupId} {
+      allow get, list: if signedIn();
+      allow create: if signedIn()
+        && request.resource.data.createdBy == request.auth.uid;
+      allow update: if isAdmin()
+        || (signedIn() && resource.data.createdBy == request.auth.uid);
+      allow delete: if isAdmin();
+
+      match /messages/{messageId} {
+        allow get, list: if signedIn();
+        allow create: if signedIn()
+          && request.resource.data.userId == request.auth.uid
+          && request.resource.data.userEmail == request.auth.token.email
+          && request.resource.data.type in ["text", "file", "voice", "system"]
+          && request.resource.data.text.size() <= 1000;
+        allow update, delete: if isAdmin()
+          || (signedIn() && resource.data.userId == request.auth.uid);
+      }
+    }
+
+    match /marketplace/{listingId} {
+      allow read: if isAdmin() || (signedIn() && isPublished());
+      allow create: if signedIn();
+      allow update, delete: if isAdmin();
+    }
+
+    match /announcements/{announcementId} {
+      allow read: if signedIn();
+      allow create, update, delete: if isAdmin();
+    }
+
+    match /settings/{settingId} {
+      allow read: if true;
+      allow create, update, delete: if isAdmin();
+    }
+  }
+}

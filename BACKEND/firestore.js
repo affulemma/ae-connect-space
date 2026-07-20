@@ -9,12 +9,14 @@ import { db } from "./firebase-config.js";
 export async function createUserDocument(user, profile) {
   const userRef = doc(db, "users", user.uid);
   const userData = {
+    uid: user.uid,
     fullName: profile.fullName,
     email: user.email,
     university: profile.university,
     programme: profile.programme,
     level: profile.level,
     country: profile.country,
+    role: profile.role || "student",
     createdAt: serverTimestamp()
   };
 

@@ -1,5 +1,12 @@
 import { loginWithEmail, logoutUser, observeAuthState, registerWithEmail, requireAuthenticatedUser } from "./auth.js";
+import { db } from "./firebase-config.js";
 import { getUserDocument } from "./firestore.js";
+import {
+  collection,
+  getDocs,
+  query,
+  where
+} from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
 
 const dashboardPath = "dashboard.html";
 const authPath = "auth.html";
@@ -64,6 +71,387 @@ function cleanUserValue(value) {
 function formatProgrammeLevel(programme, level) {
   const parts = [cleanUserValue(programme), cleanUserValue(level)].filter(Boolean);
   return parts.length ? parts.join(" - ") : getUserFieldDefault("programmeLevel");
+}
+
+function normalizeDashboardValue(value) {
+  return cleanUserValue(value).toLowerCase();
+}
+
+function setText(selector, value) {
+  const element = document.querySelector(selector);
+  if (element) element.textContent = value;
+}
+
+function setAllText(selector, value) {
+  document.querySelectorAll(selector).forEach(element => {
+    element.textContent = value;
+  });
+}
+
+function asList(value) {
+  if (Array.isArray(value)) {
+    return value
+      .map(item => {
+        if (typeof item === "string") return item.trim();
+        if (item && typeof item === "object") {
+          return cleanUserValue(item.title) || cleanUserValue(item.name) || cleanUserValue(item.label) || cleanUserValue(item.link);
+        }
+        return "";
+      })
+      .filter(Boolean);
+  }
+  if (typeof value === "string") {
+    return value
+      .split(/[\n,]+/)
+      .map(item => item.trim())
+      .filter(Boolean);
+  }
+  return [];
+}
+
+function roadmapDescription(roadmap) {
+  return cleanUserValue(roadmap.shortDescription) || cleanUserValue(roadmap.description) || "This roadmap is ready for your learning journey.";
+}
+
+function setDashboardRoadmapDefaults() {
+  document.querySelectorAll("[data-dashboard-roadmap-link]").forEach(link => {
+    link.href = "program-roadmaps.html";
+    link.textContent = "Explore";
+  });
+
+  const title = document.querySelector("[data-dashboard-roadmap-title]");
+  const description = document.querySelector("[data-dashboard-roadmap-description]");
+  const programme = document.querySelector("[data-dashboard-roadmap-programme]");
+  const status = document.querySelector("[data-dashboard-roadmap-status]");
+  const sideText = document.querySelector("[data-dashboard-roadmap-side-text]");
+  const card = document.querySelector("[data-dashboard-roadmap-card]");
+
+  if (title) title.textContent = "Loading your roadmap...";
+  if (description) description.textContent = "Checking your programme and level for a published roadmap.";
+  if (programme) programme.textContent = "Your programme Roadmap";
+  if (status) status.textContent = "Loading";
+  if (sideText) sideText.textContent = "Your roadmap is loading.";
+  if (card) {
+    card.querySelector("b").textContent = "Loading roadmap...";
+    card.querySelector("span").textContent = "Finding the roadmap assigned to your programme.";
+  }
+
+  setText("[data-roadmap-progress-title]", "Loading...");
+  setText("[data-roadmap-progress-note]", "Checking your roadmap...");
+  setText("[data-roadmap-progress-copy]", "Your roadmap progress will appear here.");
+  setText("[data-roadmap-completed-skills]", "--");
+  setText("[data-roadmap-remaining-skills]", "--");
+  setText("[data-roadmap-total-skills]", "--");
+  const progressBar = document.querySelector("[data-roadmap-progress-bar]");
+  if (progressBar) progressBar.style.width = "0%";
+  setText("[data-roadmap-next-skill-title]", "Loading...");
+  setText("[data-roadmap-next-skill-copy]", "Finding your next roadmap activity.");
+  renderNextSkillCard("Loading...", "Finding your next recommended skill.", "Next Skill");
+  renderResourceCards(["Loading resources...", "Loading resources...", "Loading resources..."]);
+}
+
+function renderNextSkillCard(title, description, label = "Next Skill") {
+  const card = document.querySelector("[data-dashboard-next-skill-card]");
+  if (!card) return;
+  const titleElement = card.querySelector("b");
+  const descriptionElement = card.querySelector("span");
+  const labelElement = card.querySelector("small");
+  if (titleElement) titleElement.textContent = title;
+  if (descriptionElement) descriptionElement.textContent = description;
+  if (labelElement) labelElement.textContent = label;
+}
+
+function renderResourceCards(resources) {
+  const cards = document.querySelectorAll("[data-dashboard-resource-card]");
+  cards.forEach((card, index) => {
+    const resource = resources[index];
+    card.replaceChildren();
+    const label = document.createElement("span");
+    const title = document.createElement("b");
+    label.textContent = "Resource";
+    title.textContent = resource || "No resource added";
+    card.append(label, title);
+  });
+}
+
+function resourceMatchesProfile(resource, profile = {}) {
+  const programme = normalizeDashboardValue(profile.programme);
+  const level = normalizeDashboardValue(profile.level);
+  const resourceProgramme = normalizeDashboardValue(resource.programme);
+  const resourceLevel = normalizeDashboardValue(resource.level);
+  const matchesProgramme = resourceProgramme === "all programmes" || resourceProgramme === programme;
+  const matchesLevel = resourceLevel === "all levels" || resourceLevel === level;
+  return matchesProgramme && matchesLevel;
+}
+
+function resourceUrl(resource) {
+  return cleanUserValue(resource.fileUrl) || cleanUserValue(resource.externalUrl) || cleanUserValue(resource.link);
+}
+
+function daysUntil(deadline) {
+  if (!deadline) return null;
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const date = new Date(`${deadline}T00:00:00`);
+  if (Number.isNaN(date.getTime())) return null;
+  return Math.ceil((date - today) / 86400000);
+}
+
+function deadlineLabel(deadline, status = "Published") {
+  if (status === "Closed") return "Closed";
+  const days = daysUntil(deadline);
+  if (days === null) return "No deadline";
+  if (days < 0) return "Closed";
+  if (days === 0) return "Closing Today";
+  return `${days} days remaining`;
+}
+
+function opportunityMatchesProfile(opportunity, profile = {}) {
+  const programme = normalizeDashboardValue(profile.programme);
+  const level = normalizeDashboardValue(profile.level);
+  const opportunityProgramme = normalizeDashboardValue(opportunity.programme);
+  const opportunityLevel = normalizeDashboardValue(opportunity.level);
+  const matchesProgramme = opportunityProgramme === "all programmes" || opportunityProgramme === programme;
+  const matchesLevel = opportunityLevel === "all levels" || opportunityLevel === level;
+  return matchesProgramme && matchesLevel;
+}
+
+async function loadDashboardResources(profile = {}) {
+  if (!document.body.classList.contains("student-dashboard-page")) return;
+
+  try {
+    const snapshot = await getDocs(query(collection(db, "resources"), where("status", "==", "Published")));
+    const resources = snapshot.docs
+      .map(documentSnapshot => ({
+        id: documentSnapshot.id,
+        ...documentSnapshot.data()
+      }))
+      .filter(resource => resourceMatchesProfile(resource, profile));
+
+    if (!resources.length) {
+      renderResourceCards(["No learning resources have been published for your programme yet.", "Resources will appear here", "Check back later"]);
+      return;
+    }
+
+    const resourceLabels = [
+      `${resources.length} resources available`,
+      `Recent: ${cleanUserValue(resources[0].title) || "Learning resource"}`,
+      `Recommended: ${cleanUserValue(resources[0].category) || cleanUserValue(resources[0].resourceType) || "Resource"}`
+    ];
+    renderResourceCards(resourceLabels);
+  } catch (error) {
+    renderResourceCards(["Resources unavailable", "Please refresh", "Try again later"]);
+    console.error("[Dashboard] Failed to load resources", {
+      code: error.code,
+      message: error.message,
+      error
+    });
+  }
+}
+
+function renderDashboardOpportunities(opportunities) {
+  const list = document.querySelector(".opportunity-list");
+  const deadlines = document.querySelector(".deadline-list");
+  if (!list || !deadlines) return;
+
+  list.replaceChildren();
+  deadlines.replaceChildren();
+
+  if (!opportunities.length) {
+    list.innerHTML = '<article><b>No opportunities currently match your profile.</b><p>Check back soon for new updates.</p><span>Opportunities</span></article>';
+    deadlines.innerHTML = '<li><b>--</b><span>No matching opportunity deadlines yet.</span></li>';
+    return;
+  }
+
+  opportunities.slice(0, 2).forEach(opportunity => {
+    const item = document.createElement("article");
+    const title = document.createElement("b");
+    const description = document.createElement("p");
+    const meta = document.createElement("span");
+    title.textContent = cleanUserValue(opportunity.title) || "Opportunity";
+    description.textContent = cleanUserValue(opportunity.organization) || cleanUserValue(opportunity.description) || "Published opportunity";
+    meta.textContent = deadlineLabel(opportunity.deadline, opportunity.status);
+    item.append(title, description, meta);
+    list.append(item);
+  });
+
+  opportunities
+    .slice()
+    .sort((a, b) => (daysUntil(a.deadline) ?? 9999) - (daysUntil(b.deadline) ?? 9999))
+    .slice(0, 3)
+    .forEach(opportunity => {
+      const li = document.createElement("li");
+      const date = document.createElement("b");
+      const text = document.createElement("span");
+      date.textContent = deadlineLabel(opportunity.deadline, opportunity.status);
+      text.textContent = cleanUserValue(opportunity.title) || "Opportunity deadline";
+      li.append(date, text);
+      deadlines.append(li);
+    });
+}
+
+async function loadDashboardOpportunities(profile = {}) {
+  if (!document.body.classList.contains("student-dashboard-page")) return;
+
+  try {
+    const snapshot = await getDocs(query(collection(db, "opportunities"), where("status", "==", "Published")));
+    const opportunities = snapshot.docs
+      .map(documentSnapshot => ({
+        id: documentSnapshot.id,
+        ...documentSnapshot.data()
+      }))
+      .filter(opportunity => opportunityMatchesProfile(opportunity, profile));
+    renderDashboardOpportunities(opportunities);
+  } catch (error) {
+    renderDashboardOpportunities([]);
+    console.error("[Dashboard] Failed to load opportunities", {
+      code: error.code,
+      message: error.message,
+      error
+    });
+  }
+}
+
+function renderDashboardRoadmap(roadmap) {
+  const title = document.querySelector("[data-dashboard-roadmap-title]");
+  const description = document.querySelector("[data-dashboard-roadmap-description]");
+  const programme = document.querySelector("[data-dashboard-roadmap-programme]");
+  const status = document.querySelector("[data-dashboard-roadmap-status]");
+  const sideText = document.querySelector("[data-dashboard-roadmap-side-text]");
+  const card = document.querySelector("[data-dashboard-roadmap-card]");
+
+  const roadmapTitle = cleanUserValue(roadmap.title) || "Published Roadmap";
+  const roadmapProgramme = cleanUserValue(roadmap.programme) || "Programme";
+  const roadmapLevel = cleanUserValue(roadmap.level);
+  const descriptionText = roadmapDescription(roadmap);
+  const skills = asList(roadmap.skills);
+  const resources = asList(roadmap.resources);
+  const totalSkills = skills.length;
+  const completedSkills = 0;
+  const remainingSkills = totalSkills;
+  const nextSkill = skills[0] || "No skill added yet";
+  const duration = cleanUserValue(roadmap.estimatedDuration) || "Duration not added";
+  const difficulty = cleanUserValue(roadmap.difficulty) || "Difficulty not added";
+
+  if (title) title.textContent = roadmapTitle;
+  if (description) description.textContent = `${descriptionText} Duration: ${duration}. Difficulty: ${difficulty}.`;
+  if (programme) programme.textContent = `${roadmapProgramme}${roadmapLevel ? ` - ${roadmapLevel}` : ""}`;
+  if (status) status.textContent = "Published";
+  if (sideText) sideText.textContent = `${roadmapProgramme}${roadmapLevel ? ` Level ${roadmapLevel}` : ""} roadmap is ready.`;
+
+  document.querySelectorAll("[data-dashboard-roadmap-link]").forEach(link => {
+    link.href = "program-roadmaps.html";
+    link.textContent = "Continue";
+  });
+
+  if (card) {
+    card.querySelector("b").textContent = roadmapTitle;
+    card.querySelector("span").textContent = skills.length ? `Skills preview: ${skills.slice(0, 3).join(", ")}` : descriptionText;
+    card.querySelector("small").textContent = `${difficulty} - ${duration}`;
+  }
+
+  setText("[data-roadmap-progress-title]", "0% complete");
+  setText("[data-roadmap-progress-note]", totalSkills ? `${totalSkills} skills in this roadmap.` : "No skills have been added yet.");
+  setText("[data-roadmap-progress-copy]", totalSkills ? "Progress starts at 0% and will update as roadmap tracking becomes available." : "Skills will appear here after this roadmap is updated.");
+  setText("[data-roadmap-completed-skills]", String(completedSkills));
+  setText("[data-roadmap-remaining-skills]", String(remainingSkills));
+  setText("[data-roadmap-total-skills]", String(totalSkills));
+  const progressBar = document.querySelector("[data-roadmap-progress-bar]");
+  if (progressBar) progressBar.style.width = "0%";
+
+  setText("[data-roadmap-next-skill-title]", nextSkill);
+  setText("[data-roadmap-next-skill-copy]", totalSkills ? "Start here to begin your roadmap." : "Your next skill will appear once skills are added to this roadmap.");
+  renderNextSkillCard(nextSkill, totalSkills ? `${roadmapTitle} - ${difficulty}` : "No skill has been added to this roadmap yet.", "Continue");
+  renderResourceCards(resources.length ? resources.slice(0, 3) : ["No resource added yet", "Resources will appear here", "Check back later"]);
+}
+
+function renderDashboardRoadmapEmpty() {
+  document.querySelectorAll("[data-dashboard-roadmap-link]").forEach(link => {
+    link.href = "program-roadmaps.html";
+    link.textContent = "Explore";
+  });
+
+  setText("[data-dashboard-roadmap-title]", "No roadmap assigned yet");
+  setText("[data-dashboard-roadmap-description]", "No roadmap has been assigned to your programme yet. Please check back later.");
+  setText("[data-dashboard-roadmap-programme]", "Roadmap unavailable");
+  setText("[data-dashboard-roadmap-status]", "Not assigned");
+  setText("[data-dashboard-roadmap-side-text]", "No roadmap has been assigned yet.");
+  const card = document.querySelector("[data-dashboard-roadmap-card]");
+  if (card) {
+    card.querySelector("b").textContent = "No roadmap assigned yet";
+    card.querySelector("span").textContent = "No roadmap has been assigned to your programme yet. Please check back later.";
+    card.querySelector("small").textContent = "Roadmaps";
+  }
+  setText("[data-roadmap-progress-title]", "0% complete");
+  setText("[data-roadmap-progress-note]", "No roadmap progress yet.");
+  setText("[data-roadmap-progress-copy]", "Your progress will appear once a roadmap is assigned to your programme and level.");
+  setText("[data-roadmap-completed-skills]", "0");
+  setText("[data-roadmap-remaining-skills]", "0");
+  setText("[data-roadmap-total-skills]", "0");
+  const progressBar = document.querySelector("[data-roadmap-progress-bar]");
+  if (progressBar) progressBar.style.width = "0%";
+  setText("[data-roadmap-next-skill-title]", "No skill assigned yet");
+  setText("[data-roadmap-next-skill-copy]", "Your next skill will appear when your roadmap is published.");
+  renderNextSkillCard("No skill assigned yet", "Please check back later.", "Roadmaps");
+  renderResourceCards(["No resource assigned yet", "Resources will appear here", "Check back later"]);
+}
+
+function renderDashboardRoadmapError() {
+  setText("[data-dashboard-roadmap-title]", "Roadmap unavailable");
+  setText("[data-dashboard-roadmap-description]", "We could not load your roadmap right now. Please refresh or try again later.");
+  setText("[data-dashboard-roadmap-status]", "Connection issue");
+  setText("[data-roadmap-progress-title]", "0% complete");
+  setText("[data-roadmap-progress-note]", "Roadmap could not be loaded.");
+  setText("[data-roadmap-progress-copy]", "Please check your connection and try again.");
+  setText("[data-roadmap-completed-skills]", "0");
+  setText("[data-roadmap-remaining-skills]", "0");
+  setText("[data-roadmap-total-skills]", "0");
+  setText("[data-roadmap-next-skill-title]", "Roadmap unavailable");
+  setText("[data-roadmap-next-skill-copy]", "We could not load your next skill right now.");
+  renderNextSkillCard("Roadmap unavailable", "Please refresh or try again later.", "Retry");
+  renderResourceCards(["Resources unavailable", "Please refresh", "Try again later"]);
+}
+
+async function loadPublishedDashboardRoadmaps(profile = {}) {
+  if (!document.body.classList.contains("student-dashboard-page")) return;
+
+  setDashboardRoadmapDefaults();
+
+  try {
+    const programme = cleanUserValue(profile.programme);
+    const level = cleanUserValue(profile.level);
+    if (!programme || !level) {
+      renderDashboardRoadmapEmpty();
+      return;
+    }
+
+    const snapshot = await getDocs(query(
+      collection(db, "roadmaps"),
+      where("programme", "==", programme),
+      where("level", "==", level),
+      where("status", "==", "Published")
+    ));
+    const roadmaps = snapshot.docs.map(documentSnapshot => ({
+      id: documentSnapshot.id,
+      ...documentSnapshot.data()
+    }));
+
+    if (!roadmaps.length) {
+      renderDashboardRoadmapEmpty();
+      return;
+    }
+
+    renderDashboardRoadmap(roadmaps[0]);
+  } catch (error) {
+    renderDashboardRoadmapError();
+    console.error("[Dashboard] Failed to load published roadmaps", {
+      collection: "roadmaps",
+      status: "Published",
+      code: error.code,
+      message: error.message,
+      error
+    });
+  }
 }
 
 function setFormProcessing(form, isProcessing, loadingText = "Please wait...") {
@@ -203,6 +591,121 @@ function setupLogout() {
   });
 }
 
+function setupDashboardSearch() {
+  const searchToggle = document.querySelector("[data-dashboard-search-toggle]");
+  const searchPanel = byId("dashboardSearchPanel");
+  const searchInput = byId("dashboardSearchInput");
+  const searchResults = byId("dashboardSearchResults");
+
+  if (!searchToggle || !searchPanel || !searchInput || !searchResults) return;
+
+  const searchItems = [
+    { label: "Home", description: "Return to the A.E CONNECT SPACE homepage", href: "index.html" },
+    { label: "Programs", description: "Browse available student programs", href: "programs.html" },
+    { label: "Program Roadmaps", description: "Explore student roadmaps", href: "program-roadmaps.html" },
+    { label: "Skills Hub", description: "Browse practical skills", href: "skills.html" },
+    { label: "Opportunities", description: "Find internships, roles, and openings", href: "opportunities.html" },
+    { label: "Scholarships", description: "Explore scholarship opportunities", href: "scholarships.html" },
+    { label: "Entrepreneurship", description: "Build and sell student ideas", href: "entrepreneurship.html" },
+    { label: "Community", description: "Connect with students and peers", href: "networking.html" },
+    { label: "Events", description: "View upcoming A.E CONNECT events", href: "events.html" },
+    { label: "Stories", description: "Read student success stories", href: "stories.html" },
+    { label: "Resources", description: "Open resources and guides", href: "resources.html" },
+    { label: "Saved", description: "Jump to saved dashboard items", href: "#saved" },
+    { label: "Profile", description: "Manage your account profile", href: "auth.html" }
+  ];
+
+  function closeSearch() {
+    searchPanel.hidden = true;
+    searchToggle.setAttribute("aria-expanded", "false");
+  }
+
+  function openSearch() {
+    searchPanel.hidden = false;
+    searchToggle.setAttribute("aria-expanded", "true");
+    renderSearchResults(searchInput.value);
+    searchInput.focus();
+  }
+
+  function navigateToResult(href) {
+    if (href.startsWith("#")) {
+      closeSearch();
+      document.querySelector(href)?.scrollIntoView({ behavior: "smooth", block: "start" });
+      history.replaceState(null, "", href);
+      return;
+    }
+
+    window.location.href = href;
+  }
+
+  function createSearchResult(item) {
+    const button = document.createElement("button");
+    const title = document.createElement("strong");
+    const description = document.createElement("span");
+
+    button.type = "button";
+    title.textContent = item.label;
+    description.textContent = item.description;
+    button.append(title, description);
+    button.addEventListener("click", () => navigateToResult(item.href));
+
+    return button;
+  }
+
+  function renderSearchResults(query = "") {
+    const cleanQuery = query.trim().toLowerCase();
+    const matches = searchItems.filter(item => {
+      const text = `${item.label} ${item.description}`.toLowerCase();
+      return !cleanQuery || text.includes(cleanQuery);
+    });
+
+    searchResults.replaceChildren();
+    const visibleResults = matches.length ? matches : [{ label: "No results found", description: "Try searching for roadmaps, skills, opportunities, or resources.", href: "" }];
+
+    visibleResults.slice(0, 6).forEach(item => {
+      if (!item.href) {
+        const emptyState = document.createElement("p");
+        emptyState.textContent = item.description;
+        searchResults.append(emptyState);
+        return;
+      }
+
+      searchResults.append(createSearchResult(item));
+    });
+  }
+
+  searchToggle.addEventListener("click", event => {
+    event.stopPropagation();
+    if (searchPanel.hidden) {
+      openSearch();
+    } else {
+      closeSearch();
+    }
+  });
+
+  searchInput.addEventListener("input", () => renderSearchResults(searchInput.value));
+  searchInput.addEventListener("keydown", event => {
+    if (event.key === "Escape") {
+      closeSearch();
+      searchToggle.focus();
+    }
+
+    if (event.key === "Enter") {
+      event.preventDefault();
+      const firstResult = searchResults.querySelector("button");
+      firstResult?.click();
+    }
+  });
+
+  document.addEventListener("click", event => {
+    if (!searchPanel.hidden && !searchPanel.contains(event.target) && event.target !== searchToggle) {
+      closeSearch();
+    }
+  });
+
+  renderSearchResults();
+}
+
 function setupAuthRedirect() {
   if (!document.body.classList.contains("auth-page")) return;
 
@@ -241,6 +744,9 @@ async function loadDashboardProfile() {
     setUserField("country", country);
     setUserField("countryLabel", country ? `Country: ${country}` : getUserFieldDefault("countryLabel"));
     setUserField("programmeLevel", formatProgrammeLevel(programme, level));
+    await loadPublishedDashboardRoadmaps(data);
+    await loadDashboardResources(data);
+    await loadDashboardOpportunities(data);
 
     console.info("[Dashboard] User profile loaded", {
       uid: user.uid,
@@ -263,5 +769,6 @@ setupAuthTabs();
 setupRegisterForm();
 setupLoginForm();
 setupLogout();
+setupDashboardSearch();
 setupAuthRedirect();
 setupDashboardProtection();

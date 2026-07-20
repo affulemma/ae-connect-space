@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Dashboard | A.E CONNECT</title>
+<link rel="stylesheet" href="../STYLE/style.css">
+<link rel="stylesheet" href="../STYLE/responsive.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body class="ae-admin-page">
+<aside class="admin-sidebar" aria-label="Admin navigation">
+<a class="admin-brand" href="admin.html"><img src="../ASSETS/logo/logo.png" alt="A.E CONNECT SPACE logo"><span>A.E CONNECT Admin</span></a>
+<nav>
+<a class="active" href="#dashboard" data-admin-section-link="dashboard"><span>DB</span>Dashboard</a>
+<a href="#students" data-admin-section-link="students"><span>ST</span>Students</a>
+<a href="#roadmaps" data-admin-section-link="roadmaps"><span>RM</span>Program Roadmaps</a>
+<a href="#opportunities" data-admin-section-link="opportunities"><span>OP</span>Opportunities</a>
+<a href="#resources" data-admin-section-link="resources"><span>RS</span>Resources</a>
+<a href="#stories" data-admin-section-link="stories"><span>NW</span>Stories</a>
+<a href="#events" data-admin-section-link="events"><span>EV</span>Events</a>
+<a href="#community" data-admin-section-link="community"><span>CM</span>Community</a>
+<a href="#marketplace" data-admin-section-link="marketplace"><span>MK</span>Marketplace</a>
+<a href="#announcements" data-admin-section-link="announcements"><span>AN</span>Announcements</a>
+<a href="#admins" data-admin-section-link="admins"><span>AD</span>Admins</a>
+<a href="#settings" data-admin-section-link="settings"><span>SE</span>Settings</a>
+</nav>
+<div class="admin-sidebar-card">
+<strong data-admin-name>Admin</strong>
+<p data-admin-email>Checking access...</p>
+<a href="dashboard.html">Student dashboard</a>
+</div>
+</aside>
+
+<main class="admin-main">
+<header class="admin-topbar">
+<div>
+<p>ADMIN CONTROL CENTER</p>
+<h1>A.E CONNECT Management</h1>
+</div>
+<div class="admin-top-actions">
+<a href="index.html">Home</a>
+<a href="dashboard.html">Student View</a>
+<button type="button" data-admin-logout>Logout</button>
+</div>
+</header>
+
+<section class="admin-access-banner" data-admin-status>
+<strong>Checking admin access...</strong>
+<span>Only approved admin accounts can use this dashboard.</span>
+</section>
+
+<section class="admin-section is-active" id="dashboard" data-admin-section="dashboard">
+<div class="admin-section-head">
+<div><span>Overview</span><h2>Dashboard</h2></div>
+<p>Live counts load from your platform data. No demo statistics are used.</p>
+</div>
+<div class="admin-metric-grid">
+<article><span>Students</span><strong data-count="users">--</strong><small>users collection</small></article>
+<article><span>Total Roadmaps</span><strong data-count="roadmaps">--</strong><small>roadmaps collection</small></article>
+<article><span>Published Roadmaps</span><strong data-count="roadmaps-published">--</strong><small>visible when published</small></article>
+<article><span>Draft Roadmaps</span><strong data-count="roadmaps-draft">--</strong><small>admin drafts</small></article>
+<article><span>Opportunities</span><strong data-count="opportunities">--</strong><small>opportunities collection</small></article>
+<article><span>Resources</span><strong data-count="resources">--</strong><small>resources collection</small></article>
+<article><span>Events</span><strong data-count="events">--</strong><small>events collection</small></article>
+<article><span>Stories</span><strong data-count="stories">--</strong><small>stories collection</small></article>
+</div>
+</section>
+
+<section class="admin-section" id="students" data-admin-section="students">
+<div class="admin-section-head">
+<div><span>User management</span><h2>Students</h2></div>
+<p>Search, filter, and review registered users.</p>
+</div>
+<div class="admin-student-summary">
+<article><span>Total Registered Users</span><strong data-student-total>--</strong><small>Loaded from registered accounts</small></article>
+</div>
+<div class="admin-toolbar">
+<input type="search" id="adminStudentSearch" placeholder="Search by full name or email...">
+<select id="adminUniversityFilter" aria-label="Filter by university"><option value="all">All universities</option></select>
+<select id="adminProgrammeFilter" aria-label="Filter by programme"><option value="all">All programmes</option></select>
+<select id="adminLevelFilter" aria-label="Filter by level"><option value="all">All levels</option></select>
+<select id="adminCountryFilter" aria-label="Filter by country"><option value="all">All countries</option></select>
+</div>
+<div class="admin-data-grid">
+<div class="admin-table-wrap">
+<table class="admin-table">
+<thead><tr><th>Full Name</th><th>Email</th><th>University</th><th>Programme</th><th>Level</th><th>Country</th><th>Role</th><th>Date Joined</th><th>Actions</th></tr></thead>
+<tbody id="adminStudentsTable"><tr><td colspan="9">Loading users...</td></tr></tbody>
+</table>
+</div>
+<aside class="admin-profile-panel" id="adminStudentProfile">
+<span>Student Profile</span>
+<h3>Select a student</h3>
+<p>Profile details will appear here.</p>
+</aside>
+</div>
+</section>
+
+<section class="admin-section" id="roadmaps" data-admin-section="roadmaps">
+<div class="admin-section-head"><div><span>Content</span><h2>Program Roadmaps</h2></div><p>Create, edit, delete, and publish roadmaps.</p></div>
+<div class="admin-action-grid">
+<article><h3>Create Roadmap</h3><p>Add a new programme roadmap.</p><button type="button" data-roadmap-create-button>Create</button></article>
+<article><h3>Edit Roadmaps</h3><p>Update roadmap titles, skills, and related resources from the table.</p><button type="button" data-roadmap-table-focus>Edit</button></article>
+<article><h3>Delete Roadmaps</h3><p>Remove retired or incorrect roadmap drafts.</p><button type="button" data-roadmap-table-focus>Delete</button></article>
+<article><h3>Publish Roadmaps</h3><p>Review draft roadmaps and publish them to students.</p><button type="button" data-roadmap-table-focus>Publish</button></article>
+</div>
+<div class="admin-empty-state" data-roadmap-form-panel hidden>
+<form class="admin-form" id="adminRoadmapForm">
+<input type="hidden" id="roadmapId">
+<label>Programme<input type="text" id="roadmapProgramme" required placeholder="Business, Economics, Nursing..."></label>
+<label>Level<input type="text" id="roadmapLevel" required placeholder="100, 200, 300..."></label>
+<label>Roadmap Title<input type="text" id="roadmapTitle" required placeholder="Business - Level 100 Roadmap"></label>
+<label>Short Description<textarea id="roadmapDescription" rows="3" required placeholder="Briefly describe what students will learn and do."></textarea></label>
+<label>Learning Objectives<textarea id="roadmapObjectives" rows="3" placeholder="Enter objectives separated by commas or new lines."></textarea></label>
+<label>Skills<textarea id="roadmapSkills" rows="3" placeholder="Enter skills separated by commas or new lines."></textarea></label>
+<label>Resources<textarea id="roadmapResources" rows="3" placeholder="Enter resources separated by commas or new lines."></textarea></label>
+<label>Estimated Duration<input type="text" id="roadmapDuration" placeholder="4 weeks, 8 modules, 20 hours..."></label>
+<label>Difficulty<select id="roadmapDifficulty" required><option value="Beginner">Beginner</option><option value="Intermediate">Intermediate</option><option value="Advanced">Advanced</option></select></label>
+<label>Status<select id="roadmapStatus" required><option value="Draft">Draft</option><option value="Published">Published</option></select></label>
+<div class="admin-form-actions">
+<button type="submit" data-roadmap-submit>Save Roadmap</button>
+<button type="button" data-roadmap-cancel>Cancel</button>
+</div>
+</form>
+</div>
+<div class="admin-empty-state" data-roadmap-feedback>Roadmaps load from your content library.</div>
+<div class="admin-table-wrap">
+<table class="admin-table">
+<thead><tr><th>Title</th><th>Programme</th><th>Level</th><th>Status</th><th>Last Updated</th><th>Actions</th></tr></thead>
+<tbody id="adminRoadmapsTable"><tr><td colspan="6">Loading roadmaps...</td></tr></tbody>
+</table>
+</div>
+</section>
+
+<section class="admin-section" id="opportunities" data-admin-section="opportunities">
+<div class="admin-section-head"><div><span>Listings</span><h2>Opportunities</h2></div><p>Add, edit, delete, and publish opportunities.</p></div>
+<div class="admin-action-grid">
+<article><h3>Add Opportunity</h3><p>Create internships, scholarships, fellowships, jobs, and calls.</p><button type="button" data-opportunity-create-button>Add</button></article>
+<article><h3>Edit Opportunities</h3><p>Update details, deadlines, links, and publishing status from the table.</p><button type="button" data-opportunity-table-focus>Edit</button></article>
+<article><h3>Delete Opportunities</h3><p>Remove expired, duplicate, or incorrect opportunities.</p><button type="button" data-opportunity-table-focus>Delete</button></article>
+</div>
+<div class="admin-empty-state" data-opportunity-form-panel hidden>
+<form class="admin-form" id="adminOpportunityForm">
+<input type="hidden" id="opportunityId">
+<label>Opportunity Title<input type="text" id="opportunityTitle" required placeholder="Data Analyst Internship"></label>
+<label>Opportunity Type<select id="opportunityType" required><option value="Internship">Internship</option><option value="Scholarship">Scholarship</option><option value="Job">Job</option><option value="Competition">Competition</option><option value="Conference">Conference</option><option value="Workshop">Workshop</option><option value="Fellowship">Fellowship</option><option value="Exchange Programme">Exchange Programme</option><option value="Volunteer Programme">Volunteer Programme</option></select></label>
+<label>Organization<input type="text" id="opportunityOrganization" required placeholder="Organization name"></label>
+<label>Eligibility<textarea id="opportunityEligibility" rows="3" placeholder="Who can apply?"></textarea></label>
+<label>Programme<input type="text" id="opportunityProgramme" required value="All Programmes" placeholder="Business or All Programmes"></label>
+<label>Level<input type="text" id="opportunityLevel" required value="All Levels" placeholder="100 or All Levels"></label>
+<label>Country<input type="text" id="opportunityCountry" placeholder="Ghana, Remote, Global..."></label>
+<label>Location<input type="text" id="opportunityLocation" placeholder="Accra, Remote, Online..."></label>
+<label>Deadline<input type="date" id="opportunityDeadline"></label>
+<label>Application Link<input type="url" id="opportunityLink" placeholder="https://example.com/apply"></label>
+<label>Cover Image<input type="url" id="opportunityCoverImage" placeholder="https://example.com/image.jpg"></label>
+<label>Featured<select id="opportunityFeatured"><option value="No">No</option><option value="Yes">Yes</option></select></label>
+<label>Description<textarea id="opportunityDescription" rows="4" required placeholder="Describe who should apply and what the opportunity offers."></textarea></label>
+<label>Status<select id="opportunityStatus" required><option value="Draft">Draft</option><option value="Published">Published</option><option value="Closed">Closed</option></select></label>
+<div class="admin-form-actions">
+<button type="submit" data-opportunity-submit>Save Opportunity</button>
+<button type="button" data-opportunity-cancel>Cancel</button>
+</div>
+</form>
+</div>
+<div class="admin-empty-state" data-opportunity-feedback>Opportunities load from your listings library.</div>
+<div class="admin-table-wrap">
+<table class="admin-table">
+<thead><tr><th>Title</th><th>Organization</th><th>Type</th><th>Programme</th><th>Level</th><th>Deadline</th><th>Status</th><th>Actions</th></tr></thead>
+<tbody id="adminOpportunitiesTable"><tr><td colspan="8">Loading opportunities...</td></tr></tbody>
+</table>
+</div>
+</section>
+
+<section class="admin-section" id="resources" data-admin-section="resources">
+<div class="admin-section-head"><div><span>Library</span><h2>Resources</h2></div><p>Upload PDFs and learning materials, then edit or delete them.</p></div>
+<div class="admin-action-grid">
+<article><h3>Upload Material</h3><p>Prepare PDFs, guides, books, checklists, and learning resources.</p><button type="button" data-content-create="resources">Upload</button></article>
+<article><h3>Edit Resources</h3><p>Edit resource metadata, categories, visibility, and files.</p><button type="button" data-content-focus="resources">Edit</button></article>
+<article><h3>Delete Resources</h3><p>Remove outdated PDFs and learning materials.</p><button type="button" data-content-focus="resources">Delete</button></article>
+</div>
+<div class="admin-empty-state" data-content-form-panel="resources" hidden>
+<form class="admin-form" id="adminResourcesForm" data-content-form="resources">
+<input type="hidden" data-field="id">
+<label>Title<input type="text" data-field="title" required placeholder="Resource title"></label>
+<label>Programme<input type="text" data-field="programme" required value="All Programmes" placeholder="Business or All Programmes"></label>
+<label>Level<input type="text" data-field="level" required value="All Levels" placeholder="100 or All Levels"></label>
+<label>Category<input type="text" data-field="category" placeholder="Career, Skills, Roadmaps..."></label>
+<label>Resource Type<select data-field="resourceType" required><option value="PDF">PDF</option><option value="Book">Book</option><option value="Video">Video</option><option value="Template">Template</option><option value="Website">Website</option><option value="Link">Link</option><option value="Course">Course</option></select></label>
+<label>Upload File<input type="file" id="resourceFile" accept=".pdf,.doc,.docx,.ppt,.pptx,.xls,.xlsx,.csv,.png,.jpg,.jpeg,.webp,.zip"></label>
+<label>External URL<input type="url" data-field="externalUrl" placeholder="https://example.com/resource"></label>
+<label>Thumbnail URL<input type="url" data-field="thumbnail" placeholder="https://example.com/thumbnail.jpg"></label>
+<label>Description<textarea data-field="description" rows="4" required placeholder="Describe this learning material."></textarea></label>
+<label>Published Status<select data-field="status" required><option value="Draft">Draft</option><option value="Published">Published</option></select></label>
+<div class="admin-form-actions"><button type="submit">Save Resource</button><button type="button" data-content-cancel="resources">Cancel</button></div>
+</form>
+</div>
+<div class="admin-empty-state" data-content-feedback="resources">Resources load from your library.</div>
+<div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>Title</th><th>Programme</th><th>Level</th><th>Category</th><th>Type</th><th>Status</th><th>Uploaded Date</th><th>Actions</th></tr></thead><tbody data-content-table="resources"><tr><td colspan="8">Loading resources...</td></tr></tbody></table></div>
+</section>
+
+<section class="admin-section" id="stories" data-admin-section="stories">
+<div class="admin-section-head"><div><span>Publishing</span><h2>Stories</h2></div><p>Publish student success stories and news.</p></div>
+<div class="admin-action-grid">
+<article><h3>New Story</h3><p>Create news, updates, and student success stories.</p><button type="button" data-content-create="stories">Create</button></article>
+<article><h3>Editorial Queue</h3><p>Review drafts before publishing.</p><button type="button" data-content-focus="stories">Review</button></article>
+</div>
+<div class="admin-empty-state" data-content-form-panel="stories" hidden>
+<form class="admin-form" id="adminStoriesForm" data-content-form="stories">
+<input type="hidden" data-field="id">
+<label>Title<input type="text" data-field="title" required placeholder="Story title"></label>
+<label>Category<input type="text" data-field="category" required placeholder="Success Story, News, Update..."></label>
+<label>Author<input type="text" data-field="author" placeholder="Author or student name"></label>
+<label>Image Link<input type="url" data-field="imageUrl" placeholder="https://example.com/image.jpg"></label>
+<label>Story<textarea data-field="description" rows="5" required placeholder="Write the story or news update."></textarea></label>
+<label>Status<select data-field="status" required><option value="Draft">Draft</option><option value="Published">Published</option></select></label>
+<div class="admin-form-actions"><button type="submit">Save Story</button><button type="button" data-content-cancel="stories">Cancel</button></div>
+</form>
+</div>
+<div class="admin-empty-state" data-content-feedback="stories">Stories load from your publishing queue.</div>
+<div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>Title</th><th>Category</th><th>Author</th><th>Status</th><th>Created At</th><th>Actions</th></tr></thead><tbody data-content-table="stories"><tr><td colspan="6">Loading stories...</td></tr></tbody></table></div>
+</section>
+
+<section class="admin-section" id="events" data-admin-section="events">
+<div class="admin-section-head"><div><span>Calendar</span><h2>Events</h2></div><p>Create and manage events.</p></div>
+<div class="admin-action-grid">
+<article><h3>Create Event</h3><p>Add title, date, venue, host, and registration details.</p><button type="button" data-content-create="events">Create</button></article>
+<article><h3>Manage Events</h3><p>Edit, publish, postpone, or archive events.</p><button type="button" data-content-focus="events">Manage</button></article>
+</div>
+<div class="admin-empty-state" data-content-form-panel="events" hidden>
+<form class="admin-form" id="adminEventsForm" data-content-form="events">
+<input type="hidden" data-field="id">
+<label>Title<input type="text" data-field="title" required placeholder="Event title"></label>
+<label>Date<input type="date" data-field="eventDate" required></label>
+<label>Venue<input type="text" data-field="venue" placeholder="Venue or online platform"></label>
+<label>Host<input type="text" data-field="host" placeholder="Host or partner"></label>
+<label>Registration Link<input type="url" data-field="link" placeholder="https://example.com/register"></label>
+<label>Description<textarea data-field="description" rows="4" required placeholder="Describe the event."></textarea></label>
+<label>Status<select data-field="status" required><option value="Draft">Draft</option><option value="Published">Published</option></select></label>
+<div class="admin-form-actions"><button type="submit">Save Event</button><button type="button" data-content-cancel="events">Cancel</button></div>
+</form>
+</div>
+<div class="admin-empty-state" data-content-feedback="events">Events load from your calendar.</div>
+<div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>Title</th><th>Date</th><th>Venue</th><th>Host</th><th>Status</th><th>Created At</th><th>Actions</th></tr></thead><tbody data-content-table="events"><tr><td colspan="7">Loading events...</td></tr></tbody></table></div>
+</section>
+
+<section class="admin-section" id="community" data-admin-section="community">
+<div class="admin-section-head"><div><span>Moderation</span><h2>Community</h2></div><p>Moderate posts and comments.</p></div>
+<div class="admin-action-grid">
+<article><h3>Review Posts</h3><p>Moderate reported posts and student discussions.</p><button type="button" data-content-create="community">Add Post</button></article>
+<article><h3>Review Comments</h3><p>Moderate comments and community replies.</p><button type="button" data-content-focus="community">Review Queue</button></article>
+</div>
+<div class="admin-empty-state" data-content-form-panel="community" hidden>
+<form class="admin-form" id="adminCommunityForm" data-content-form="community">
+<input type="hidden" data-field="id">
+<label>Post Title<input type="text" data-field="title" required placeholder="Community post title"></label>
+<label>Author<input type="text" data-field="author" placeholder="Student or moderator name"></label>
+<label>Category<input type="text" data-field="category" placeholder="Discussion, Question, Announcement..."></label>
+<label>Post<textarea data-field="description" rows="4" required placeholder="Write or review the community post."></textarea></label>
+<label>Status<select data-field="status" required><option value="Pending">Pending</option><option value="Published">Published</option><option value="Rejected">Rejected</option></select></label>
+<div class="admin-form-actions"><button type="submit">Save Post</button><button type="button" data-content-cancel="community">Cancel</button></div>
+</form>
+</div>
+<div class="admin-empty-state" data-content-feedback="community">Community items load from your moderation queue.</div>
+<div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>Title</th><th>Author</th><th>Category</th><th>Status</th><th>Created At</th><th>Actions</th></tr></thead><tbody data-content-table="community"><tr><td colspan="6">Loading community items...</td></tr></tbody></table></div>
+</section>
+
+<section class="admin-section" id="marketplace" data-admin-section="marketplace">
+<div class="admin-section-head"><div><span>Commerce</span><h2>Marketplace</h2></div><p>Manage student marketplace listings.</p></div>
+<div class="admin-action-grid">
+<article><h3>Listings</h3><p>Approve, reject, feature, or remove marketplace listings.</p><button type="button" data-content-create="marketplace">Add Listing</button></article>
+</div>
+<div class="admin-empty-state" data-content-form-panel="marketplace" hidden>
+<form class="admin-form" id="adminMarketplaceForm" data-content-form="marketplace">
+<input type="hidden" data-field="id">
+<label>Listing Title<input type="text" data-field="title" required placeholder="Marketplace listing title"></label>
+<label>Seller<input type="text" data-field="seller" placeholder="Seller name"></label>
+<label>Category<input type="text" data-field="category" placeholder="Books, Services, Tech..."></label>
+<label>Price<input type="text" data-field="price" placeholder="GHS 100 or Free"></label>
+<label>Description<textarea data-field="description" rows="4" required placeholder="Describe the listing."></textarea></label>
+<label>Status<select data-field="status" required><option value="Draft">Draft</option><option value="Published">Published</option><option value="Rejected">Rejected</option></select></label>
+<div class="admin-form-actions"><button type="submit">Save Listing</button><button type="button" data-content-cancel="marketplace">Cancel</button></div>
+</form>
+</div>
+<div class="admin-empty-state" data-content-feedback="marketplace">Marketplace listings load from your commerce queue.</div>
+<div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>Title</th><th>Seller</th><th>Category</th><th>Price</th><th>Status</th><th>Created At</th><th>Actions</th></tr></thead><tbody data-content-table="marketplace"><tr><td colspan="7">Loading marketplace listings...</td></tr></tbody></table></div>
+</section>
+
+<section class="admin-section" id="announcements" data-admin-section="announcements">
+<div class="admin-section-head"><div><span>Broadcasts</span><h2>Announcements</h2></div><p>Create announcements visible to students.</p></div>
+<form class="admin-form" id="adminAnnouncementsForm" data-content-form="announcements">
+<input type="hidden" data-field="id">
+<label>Title<input type="text" data-field="title" required placeholder="Announcement title"></label>
+<label>Audience<input type="text" data-field="audience" placeholder="All students, Level 100, Business..."></label>
+<label>Message<textarea data-field="description" rows="4" required placeholder="Write announcement message"></textarea></label>
+<label>Status<select data-field="status" required><option value="Draft">Draft</option><option value="Published">Published</option></select></label>
+<div class="admin-form-actions"><button type="submit">Save Announcement</button><button type="button" data-content-cancel="announcements">Cancel</button></div>
+</form>
+<div class="admin-empty-state" data-content-feedback="announcements">Announcements load from your broadcasts.</div>
+<div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>Title</th><th>Audience</th><th>Status</th><th>Created At</th><th>Actions</th></tr></thead><tbody data-content-table="announcements"><tr><td colspan="5">Loading announcements...</td></tr></tbody></table></div>
+</section>
+
+<section class="admin-section" id="admins" data-admin-section="admins">
+<div class="admin-section-head"><div><span>Access</span><h2>Admins</h2></div><p>View admins, invite new admins, and assign permissions.</p></div>
+<div class="admin-action-grid">
+<article><h3>View Admins</h3><p>Admins are approved accounts with admin access.</p><button type="button" data-admins-refresh>Refresh</button></article>
+<article><h3>Invite Admin</h3><p>Create the user first, then set their role to admin in their profile.</p><button type="button" disabled title="Invite flow will be added later.">Invite</button></article>
+<article><h3>Permissions</h3><p>Assign section-level permissions when roles are expanded.</p><button type="button" disabled title="Permissions will be added later.">Assign</button></article>
+</div>
+<div class="admin-empty-state" data-admins-feedback>Admins load from registered accounts.</div>
+<div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>Full Name</th><th>Email</th><th>University</th><th>Country</th><th>Role</th><th>Date Joined</th></tr></thead><tbody id="adminAdminsTable"><tr><td colspan="6">Loading admins...</td></tr></tbody></table></div>
+</section>
+
+<section class="admin-section" id="settings" data-admin-section="settings">
+<div class="admin-section-head"><div><span>Configuration</span><h2>Settings</h2></div><p>Website settings, contact information, social links, and branding.</p></div>
+<form class="admin-form" id="adminSettingsForm">
+<label>Website Name<input type="text" id="settingWebsiteName" value="A.E CONNECT SPACE"></label>
+<label>Contact Email<input type="email" id="settingContactEmail" placeholder="contact@example.com"></label>
+<label>Social Links<textarea id="settingSocialLinks" rows="4" placeholder="Add social links here"></textarea></label>
+<button type="submit">Save Settings</button>
+</form>
+<div class="admin-empty-state" data-settings-feedback>Settings load from your website configuration.</div>
+</section>
+</main>
+
+<script type="module" src="../BACKEND/admin.js"></script>
+</body>
+</html>

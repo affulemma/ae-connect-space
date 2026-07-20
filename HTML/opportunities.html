@@ -61,8 +61,13 @@
 <button type="button" data-opportunity-filter="Internship">Internships</button>
 <button type="button" data-opportunity-filter="Job">Jobs</button>
 <button type="button" data-opportunity-filter="Fellowship">Fellowships</button>
-<button type="button" data-opportunity-filter="Research">Research</button>
-<button type="button" data-opportunity-filter="Volunteer">Volunteer</button>
+<button type="button" data-opportunity-filter="Scholarship">Scholarships</button>
+<button type="button" data-opportunity-filter="Volunteer Programme">Volunteer</button>
+</div>
+<div class="event-filters" aria-label="More opportunity filters">
+<select id="opportunityCountryFilter" aria-label="Filter by country"><option value="all">All countries</option></select>
+<select id="opportunityProgrammeFilter" aria-label="Filter by programme"><option value="all">All programmes</option></select>
+<select id="opportunityDeadlineFilter" aria-label="Filter by deadline"><option value="all">All deadlines</option><option value="today">Closing today</option><option value="week">Next 7 days</option><option value="month">Next 30 days</option><option value="closed">Closed</option></select>
 </div>
 </div>
 </section>
@@ -92,45 +97,7 @@
 </div>
 </footer>
 
-<script>
-const opportunities=[
-{type:'Internship',location:'Accra, Ghana',title:'Data Analyst Intern',org:'Ghana Statistical Service',deadline:'2026-06-30',description:'Assist in national data collection, analysis, and reporting. Work with large datasets and contribute to policy-relevant research.',skills:['Excel','Data Analysis','SPSS','Report Writing'],programs:['Economics','Statistics','Business Administration']},
-{type:'Internship',location:'Accra, Ghana',title:'Software Engineering Intern',org:'Hubtel',deadline:'2026-07-15',description:'Join a leading fintech team building payment solutions. Work with modern web technologies and agile development practices.',skills:['Python','JavaScript','Git','Teamwork'],programs:['Computer Science','Engineering']},
-{type:'Research',location:'Accra, Ghana',title:'Research Assistant - Economics',org:'Institute of Economic Affairs',deadline:'2026-08-01',description:'Support economic policy research, literature reviews, and data compilation. Ideal for students interested in public policy.',skills:['Research Skills','Excel','Report Writing'],programs:['Economics','Political Science']},
-{type:'Job',location:'Kumasi, Ghana',title:'GIS Technician',org:'Survey and Mapping Division',deadline:'2026-08-20',description:'Create maps, analyze spatial data, and support land use planning projects using ArcGIS and QGIS.',skills:['GIS','QGIS','ArcGIS','Data Visualization'],programs:['Geography & GIS','Engineering']},
-{type:'Internship',location:'Accra, Ghana',title:'Nursing Clinical Placement',org:'Korle-Bu Teaching Hospital',deadline:'2026-09-01',description:'Gain hands-on clinical experience across multiple departments. Work alongside experienced nurses in patient care.',skills:['Patient Assessment','Teamwork','Healthcare IT'],programs:['Nursing']},
-{type:'Fellowship',location:'Accra, Ghana',title:'Youth Leadership Fellowship',org:'YALI West Africa',deadline:'2026-07-30',description:'Intensive leadership training for emerging African leaders. Includes mentorship, workshops, and project development.',skills:['Leadership','Public Speaking','Networking'],programs:['Political Science','Business Administration','Communication Studies','Law']},
-{type:'Job',location:'Accra, Ghana',title:'Audit Associate',org:'KPMG Ghana',deadline:'2026-06-15',description:'Join the audit team and work on financial statement reviews for major clients. Great career starter for accounting students.',skills:['Excel','QuickBooks','Attention to Detail'],programs:['Accounting','Business Administration']},
-{type:'Volunteer',location:'Northern Region, Ghana',title:'Education Volunteer - Rural Schools',org:'Teach For Ghana',deadline:'2026-08-15',description:'Teach in underserved rural communities. Develop curriculum, mentor students, and make a lasting impact.',skills:['Curriculum Design','Public Speaking','Creativity'],programs:['Education']},
-{type:'Internship',location:'Accra, Ghana',title:'Legal Research Intern',org:'Ghana Law Reform Commission',deadline:'2026-07-20',description:'Assist in reviewing legislation, conducting comparative legal research, and drafting reform proposals.',skills:['Legal Research','Report Writing','Critical Thinking'],programs:['Law','Political Science']},
-{type:'Job',location:'Accra, Ghana',title:'Social Media Manager',org:'Pulse Ghana',deadline:'2026-06-25',description:'Manage social media accounts, create content, and analyze engagement metrics for a leading digital media brand.',skills:['Digital Marketing','Media Production','Creativity'],programs:['Communication Studies','Business Administration']},
-{type:'Job',location:'Tema, Ghana',title:'Junior Engineer - Civil',org:'WBHO Construction',deadline:'2026-07-10',description:'Work on major infrastructure projects. Assist in project planning, site supervision, and quality assurance.',skills:['AutoCAD','Project Management','Teamwork'],programs:['Engineering']},
-{type:'Fellowship',location:'Remote / Accra',title:'Data Science Fellowship',org:'Data Science Africa',deadline:'2026-08-30',description:'Intensive 3-month fellowship in machine learning, data visualization, and applied statistics. Mentorship included.',skills:['Python','Data Analysis','SQL'],programs:['Computer Science','Statistics','Economics']}
-];
-
-const opportunityList=document.getElementById('opportunityList');
-const opportunitySearch=document.getElementById('opportunitySearch');
-const filterButtons=[...document.querySelectorAll('[data-opportunity-filter]')];
-let activeOpportunityFilter='all';
-
-function opportunitySlug(item){
-return item.title.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'');
-}
-
-function renderOpportunities(){
-const term=opportunitySearch.value.trim().toLowerCase();
-const filtered=opportunities.filter(item=>{
-const matchesFilter=activeOpportunityFilter==='all'||item.type===activeOpportunityFilter;
-const text=`${item.type} ${item.location} ${item.title} ${item.org} ${item.description} ${item.skills.join(' ')} ${item.programs.join(' ')}`.toLowerCase();
-return matchesFilter&&text.includes(term);
-});
-opportunityList.innerHTML=filtered.map(item=>`<article class="opportunity-row"><div class="opportunity-icon">&#9635;</div><div class="opportunity-info"><div class="opportunity-meta"><span>${item.type}</span><small>${item.location}</small></div><h3>${item.title}</h3><p class="opportunity-org">${item.org}</p><p>${item.description}</p><div class="opportunity-tags">${item.skills.map(skill=>`<span>${skill}</span>`).join('')}</div><div class="opportunity-programs">${item.programs.map(program=>`<span>${program}</span>`).join('')}</div></div><div class="opportunity-action"><small>Deadline: ${item.deadline}</small><a href="opportunity-detail.html?id=${opportunitySlug(item)}">View Details</a><a href="auth.html">Apply Now</a></div></article>`).join('')||'<p class="events-empty">No opportunity matches your search yet.</p>';
-}
-
-filterButtons.forEach(button=>button.addEventListener('click',()=>{activeOpportunityFilter=button.dataset.opportunityFilter;filterButtons.forEach(item=>item.classList.toggle('active',item===button));renderOpportunities();}));
-opportunitySearch.addEventListener('input',renderOpportunities);
-renderOpportunities();
-</script>
+<script type="module" src="../BACKEND/opportunities.js"></script>
 <script src="../SCRPIT/mobile-nav.js"></script>
 </body>
 </html>

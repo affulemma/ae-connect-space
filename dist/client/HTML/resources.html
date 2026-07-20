@@ -80,7 +80,31 @@ Find practical tools, learning materials, and internship support that help stude
 </a>
 </main>
 
+<section class="resource-live-section" aria-label="Live learning resources">
+<div class="resource-live-head">
+<div>
+<span class="section-kicker">LIVE RESOURCE LIBRARY</span>
+<h2>Published Resources</h2>
+</div>
+<p data-resource-live-status>Loading learning resources...</p>
+</div>
+<div class="resource-live-controls">
+<input type="search" id="resourceSearchInput" placeholder="Search resources...">
+<select id="resourceCategoryFilter" aria-label="Filter by category"><option value="all">All categories</option></select>
+<select id="resourceTypeFilter" aria-label="Filter by type"><option value="all">All types</option></select>
+</div>
+<div class="resource-live-grid" id="resourceLiveGrid">
+<article class="resource-live-card"><span>Loading</span><h3>Loading resources...</h3><p>Please wait while your learning resources load.</p></article>
+</div>
+<aside class="resource-detail-panel" id="resourceDetailPanel">
+<span>Resource Details</span>
+<h3>Select a resource</h3>
+<p>Open or download resources from the library.</p>
+</aside>
+</section>
+
 <footer><p>&copy; A.E CONNECT SPACE</p></footer>
+<script type="module" src="../BACKEND/resources.js"></script>
 <script src="../SCRPIT/mobile-nav.js"></script>
 </body>
 </html>

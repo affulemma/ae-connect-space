@@ -14,7 +14,9 @@
 <aside class="dashboard-sidebar" aria-label="Dashboard navigation">
 <a class="dashboard-brand" href="index.html"><img src="../ASSETS/logo/logo.png" alt="A.E CONNECT SPACE logo"><span>A.E CONNECT</span></a>
 <nav>
+<a href="index.html"><span>HM</span>Home</a>
 <a class="active" href="#overview"><span>OV</span>Overview</a>
+<a href="programs.html"><span>PG</span>Programs</a>
 <a href="program-roadmaps.html"><span>RM</span>Roadmaps</a>
 <a href="skills.html"><span>SK</span>Skills</a>
 <a href="opportunities.html"><span>OP</span>Opportunities</a>
@@ -24,8 +26,8 @@
 </nav>
 <div class="dashboard-sidebar-card">
 <strong data-user-field="level">Level not added</strong>
-<p><span data-user-field="programme">Programme not added</span> roadmap is ready.</p>
-<a href="economics-student-roadmap.html">Continue</a>
+<p data-dashboard-roadmap-side-text><span data-user-field="programme">Programme not added</span> roadmap will appear when published.</p>
+<a href="program-roadmaps.html" data-dashboard-roadmap-link>Explore</a>
 </div>
 </aside>
 
@@ -36,9 +38,14 @@
 <h1>Welcome back, <span data-user-field="fullName">Student</span>.</h1>
 </div>
 <div class="dashboard-top-actions">
-<button type="button">Search</button>
+<button type="button" data-dashboard-search-toggle aria-expanded="false" aria-controls="dashboardSearchPanel">Search</button>
 <a href="auth.html">Profile</a>
 <button type="button" data-firebase-logout>Logout</button>
+<div class="dashboard-search-panel" id="dashboardSearchPanel" hidden>
+<label class="sr-only" for="dashboardSearchInput">Search dashboard</label>
+<input id="dashboardSearchInput" type="search" placeholder="Search dashboard..." autocomplete="off">
+<div class="dashboard-search-results" id="dashboardSearchResults" role="listbox" aria-label="Dashboard search results"></div>
+</div>
 </div>
 </header>
 
@@ -51,8 +58,8 @@
 </div>
 <div class="dashboard-streak-card">
 <small>Learning streak</small>
-<strong>12 days</strong>
-<span>Best streak: 21 days</span>
+<strong>Coming Soon</strong>
+<span>Your learning streak will appear once roadmap tracking is available.</span>
 </div>
 </section>
 
@@ -61,34 +68,35 @@
 <div class="panel-heading">
 <div>
 <span>Overall Progress</span>
-<h3>68% complete</h3>
+<h3 data-roadmap-progress-title>Loading...</h3>
 </div>
-<b>+8% this week</b>
+<b data-roadmap-progress-note>Checking your roadmap...</b>
 </div>
-<div class="progress-track"><span style="width:68%"></span></div>
+<div class="progress-track"><span style="width:0%" data-roadmap-progress-bar></span></div>
 <div class="progress-metrics">
-<span><b>14</b> Skills started</span>
-<span><b>5</b> Projects saved</span>
-<span><b>3</b> Applications due</span>
+<span><b data-roadmap-completed-skills>--</b> Completed Skills</span>
+<span><b data-roadmap-remaining-skills>--</b> Remaining Skills</span>
+<span><b data-roadmap-total-skills>--</b> Total Skills</span>
 </div>
+<p data-roadmap-progress-copy>Your roadmap progress will appear here.</p>
 </article>
 
 <article class="dashboard-panel continue-panel">
 <div class="panel-heading">
 <div>
-<span>Continue</span>
-<h3>Policy Analysis</h3>
+<span>Continue Learning</span>
+<h3 data-dashboard-roadmap-title>Coming Soon</h3>
 </div>
-<a href="economics-policy-analysis.html">Resume</a>
+<a href="program-roadmaps.html" data-dashboard-roadmap-link>Explore</a>
 </div>
-<p>Last opened yesterday. Next: build a one-page policy brief from a public dataset.</p>
-<div class="continue-meta"><span><span data-user-field="programme">Your programme</span> Roadmap</span><span>22 min left</span></div>
+<p data-dashboard-roadmap-description>Published roadmap recommendations will appear here when available.</p>
+<div class="continue-meta"><span data-dashboard-roadmap-programme><span data-user-field="programme">Your programme</span> Roadmap</span><span data-dashboard-roadmap-status>Waiting for Published roadmap</span></div>
 </article>
 
 <article class="dashboard-panel streak-panel">
 <span>Today</span>
-<h3>One small action keeps the streak alive.</h3>
-<p>Finish one skill lesson or save one opportunity before 9:00 PM.</p>
+<h3 data-roadmap-next-skill-title>Loading...</h3>
+<p data-roadmap-next-skill-copy>Finding your next roadmap activity.</p>
 </article>
 </section>
 
@@ -109,10 +117,8 @@
 <a href="skills.html">Browse Skills</a>
 </div>
 <div class="skill-list">
-<a href="economics-stata.html"><b>Stata</b><span>Economic data analysis</span><small>Intermediate</small></a>
-<a href="economics-data-visualization.html"><b>Data Visualization</b><span>Charts, dashboards, stories</span><small>Intermediate</small></a>
-<a href="research-methods.html"><b>Research Methods</b><span>Questions, evidence, reporting</span><small>Beginner</small></a>
-<a href="presentation-skills.html"><b>Presentation Skills</b><span>Explain work clearly</span><small>Beginner</small></a>
+<a href="skills.html" data-dashboard-next-skill-card><b>Loading...</b><span>Finding your next recommended skill.</span><small>Next Skill</small></a>
+<a href="program-roadmaps.html" data-dashboard-roadmap-card><b>No published roadmap yet.</b><span>Start exploring A.E CONNECT to begin your learning journey.</span><small>Roadmaps</small></a>
 </div>
 </article>
 
@@ -122,21 +128,20 @@
 <a href="opportunities.html">Find Opportunities</a>
 </div>
 <div class="opportunity-list">
-<article><b>Data Analyst Intern</b><p>Ghana Statistical Service</p><span>Due Jun 30</span></article>
-<article><b>Research Assistant</b><p>Policy Lab Ghana</p><span>Due Jul 12</span></article>
-<article><b>Youth Leadership Fellowship</b><p>YALI West Africa</p><span>Due Jul 30</span></article>
+<article><b>Coming Soon</b><p>Recommended opportunities will appear here when matching is available.</p><span>Explore Opportunities</span></article>
+<article><b>No saved opportunities yet.</b><p>Start exploring A.E CONNECT to find opportunities for later.</p><span>Open Opportunities</span></article>
 </div>
 </article>
 
 <article class="dashboard-panel" id="saved">
 <div class="panel-heading">
 <div><span>Saved Items</span><h3>For later</h3></div>
-<a href="#">View All</a>
+<a href="resources.html">Explore</a>
 </div>
 <div class="saved-grid">
-<article><span>Roadmap</span><b data-user-field="programmeLevel">Programme and level not added</b></article>
-<article><span>Skill</span><b>Power BI dashboards</b></article>
-<article><span>Opportunity</span><b>DAAD scholarship checklist</b></article>
+<article data-dashboard-resource-card><span>Resources</span><b>Loading...</b></article>
+<article data-dashboard-resource-card><span>Resources</span><b>Loading...</b></article>
+<article data-dashboard-resource-card><span>Resources</span><b>Loading...</b></article>
 </div>
 </article>
 </div>
@@ -147,9 +152,8 @@
 <div><span>Deadlines</span><h3>Coming up</h3></div>
 </div>
 <ol class="deadline-list">
-<li><b>Jun 30</b><span>Data Analyst Intern</span></li>
-<li><b>Jul 05</b><span><span data-user-field="programme">Programme</span> project brief</span></li>
-<li><b>Jul 12</b><span>Research Assistant role</span></li>
+<li><b>--</b><span>Application deadlines will appear here.</span></li>
+<li><b>--</b><span>No deadlines yet.</span></li>
 </ol>
 </article>
 
@@ -158,9 +162,8 @@
 <div><span>Notifications</span><h3>New today</h3></div>
 </div>
 <div class="notification-list">
-<p><b>New roadmap added:</b> Business Analytics.</p>
-<p><b>Community:</b> <span data-user-field="programme">Programme</span> study group meets Friday.</p>
-<p><b>Opportunity:</b> Scholarship checklist updated.</p>
+<p><b>Coming Soon:</b> Personalized notifications will appear here.</p>
+<p><b>Updates:</b> Roadmap, community, and opportunity alerts will be available in a future update.</p>
 </div>
 </article>
 
@@ -169,10 +172,10 @@
 <div><span>Achievements</span><h3>Badges</h3></div>
 </div>
 <div class="badge-grid">
-<span>7-day streak</span>
-<span>Roadmap starter</span>
-<span>Skill builder</span>
-<span>Saved 10 items</span>
+<span>Coming Soon</span>
+<span>Roadmap badges</span>
+<span>Skill milestones</span>
+<span>Saved activity</span>
 </div>
 </article>
 
@@ -181,10 +184,8 @@
 <div><span>Recent Activity</span><h3>This week</h3></div>
 </div>
 <ul class="activity-list">
-<li>Completed Excel basics.</li>
-<li>Saved YALI fellowship.</li>
-<li>Joined Economics community.</li>
-<li>Opened Stata skill page.</li>
+<li>Recent activity will appear here.</li>
+<li>Start exploring A.E CONNECT to begin your learning journey.</li>
 </ul>
 </article>
 </aside>
