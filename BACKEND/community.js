@@ -257,6 +257,37 @@ function showChatMessage(message) {
   elements.groupChatMessages.innerHTML = `<div class="chat-system-message">${escapeHtml(message)}</div>`;
 }
 
+function lockChatPageScroll() {
+  const scrollY = window.scrollY || document.documentElement.scrollTop || 0;
+  document.documentElement.classList.add("group-chat-active");
+  document.body.classList.add("group-chat-active", "community-modal-open");
+  document.body.dataset.communityScrollY = String(scrollY);
+  document.body.dataset.communityPosition = document.body.style.position || "";
+  document.body.dataset.communityTop = document.body.style.top || "";
+  document.body.dataset.communityWidth = document.body.style.width || "";
+  document.body.dataset.communityOverflow = document.body.style.overflow || "";
+  document.body.style.position = "fixed";
+  document.body.style.top = `-${scrollY}px`;
+  document.body.style.width = "100%";
+  document.body.style.overflow = "hidden";
+}
+
+function unlockChatPageScroll() {
+  const scrollY = Number(document.body.dataset.communityScrollY || 0);
+  document.documentElement.classList.remove("group-chat-active");
+  document.body.classList.remove("group-chat-active", "community-modal-open");
+  document.body.style.position = document.body.dataset.communityPosition || "";
+  document.body.style.top = document.body.dataset.communityTop || "";
+  document.body.style.width = document.body.dataset.communityWidth || "";
+  document.body.style.overflow = document.body.dataset.communityOverflow || "";
+  delete document.body.dataset.communityScrollY;
+  delete document.body.dataset.communityPosition;
+  delete document.body.dataset.communityTop;
+  delete document.body.dataset.communityWidth;
+  delete document.body.dataset.communityOverflow;
+  window.scrollTo(0, scrollY);
+}
+
 function friendlyFirestoreError(error, action) {
   if (error?.code === "permission-denied") {
     return `${action} is blocked by Firestore rules. Publish the updated community rules, then refresh this page.`;
@@ -309,13 +340,13 @@ function openGroupChat(groupId) {
   renderGroupHeader(groupId);
   subscribeToGroupMessages(groupId);
   elements.groupChatModal.hidden = false;
-  document.body.classList.add("community-modal-open");
+  lockChatPageScroll();
   elements.groupMessageInput.focus();
 }
 
 function closeGroupChat() {
   elements.groupChatModal.hidden = true;
-  document.body.classList.remove("community-modal-open");
+  unlockChatPageScroll();
   clearInterval(state.voiceTimer);
   state.voiceStart = null;
   elements.voiceButton.textContent = "Mic";
@@ -458,6 +489,11 @@ function bindEvents() {
 
   elements.groupChatProfileButton.addEventListener("click", () => openGroupProfile(state.activeGroupId));
   document.querySelectorAll("[data-close-chat]").forEach(button => button.addEventListener("click", closeGroupChat));
+  elements.groupChatModal.addEventListener("touchmove", event => {
+    if (!event.target.closest("#groupChatMessages")) {
+      event.preventDefault();
+    }
+  }, { passive: false });
 
   document.querySelectorAll("[data-audio-call],[data-video-call]").forEach(button => button.addEventListener("click", async () => {
     const callType = button.hasAttribute("data-audio-call") ? "Audio call" : "Video call";

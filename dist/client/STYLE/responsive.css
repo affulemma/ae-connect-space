@@ -476,12 +476,24 @@ right:-18px !important;
 }
 
 .group-chat-panel{
+position:fixed !important;
+inset:0 !important;
 width:100% !important;
 max-width:100vw;
 height:100dvh;
 max-height:none !important;
 overflow:hidden !important;
 grid-template-columns:1fr !important;
+}
+
+.group-chat-modal{
+position:fixed !important;
+inset:0 !important;
+width:100vw !important;
+height:100dvh !important;
+overflow:hidden !important;
+align-items:stretch !important;
+justify-items:stretch !important;
 }
 
 .group-chat-sidebar{

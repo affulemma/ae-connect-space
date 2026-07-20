@@ -2762,6 +2762,14 @@ margin-right:9px;
 overflow:hidden;
 }
 
+html.group-chat-active,
+body.group-chat-active{
+height:100%;
+overflow:hidden;
+overscroll-behavior:none;
+touch-action:none;
+}
+
 .community-modal[hidden]{
 display:none;
 }
@@ -2966,6 +2974,12 @@ z-index:20000;
 display:grid;
 place-items:center;
 padding:0;
+width:100vw;
+height:100vh;
+height:100dvh;
+overflow:hidden;
+overscroll-behavior:none;
+touch-action:none;
 }
 
 .group-chat-backdrop{
@@ -2975,11 +2989,14 @@ background:rgba(0,0,0,0.58);
 }
 
 .group-chat-panel{
-position:relative;
+position:fixed;
+inset:0;
 z-index:1;
 width:100vw;
 height:100vh;
 height:100dvh;
+max-width:none;
+max-height:none;
 background:white;
 border-radius:0;
 overflow:hidden;
@@ -3081,13 +3098,17 @@ display:grid;
 grid-template-rows:auto 1fr auto auto;
 min-width:0;
 min-height:0;
+height:100%;
+overflow:hidden;
 background:#fff8f2;
+touch-action:auto;
 }
 
 .group-chat-header{
 display:flex;
 align-items:center;
 gap:14px;
+flex:0 0 auto;
 background:white;
 border-bottom:1px solid #e9e1db;
 padding:14px 18px;
@@ -3177,6 +3198,9 @@ display:flex;
 flex-direction:column;
 gap:12px;
 min-height:0;
+overscroll-behavior:contain;
+-webkit-overflow-scrolling:touch;
+touch-action:pan-y;
 }
 
 .chat-system-message{
@@ -3280,6 +3304,7 @@ background:white;
 border-top:1px solid #e9e1db;
 padding:12px;
 padding-bottom:max(12px,env(safe-area-inset-bottom));
+flex:0 0 auto;
 }
 
 .attach-button,
