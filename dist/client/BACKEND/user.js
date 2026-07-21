@@ -369,6 +369,7 @@ function renderDashboardRoadmap(roadmap) {
   setText("[data-roadmap-next-skill-copy]", totalSkills ? "Start here to begin your roadmap." : "Your next skill will appear once skills are added to this roadmap.");
   renderNextSkillCard(nextSkill, totalSkills ? `${roadmapTitle} - ${difficulty}` : "No skill has been added to this roadmap yet.", "Continue");
   renderResourceCards(resources.length ? resources.slice(0, 3) : ["No resource added yet", "Resources will appear here", "Check back later"]);
+  window.dispatchEvent(new CustomEvent("ae-connect:dashboard-roadmap-ready", { detail: { roadmapId: roadmap.id } }));
 }
 
 function renderDashboardRoadmapEmpty() {

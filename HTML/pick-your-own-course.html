@@ -34,29 +34,24 @@
 
 </nav>
 
-<section class="programs">
+<main class="programs pick-course-main">
 
-<h1>PICK YOUR OWN COURSE</h1>
-
-
-<img src="../ASSETS/images/student-thinking-future-hero.png"
-alt="Pick Your Own Course"
-style="
-width:100%;
-max-width:900px;
-display:block;
-margin:20px auto;
-border-radius:20px;
-">
+<section class="pick-course-hero" aria-labelledby="pickCourseTitle">
+  <img src="../ASSETS/images/student-thinking-future-hero.png" alt="A student considering future study and career paths">
+  <div class="pick-course-hero-shade"></div>
+  <div class="pick-course-hero-card">
+    <p>Shape what comes next</p>
+    <h1 id="pickCourseTitle">Pick Your Own Course</h1>
+    <span>Explore programmes that match your strengths, interests, and future goals.</span>
+    <a href="#explore-programmes">Explore programmes <b aria-hidden="true">↓</b></a>
+  </div>
+</section>
 
 <div class="pick-course-intro-panel">
 
-<h3>
-
-
-📘 Powered by "YOU ARE IN CONTROL: PICK YOUR OWN COURSE"
-
-</h3>
+<p class="pick-course-eyebrow">A.E CONNECT programme guide</p>
+<h2>You are in control of your direction</h2>
+<h3>Inspired by “YOU ARE IN CONTROL: PICK YOUR OWN COURSE”</h3>
 <p>
 
 Choosing the right programme is one of the most important decisions you will make as a student.
@@ -71,94 +66,107 @@ Explore the programmes below to discover subjects, university pathways, career o
 
 </div>
 
-<div class="program-grid">
+<section class="pick-course-explorer" id="explore-programmes" aria-labelledby="programmeExplorerTitle">
+<div class="pick-course-section-head">
+  <div><p class="pick-course-eyebrow">Explore your options</p><h2 id="programmeExplorerTitle">Find a programme that fits you</h2></div>
+  <p>Search by programme, subject, career interest, or a skill you want to develop.</p>
+</div>
+<label class="pick-course-search" for="pickCourseSearch"><span aria-hidden="true">⌕</span><input id="pickCourseSearch" type="search" placeholder="Search programmes, careers or interests..." autocomplete="off"></label>
+<p class="pick-course-results" id="pickCourseResults" aria-live="polite">Showing all 7 programmes</p>
 
-<a href="general-arts.html" class="program-card">
+<div class="program-grid pick-course-grid" id="pickCourseGrid">
 
-<h3>🎨 General Arts</h3>
+<a href="general-arts.html" class="program-card pick-course-card" data-search="general arts humanities social sciences literature history languages governance communication law journalism">
+<div class="pick-course-card-image"><img src="../ASSETS/images/history.jpg" alt="History books and humanities learning" loading="lazy"><span aria-hidden="true">GA</span></div>
+<div class="pick-course-card-content"><h3>General Arts</h3>
 
 <p>
 Explore humanities, social sciences,
 languages, governance and communication.
 </p>
-
+</div><span class="pick-course-card-action">Explore Programme <b aria-hidden="true">→</b></span>
 </a>
 
 
-<a href="general-science.html" class="program-card">
-<h3>🔬 General Science</h3>
+<a href="general-science.html" class="program-card pick-course-card" data-search="general science laboratory medicine engineering research technology biology chemistry physics health">
+<div class="pick-course-card-image"><img src="../ASSETS/images/chemistry.jpg" alt="Science laboratory and chemistry equipment" loading="lazy"><span aria-hidden="true">GS</span></div>
+<div class="pick-course-card-content"><h3>General Science</h3>
 
 <p>
 Perfect for students interested in medicine,
 engineering, research and technology.
 </p>
-
+</div><span class="pick-course-card-action">Explore Programme <b aria-hidden="true">→</b></span>
 </a>
 
-<a href="business.html" class="program-card">
-
-<h3>💼 Business</h3>
+<a href="business.html" class="program-card pick-course-card" data-search="business accounting management entrepreneurship finance banking marketing economics office">
+<div class="pick-course-card-image"><img src="../ASSETS/images/business-management.jpg" alt="Business students collaborating in a professional setting" loading="lazy"><span aria-hidden="true">BU</span></div>
+<div class="pick-course-card-content"><h3>Business</h3>
 
 <p>
 Learn accounting, management,
 entrepreneurship and finance.
 </p>
-
+</div><span class="pick-course-card-action">Explore Programme <b aria-hidden="true">→</b></span>
 </a>
 
-<a href="home-economics.html" class="program-card">
-
-<h3>🍲 Home Economics</h3>
+<a href="home-economics.html" class="program-card pick-course-card" data-search="home economics food nutrition textiles clothing hospitality family consumer management catering">
+<div class="pick-course-card-image"><img src="../ASSETS/images/food-and-nutrition.jpg" alt="Food preparation and nutrition learning" loading="lazy"><span aria-hidden="true">HE</span></div>
+<div class="pick-course-card-content"><h3>Home Economics</h3>
 
 <p>
 Develop practical knowledge in food,
 nutrition, textiles and management.
 </p>
-
+</div><span class="pick-course-card-action">Explore Programme <b aria-hidden="true">→</b></span>
 </a>
 
-<a href="technical.html" class="program-card">
-
-<h3>⚙️ Technical</h3>
+<a href="technical.html" class="program-card pick-course-card" data-search="technical engineering construction building design workshop electrical mechanical woodwork technology">
+<div class="pick-course-card-image"><img src="../ASSETS/images/building-construction.jpg" alt="Technical engineering and construction workshop" loading="lazy"><span aria-hidden="true">TE</span></div>
+<div class="pick-course-card-content"><h3>Technical</h3>
 
 <p>
 Build engineering, construction,
 design and technical problem-solving skills.
 </p>
-
+</div><span class="pick-course-card-action">Explore Programme <b aria-hidden="true">→</b></span>
 </a>
 
-<a href="agriculture.html" class="program-card">
-
-<h3>🌱 Agriculture</h3>
+<a href="agriculture.html" class="program-card pick-course-card" data-search="agriculture farming food production agribusiness crops animals soil sustainable farming environment">
+<div class="pick-course-card-image"><img src="../ASSETS/images/general-agriculture.jpg" alt="Agricultural field and sustainable farming" loading="lazy"><span aria-hidden="true">AG</span></div>
+<div class="pick-course-card-content"><h3>Agriculture</h3>
 
 <p>
 Learn about food production,
 agribusiness and sustainable farming.
 </p>
-
+</div><span class="pick-course-card-action">Explore Programme <b aria-hidden="true">→</b></span>
 </a>
 
-<a href="visual-arts.html" class="program-card">
-
-<h3>🎭 Visual Arts</h3>
+<a href="visual-arts.html" class="program-card pick-course-card" data-search="visual arts painting design drawing sculpture communication graphic design textiles ceramics creative">
+<div class="pick-course-card-image"><img src="../ASSETS/images/graphic-design.jpg" alt="Visual art and graphic design workspace" loading="lazy"><span aria-hidden="true">VA</span></div>
+<div class="pick-course-card-content"><h3>Visual Arts</h3>
 
 <p>
 Develop creative skills in design,
 drawing, sculpture and visual communication.
 </p>
-
+</div><span class="pick-course-card-action">Explore Programme <b aria-hidden="true">→</b></span>
 </a>
 
 </div>
 
+<div class="pick-course-empty" id="pickCourseEmpty" hidden><span aria-hidden="true">⌕</span><h3>No matching programme found</h3><p>Try another programme, career, subject, or interest.</p><button type="button" id="pickCourseClear">Clear search</button></div>
 </section>
+
+</main>
 
 <footer>
 
 <p>© A.E CONNECT SPACE</p>
 
 </footer>
+<script src="../SCRPIT/pick-course.js"></script>
 <script src="../SCRPIT/mobile-nav.js"></script>
 </body>
 

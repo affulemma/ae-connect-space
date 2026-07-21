@@ -34,28 +34,32 @@
 
 </nav>
 
-<section class="programs">
+<main class="programs freedom-home">
 
-<h1>FROM HIGH SCHOOL TO FREEDOM</h1>
+<section class="freedom-home-hero" aria-labelledby="freedomHomeTitle">
+  <div class="freedom-home-copy">
+    <p class="freedom-home-eyebrow">Your future starts from here</p>
+    <h1 id="freedomHomeTitle">FROM HIGH SCHOOL TO FREEDOM</h1>
+    <p class="freedom-home-lead">A practical guide for life after SHS—whether tertiary school is your next step or your journey is taking a different route for now.</p>
+    <a class="freedom-home-cta" href="#choose-your-path">Choose your pathway <span aria-hidden="true">↓</span></a>
+  </div>
+  <div class="freedom-home-visual">
+    <img src="../ASSETS/images/now-what-graduate-hero.png" alt="A graduate preparing for the next chapter after high school">
+    <div class="freedom-hero-note"><strong>Two paths.</strong><span>One confident future.</span></div>
+  </div>
+</section>
 
-<img src="../ASSETS/images/now-what-graduate-hero.png"
-alt="From High School To Freedom"
-style="
-width:100%;
-max-width:900px;
-display:block;
-margin:20px auto;
-border-radius:20px;
-">
+<div class="freedom-home-stats" aria-label="Programme overview">
+  <div><strong>02</strong><span>Personal pathways</span></div>
+  <div><strong>12</strong><span>Guided programmes</span></div>
+  <div><strong>100%</strong><span>Practical and self-paced</span></div>
+</div>
 
 <div class="freedom-intro-panel">
 
-<h3>
-
-🎓 Powered by "FROM HIGH SCHOOL TO FREEDOM:
-WHAT NO ONE TOLD YOU ABOUT TERTIARY LIFE"
-
-</h3>
+<p class="freedom-home-eyebrow">Built for the transition after SHS</p>
+<h2>Your next chapter deserves direction</h2>
+<h3>Inspired by “FROM HIGH SCHOOL TO FREEDOM: WHAT NO ONE TOLD YOU ABOUT TERTIARY LIFE”</h3>
 
 <p>
 
@@ -69,11 +73,20 @@ Choose the pathway that best describes your current situation.
 
 </div>
 
-<div class="program-grid">
+<section class="freedom-path-choice" id="choose-your-path" aria-labelledby="pathChoiceTitle">
+<div class="freedom-section-heading">
+  <p class="freedom-home-eyebrow">Choose your journey</p>
+  <h2 id="pathChoiceTitle">Which path describes you today?</h2>
+  <p>There is no wrong starting point. Select the path that fits your situation and take one useful step at a time.</p>
+</div>
+
+<div class="program-grid freedom-choice-grid">
 
 <a href="going-to-tertiary-school.html" class="program-card">
-
-<h3>🎓 GOING TO TERTIARY SCHOOL?</h3>
+<span class="freedom-choice-number">01</span>
+<span class="freedom-choice-icon" aria-hidden="true">🎓</span>
+<p class="freedom-choice-label">Tertiary pathway</p>
+<h3>GOING TO TERTIARY SCHOOL?</h3>
 
 <p>
 
@@ -92,11 +105,15 @@ and more.
 
 </p>
 
+<span class="freedom-choice-action">Explore this pathway <b aria-hidden="true">→</b></span>
+
 </a>
 
 <a href="not-going-to-tertiary-school-yet.html" class="program-card">
-
-<h3>💡 NOT GOING TO TERTIARY SCHOOL YET?</h3>
+<span class="freedom-choice-number">02</span>
+<span class="freedom-choice-icon" aria-hidden="true">💡</span>
+<p class="freedom-choice-label">Opportunity pathway</p>
+<h3>NOT GOING TO TERTIARY SCHOOL YET?</h3>
 
 <p>
 
@@ -111,10 +128,73 @@ and prepare for future educational goals.
 
 </p>
 
+<span class="freedom-choice-action">Explore this pathway <b aria-hidden="true">→</b></span>
+
 </a>
 
 </div>
 
+</section>
+
+<section class="freedom-home-values" aria-labelledby="freedomValuesTitle">
+  <div class="freedom-section-heading">
+    <p class="freedom-home-eyebrow">What you will gain</p>
+    <h2 id="freedomValuesTitle">A clearer way forward</h2>
+  </div>
+  <div class="freedom-value-grid">
+    <article><span>01</span><h3>Direction, not pressure</h3><p>Understand your choices and build a path that fits your real situation.</p></article>
+    <article><span>02</span><h3>Practical next steps</h3><p>Turn advice into useful checklists, lessons and actions you can complete.</p></article>
+    <article><span>03</span><h3>Progress that stays</h3><p>Save programmes, track completed work and continue whenever you return.</p></article>
+  </div>
+</section>
+
+</main>
+
+<section class="freedom-pathway" id="freedomPathway" aria-labelledby="freedomPathwayTitle" hidden>
+  <header class="freedom-pathway-header">
+    <div class="freedom-pathway-header-inner">
+      <button class="freedom-back-button" id="freedomPathwayBack" type="button" aria-label="Return to the pathway entrance">← Back</button>
+      <div>
+        <p class="freedom-eyebrow" id="freedomPathwayEyebrow">Your pathway</p>
+        <h2 id="freedomPathwayTitle"></h2>
+        <p id="freedomPathwayIntroduction"></p>
+      </div>
+    </div>
+  </header>
+
+  <div class="freedom-pathway-body">
+    <section class="freedom-progress-card" aria-labelledby="freedomProgressTitle">
+      <div>
+        <span id="freedomProgressTitle">Pathway progress</span>
+        <strong id="freedomProgressText">0 of 0 programmes completed</strong>
+      </div>
+      <span class="freedom-progress-percent" id="freedomProgressPercent">0%</span>
+      <div class="freedom-progress-track" aria-hidden="true"><span id="freedomProgressBar"></span></div>
+    </section>
+
+    <section class="freedom-discovery" aria-label="Find a programme">
+      <label for="freedomSearch">Find the right next step</label>
+      <div class="freedom-search-wrap">
+        <span aria-hidden="true">⌕</span>
+        <input id="freedomSearch" type="search" placeholder="Search lessons, skills or opportunities..." autocomplete="off">
+      </div>
+      <div class="freedom-filters" id="freedomFilters" aria-label="Filter programmes"></div>
+    </section>
+
+    <div class="freedom-programme-grid" id="freedomProgrammeGrid"></div>
+    <div class="freedom-empty-state" id="freedomEmptyState" hidden>
+      <span aria-hidden="true">⌕</span>
+      <h3>No matching programme found</h3>
+      <p>Try a different search term or select another filter.</p>
+    </div>
+  </div>
+
+  <section class="freedom-learning-detail" id="freedomLearningDetail" aria-labelledby="freedomDetailTitle" hidden>
+    <div class="freedom-detail-shell">
+      <button class="freedom-back-button freedom-detail-back" id="freedomDetailBack" type="button">← Back to pathway</button>
+      <div id="freedomDetailContent"></div>
+    </div>
+  </section>
 </section>
 
 <footer>
@@ -122,6 +202,7 @@ and prepare for future educational goals.
 <p>© A.E CONNECT SPACE</p>
 
 </footer>
+<script src="../SCRPIT/freedom-pathways.js"></script>
 <script src="../SCRPIT/mobile-nav.js"></script>
 </body>
 

@@ -176,15 +176,47 @@
 </header>
 <div class="group-chat-messages" id="groupChatMessages"></div>
 <div class="group-typing" id="groupTyping" hidden>Someone is typing...</div>
+<div class="chat-upload" id="chatUpload" hidden role="status" aria-live="polite">
+<div><strong id="chatUploadName">Uploading attachment</strong><span id="chatUploadPercent">0%</span></div>
+<progress id="chatUploadProgress" max="100" value="0"></progress>
+</div>
+<div class="voice-recorder" id="voiceRecorder" hidden aria-live="polite">
+<span class="recording-pulse" aria-hidden="true"></span>
+<div><strong id="voiceRecorderStatus">Recording voice message</strong><time id="voiceRecorderTimer">0:00</time></div>
+<button type="button" id="cancelVoiceRecording" class="recording-cancel">Cancel</button>
+<button type="button" id="stopVoiceRecording" class="recording-stop">Stop</button>
+<button type="button" id="sendVoiceRecording" class="recording-send" hidden>Send</button>
+</div>
+<div class="chat-notice" id="chatNotice" hidden role="alert"></div>
 <form class="group-chat-compose" id="groupChatForm">
 <label class="attach-button" aria-label="Attach file">+
-<input id="groupAttachment" type="file" hidden>
+<input id="groupAttachment" type="file" accept="image/*,video/*,audio/*,.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt" hidden>
 </label>
 <input id="groupMessageInput" type="text" placeholder="Message group..." autocomplete="off">
 <button class="voice-button" id="voiceButton" type="button" aria-label="Record voice note" title="Record voice note">Mic</button>
 <button type="submit" aria-label="Send message" title="Send message">Send</button>
 </form>
 </div>
+<section class="call-interface" id="callInterface" hidden aria-label="Call screen">
+<div class="call-background"></div>
+<div class="call-stage">
+<video id="remoteVideo" class="remote-video" autoplay playsinline hidden></video>
+<video id="localVideo" class="local-video" autoplay playsinline muted hidden></video>
+<div class="call-identity" id="callIdentity">
+<span class="call-avatar" id="callAvatar">AE</span>
+<h2 id="callContactName">Group call</h2>
+<p id="callStatus">Calling...</p>
+<time id="callDuration" hidden>00:00</time>
+</div>
+<div class="call-controls">
+<button type="button" id="muteCall" aria-pressed="false"><span>Mic</span><small>Mute</small></button>
+<button type="button" id="speakerCall" aria-pressed="false"><span>Audio</span><small>Speaker</small></button>
+<button type="button" id="cameraCall" aria-pressed="false" hidden><span>Cam</span><small>Camera</small></button>
+<button type="button" id="switchCamera" hidden><span>Flip</span><small>Switch</small></button>
+<button type="button" id="endCall" class="end-call"><span>End</span><small>End call</small></button>
+</div>
+</div>
+</section>
 </section>
 </div>
 

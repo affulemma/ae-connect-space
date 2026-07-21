@@ -67,6 +67,33 @@
 <article><span>Events</span><strong data-count="events">--</strong><small>events collection</small></article>
 <article><span>Stories</span><strong data-count="stories">--</strong><small>stories collection</small></article>
 </div>
+<section class="roadmap-builder" id="roadmapBuilder" hidden aria-labelledby="roadmapBuilderTitle">
+<div class="roadmap-builder-head"><div><span>Learning Management</span><h3 id="roadmapBuilderTitle">Roadmap Content Builder</h3><p id="roadmapBuilderSubtitle">Select Manage beside a roadmap to build its learning journey.</p></div><button type="button" id="closeRoadmapBuilder">Close</button></div>
+<div class="roadmap-analytics" aria-label="Roadmap analytics">
+<article><span>Students Enrolled</span><strong id="roadmapStudentsEnrolled">0</strong></article>
+<article><span>Completion Rate</span><strong id="roadmapCompletionRate">0%</strong></article>
+<article><span>Published Lessons</span><strong id="roadmapPublishedLessons">0</strong></article>
+<article><span>Draft Lessons</span><strong id="roadmapDraftLessons">0</strong></article>
+</div>
+<div class="roadmap-builder-grid">
+<article class="builder-column">
+<div class="builder-column-head"><div><span>Structure</span><h4>Stages</h4></div><small>Drag to reorder</small></div>
+<form id="stageForm" class="builder-form"><input type="hidden" id="stageId"><label>Stage Title<input id="stageTitle" required placeholder="Stage 1: Foundations"></label><label>Description<textarea id="stageDescription" rows="2" placeholder="What students will achieve"></textarea></label><div><button type="submit">Save Stage</button><button type="button" data-builder-cancel="stage">Clear</button></div></form>
+<div class="builder-list" id="stageList"></div>
+</article>
+<article class="builder-column builder-column-wide">
+<div class="builder-column-head"><div><span>Content</span><h4>Learning Items</h4></div><small>Drag within the roadmap</small></div>
+<form id="lessonForm" class="builder-form builder-form-grid"><input type="hidden" id="lessonId"><label>Stage<select id="lessonStage" required></select></label><label>Title<input id="lessonTitle" required placeholder="Introduction to Excel"></label><label class="builder-span">Description<textarea id="lessonDescription" rows="2" required></textarea></label><label>Skill Category<input id="lessonCategory" required placeholder="Data Analysis"></label><label>Resource Type<select id="lessonResourceType"><option>PDF</option><option>Video</option><option>Book</option><option>Website</option><option>Course</option></select></label><label>External Link<input id="lessonLink" type="url" placeholder="https://..."></label><label>Estimated Time<input id="lessonTime" required placeholder="45 minutes"></label><label>Difficulty<select id="lessonDifficulty"><option>Beginner</option><option>Intermediate</option><option>Advanced</option></select></label><label>Status<select id="lessonStatus"><option>Draft</option><option>Published</option></select></label><div class="builder-span"><button type="submit">Save Learning Item</button><button type="button" data-builder-cancel="lesson">Clear</button></div></form>
+<div class="builder-list" id="lessonList"></div>
+</article>
+<article class="builder-column">
+<div class="builder-column-head"><div><span>Outcomes</span><h4>Skills</h4></div><small>Drag to reorder</small></div>
+<form id="skillForm" class="builder-form"><input type="hidden" id="skillId"><label>Skill Name<input id="skillName" required></label><label>Description<textarea id="skillDescription" rows="2" required></textarea></label><label>Level<select id="skillLevel"><option>Beginner</option><option>Intermediate</option><option>Advanced</option></select></label><label>Category<input id="skillCategory" required></label><label>Related Resources<textarea id="skillResources" rows="2" placeholder="One resource per line"></textarea></label><div><button type="submit">Save Skill</button><button type="button" data-builder-cancel="skill">Clear</button></div></form>
+<div class="builder-list" id="skillList"></div>
+</article>
+</div>
+<p class="builder-feedback" id="builderFeedback" role="status" aria-live="polite"></p>
+</section>
 </section>
 
 <section class="admin-section" id="students" data-admin-section="students">
@@ -326,5 +353,6 @@
 </main>
 
 <script type="module" src="../BACKEND/admin.js"></script>
+<script type="module" src="../BACKEND/roadmap-lms.js"></script>
 </body>
 </html>

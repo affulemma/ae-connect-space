@@ -100,6 +100,12 @@
 </article>
 </section>
 
+<section class="dashboard-panel student-journey" id="studentJourney" hidden>
+<div class="panel-heading"><div><span>Your Learning Journey</span><h3 data-current-stage>Current Stage</h3></div><a href="#studentJourney">Continue</a></div>
+<div class="journey-stage-list" id="journeyStageList"></div>
+<div class="recent-lessons"><h4>Recently Completed Lessons</h4><div id="recentLessonsList"><p>No lessons completed yet.</p></div></div>
+</section>
+
 <section class="quick-actions" aria-label="Quick actions">
 <a href="program-roadmaps.html"><span>01</span><h3>Roadmaps</h3><p>Choose a program path.</p></a>
 <a href="skills.html"><span>02</span><h3>Skills</h3><p>Browse practical skills.</p></a>
@@ -224,6 +230,7 @@
 </div>
 
 <script type="module" src="../BACKEND/user.js"></script>
+<script type="module" src="../BACKEND/roadmap-lms.js"></script>
 <script src="../SCRPIT/mobile-nav.js"></script>
 </body>
 </html>

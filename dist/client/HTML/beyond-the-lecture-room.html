@@ -13,32 +13,19 @@
 <section class="programs">
 <h1>BEYOND THE LECTURE ROOM</h1>
 <p class="about-intro">A.E CONNECT SPACE is becoming a complete student skills and career roadmap platform for Africa and the world. Choose a university or professional program below and explore the skills, certifications, projects, internships, and career paths that can help you stand out.</p>
-<div class="filter-bar">
+<div class="programme-search-shell">
+<div class="filter-bar programme-search-controls">
 <button class="active" type="button" data-filter="ALL">ALL</button>
-<button type="button" data-filter="SOCIAL SCIENCES">SOCIAL SCIENCES</button>
-<button type="button" data-filter="BUSINESS">BUSINESS</button>
-<button type="button" data-filter="LAW">LAW</button>
-<button type="button" data-filter="HEALTH SCIENCES">HEALTH SCIENCES</button>
-<button type="button" data-filter="SCIENCE">SCIENCE</button>
-<button type="button" data-filter="COMPUTING &amp; TECHNOLOGY">COMPUTING &amp; TECHNOLOGY</button>
-<button type="button" data-filter="ENGINEERING">ENGINEERING</button>
-<button type="button" data-filter="AGRICULTURE">AGRICULTURE</button>
-<button type="button" data-filter="EDUCATION">EDUCATION</button>
-<button type="button" data-filter="ARTS &amp; HUMANITIES">ARTS &amp; HUMANITIES</button>
-<button type="button" data-filter="CREATIVE &amp; DESIGN">CREATIVE &amp; DESIGN</button>
-<button type="button" data-filter="HOSPITALITY &amp; TOURISM">HOSPITALITY &amp; TOURISM</button>
-<button type="button" data-filter="EMERGING CAREERS">EMERGING CAREERS</button>
-<button type="button" data-filter="AI">AI</button>
-<button type="button" data-filter="BUILT ENVIRONMENT &amp; PLANNING">BUILT ENVIRONMENT &amp; PLANNING</button>
-<button type="button" data-filter="AVIATION &amp; MARITIME">AVIATION &amp; MARITIME</button>
-<button type="button" data-filter="PSYCHOLOGY &amp; BEHAVIORAL SCIENCES">PSYCHOLOGY &amp; BEHAVIORAL SCIENCES</button>
-<button type="button" data-filter="SPORTS &amp; WELLNESS">SPORTS &amp; WELLNESS</button>
-<button type="button" data-filter="MEDIA, LIBRARY &amp; INFORMATION">MEDIA, LIBRARY &amp; INFORMATION</button>
-<button type="button" data-filter="PUBLIC SAFETY &amp; GOVERNANCE">PUBLIC SAFETY &amp; GOVERNANCE</button>
-<button type="button" data-filter="SPECIALIZED SCIENCE &amp; INDUSTRY">SPECIALIZED SCIENCE &amp; INDUSTRY</button>
+<div class="programme-search-box">
+<span aria-hidden="true">⌕</span>
+<input id="programmeSearch" type="search" placeholder="Search programmes, careers or skills..." autocomplete="off" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="programmeSearchResults">
+<div class="programme-search-results" id="programmeSearchResults" role="listbox" hidden></div>
+</div>
+</div>
+<div class="trending-programmes" aria-label="Trending Programmes"><span>Trending Programmes</span><div><a href="economics-roadmap.html">Economics</a><a href="computer-science-roadmap.html">Computer Science</a><a href="nursing-roadmap.html">Nursing</a><a href="medicine-roadmap.html">Medicine</a><a href="law-roadmap.html">Law</a><a href="business-administration-roadmap.html">Business Administration</a></div></div>
 </div>
 </section>
-<section class="programs program-category" data-category="SOCIAL SCIENCES">
+<section class="programs program-category" id="social-sciences" data-category="SOCIAL SCIENCES">
 <h2>SOCIAL SCIENCES</h2>
 <div class="program-grid">
 <a href="economics-roadmap.html" class="program-card"><h3>ECONOMICS</h3><p>Explore practical skills, certifications, projects, internship paths, and career opportunities for ECONOMICS students.</p></a>
@@ -412,6 +399,76 @@ filterButtons.forEach((button) => {
 
   });
 });
+
+const programmeSearch = document.getElementById("programmeSearch");
+const programmeSearchResults = document.getElementById("programmeSearchResults");
+const searchableProgrammes = [...programCards].map((card) => ({
+  title: card.querySelector("h3")?.textContent.trim() || "Programme",
+  href: card.getAttribute("href"),
+  category: card.closest(".program-category")?.dataset.category || "Programme",
+  keywords: card.textContent.trim()
+}));
+const supplementalResults = [
+  { title: "Econometrics", href: "economics-econometrics.html", category: "Economics Skill", keywords: "eco economics statistics analysis" },
+  { title: "Economic Policy", href: "economics-policy-analysis.html", category: "Economics Skill", keywords: "eco economics policy analysis" },
+  { title: "Social Sciences", href: "#social-sciences", category: "Programme Category", keywords: "social sociology social work political science" }
+];
+const searchIndex = [...supplementalResults, ...searchableProgrammes];
+let activeSearchResult = -1;
+
+function closeProgrammeSearch(){
+  programmeSearchResults.hidden = true;
+  programmeSearch.setAttribute("aria-expanded", "false");
+  activeSearchResult = -1;
+}
+
+function setActiveSearchResult(index){
+  const results = [...programmeSearchResults.querySelectorAll("a")];
+  if(!results.length) return;
+  activeSearchResult = (index + results.length) % results.length;
+  results.forEach((result, resultIndex) => result.classList.toggle("active", resultIndex === activeSearchResult));
+  results[activeSearchResult].scrollIntoView({ block: "nearest" });
+}
+
+function renderProgrammeSearch(){
+  const term = programmeSearch.value.trim().toLowerCase();
+  if(!term){ closeProgrammeSearch(); return; }
+  const matches = searchIndex.filter((item, index, items) => `${item.title} ${item.category} ${item.keywords}`.toLowerCase().includes(term) && items.findIndex(candidate => candidate.title === item.title && candidate.href === item.href) === index).slice(0, 8);
+  programmeSearchResults.innerHTML = "";
+  if(!matches.length){
+    const empty = document.createElement("p");
+    empty.className = "programme-search-empty";
+    empty.textContent = "No matching programme found.";
+    programmeSearchResults.appendChild(empty);
+  }else{
+    matches.forEach((item) => {
+      const link = document.createElement("a");
+      const copy = document.createElement("span");
+      const title = document.createElement("strong");
+      const category = document.createElement("small");
+      link.href = item.href;
+      link.setAttribute("role", "option");
+      title.textContent = item.title;
+      category.textContent = item.category;
+      copy.append(title, category);
+      link.append(copy);
+      programmeSearchResults.appendChild(link);
+    });
+  }
+  programmeSearchResults.hidden = false;
+  programmeSearch.setAttribute("aria-expanded", "true");
+  activeSearchResult = -1;
+}
+
+programmeSearch.addEventListener("input", renderProgrammeSearch);
+programmeSearch.addEventListener("keydown", (event) => {
+  if(event.key === "ArrowDown"){ event.preventDefault(); setActiveSearchResult(activeSearchResult + 1); }
+  if(event.key === "ArrowUp"){ event.preventDefault(); setActiveSearchResult(activeSearchResult - 1); }
+  if(event.key === "Enter" && activeSearchResult >= 0){ event.preventDefault(); programmeSearchResults.querySelectorAll("a")[activeSearchResult]?.click(); }
+  if(event.key === "Escape") closeProgrammeSearch();
+});
+document.addEventListener("click", (event) => { if(!event.target.closest(".programme-search-box")) closeProgrammeSearch(); });
+document.querySelector('[data-filter="ALL"]').addEventListener("click", () => { programmeSearch.value = ""; closeProgrammeSearch(); });
 </script>
 <footer><p>&copy; A.E CONNECT SPACE</p></footer>
 <script src="../SCRPIT/mobile-nav.js"></script>

@@ -3,22 +3,52 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Not Going To Tertiary School Yet | A.E CONNECT SPACE</title>
+<title>Not Going to Tertiary School Yet | From High School to Freedom</title>
 <link rel="stylesheet" href="../STYLE/style.css">
 <link rel="stylesheet" href="../STYLE/responsive.css">
 </head>
-<body>
-<nav class="navbar"><div class="logo"><span>A.E CONNECT SPACE</span></div><ul class="nav-links"><li><a href="index.html">Home</a></li><li><a href="from-high-school-to-freedom.html">Back</a></li><li><a href="skills.html">Skills Hub</a></li><li><a href="opportunities.html">Opportunities</a></li></ul></nav>
-<section class="programs">
-<h1>NOT GOING TO TERTIARY SCHOOL YET?</h1>
-<p class="about-intro">Use this season to build useful skills, gain experience, earn responsibly, prepare documents, and keep your future options open.</p>
-<div class="program-grid">
-<a href="skills.html" class="program-card"><h3>Build Practical Skills</h3><p>Start with digital, communication, business, and career skills you can use immediately.</p></a>
-<a href="opportunities.html" class="program-card"><h3>Find Openings</h3><p>Look for volunteer roles, apprenticeships, internships, competitions, and community projects.</p></a>
-<a href="entrepreneurship.html" class="program-card"><h3>Start Small</h3><p>Test simple services or products, learn sales, and keep records from the beginning.</p></a>
-</div>
+<body class="freedom-journey-page" data-freedom-pathway="alternative">
+<nav class="navbar">
+  <div class="logo"><span>A.E CONNECT SPACE</span></div>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="from-high-school-to-freedom.html">Programme Home</a></li>
+    <li><a href="skills.html">Skills Hub</a></li>
+    <li><a href="opportunities.html">Opportunities</a></li>
+    <li><a href="dashboard.html">Student Dashboard</a></li>
+  </ul>
+</nav>
+
+<main>
+<section class="freedom-pathway" id="freedomPathway" aria-labelledby="freedomPathwayTitle" hidden>
+  <header class="freedom-pathway-header">
+    <div class="freedom-pathway-header-inner">
+      <button class="freedom-back-button" id="freedomPathwayBack" type="button">← Programme Home</button>
+      <div><p class="freedom-eyebrow" id="freedomPathwayEyebrow">Your pathway</p><h1 id="freedomPathwayTitle"></h1><p id="freedomPathwayIntroduction"></p></div>
+    </div>
+  </header>
+  <div class="freedom-pathway-body">
+    <section class="freedom-progress-card" aria-labelledby="freedomProgressTitle">
+      <div><span id="freedomProgressTitle">Pathway progress</span><strong id="freedomProgressText">0 of 0 programmes completed</strong></div>
+      <span class="freedom-progress-percent" id="freedomProgressPercent">0%</span>
+      <div class="freedom-progress-track" aria-hidden="true"><span id="freedomProgressBar"></span></div>
+    </section>
+    <section class="freedom-discovery" aria-label="Find a programme">
+      <label for="freedomSearch">Find the right next step</label>
+      <div class="freedom-search-wrap"><span aria-hidden="true">⌕</span><input id="freedomSearch" type="search" placeholder="Search lessons, skills or opportunities..." autocomplete="off"></div>
+      <div class="freedom-filters" id="freedomFilters" aria-label="Filter programmes"></div>
+    </section>
+    <div class="freedom-programme-grid" id="freedomProgrammeGrid"></div>
+    <div class="freedom-empty-state" id="freedomEmptyState" hidden><span aria-hidden="true">⌕</span><h2>No matching programme found</h2><p>Try a different search term or select another filter.</p></div>
+  </div>
+  <section class="freedom-learning-detail" id="freedomLearningDetail" aria-labelledby="freedomDetailTitle" hidden>
+    <div class="freedom-detail-shell"><button class="freedom-back-button freedom-detail-back" id="freedomDetailBack" type="button">← Back to pathway</button><div id="freedomDetailContent"></div></div>
+  </section>
 </section>
-<footer><p>&copy; A.E CONNECT SPACE</p></footer>
+</main>
+
+<footer><p>© A.E CONNECT SPACE</p></footer>
+<script src="../SCRPIT/freedom-pathways.js"></script>
 <script src="../SCRPIT/mobile-nav.js"></script>
 </body>
 </html>

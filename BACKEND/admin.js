@@ -11,7 +11,9 @@ import {
   query,
   serverTimestamp,
   setDoc,
-  updateDoc
+  updateDoc,
+  where,
+  writeBatch
 } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
 import {
   getDownloadURL,
@@ -275,6 +277,7 @@ function renderStudents(users) {
     const viewButton = document.createElement("button");
     const editButton = document.createElement("button");
     const deleteButton = document.createElement("button");
+    const manageButton = document.createElement("button");
     viewButton.type = "button";
     viewButton.textContent = "View";
     viewButton.addEventListener("click", () => renderStudentProfile(user));
@@ -583,8 +586,13 @@ function renderRoadmaps(roadmaps) {
     deleteButton.textContent = "Delete";
     deleteButton.addEventListener("click", () => deleteRoadmap(roadmap));
 
+    manageButton.type = "button";
+    manageButton.textContent = "Manage";
+    manageButton.dataset.manageRoadmap = roadmap.id;
+    manageButton.dataset.roadmapTitle = clean(roadmap.title, "Roadmap");
+
     actionCell.className = "admin-table-actions";
-    actionCell.append(editButton, publishButton, deleteButton);
+    actionCell.append(manageButton, editButton, publishButton, deleteButton);
     row.append(actionCell);
     tableBody.append(row);
   });
@@ -680,6 +688,11 @@ async function deleteRoadmap(roadmap) {
   if (!confirmed) return;
 
   try {
+    const relatedCollections = ["roadmapStages", "roadmapLessons", "skills", "studentProgress"];
+    const relatedSnapshots = await Promise.all(relatedCollections.map(name => getDocs(query(collection(db, name), where("roadmapId", "==", roadmap.id)))));
+    const batch = writeBatch(db);
+    relatedSnapshots.forEach(snapshot => snapshot.docs.forEach(item => batch.delete(item.ref)));
+    await batch.commit();
     await deleteDoc(doc(db, "roadmaps", roadmap.id));
     setRoadmapFeedback("Roadmap deleted successfully.", "success");
     await loadRoadmaps();

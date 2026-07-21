@@ -1,4 +1,4 @@
-import { db } from "./firebase-config.js";
+import { db, storage } from "./firebase-config.js";
 import { requireAuthenticatedUser } from "./auth.js";
 import { getUserDocument } from "./firestore.js";
 import {
@@ -12,6 +12,11 @@ import {
   serverTimestamp,
   setDoc
 } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+import {
+  getDownloadURL,
+  ref as storageRef,
+  uploadBytesResumable
+} from "https://www.gstatic.com/firebasejs/10.12.5/firebase-storage.js";
 
 const defaultDiscussions = [
   { id: "excel-economics", name: "Kwame Mensah", initials: "KM", topic: "Economics", time: "2 hours ago", title: "What Excel skills should an Economics student master by Level 300?", body: "I am currently in Level 200 and trying to figure out which Excel functions are absolutely essential before my internship applications.", likes: 56, replies: [{ name: "Ama Boateng", text: "Start with pivot tables, XLOOKUP, IF statements, charts, and cleaning messy datasets. Then learn how to explain insights clearly." }] },
@@ -53,7 +58,16 @@ const state = {
   groupPictureDataUrl: "",
   viewportCleanup: null,
   voiceStart: null,
-  voiceTimer: null
+  voiceTimer: null,
+  mediaRecorder: null,
+  recordingStream: null,
+  recordingChunks: [],
+  recordingBlob: null,
+  callStream: null,
+  callTimer: null,
+  callStartedAt: null,
+  callMode: null,
+  facingMode: "user"
 };
 
 const elements = {
@@ -86,7 +100,30 @@ const elements = {
   groupMessageInput: document.getElementById("groupMessageInput"),
   groupAttachment: document.getElementById("groupAttachment"),
   groupTyping: document.getElementById("groupTyping"),
-  voiceButton: document.getElementById("voiceButton")
+  voiceButton: document.getElementById("voiceButton"),
+  voiceRecorder: document.getElementById("voiceRecorder"),
+  voiceRecorderStatus: document.getElementById("voiceRecorderStatus"),
+  voiceRecorderTimer: document.getElementById("voiceRecorderTimer"),
+  cancelVoiceRecording: document.getElementById("cancelVoiceRecording"),
+  stopVoiceRecording: document.getElementById("stopVoiceRecording"),
+  sendVoiceRecording: document.getElementById("sendVoiceRecording"),
+  chatUpload: document.getElementById("chatUpload"),
+  chatUploadName: document.getElementById("chatUploadName"),
+  chatUploadPercent: document.getElementById("chatUploadPercent"),
+  chatUploadProgress: document.getElementById("chatUploadProgress"),
+  chatNotice: document.getElementById("chatNotice"),
+  callInterface: document.getElementById("callInterface"),
+  localVideo: document.getElementById("localVideo"),
+  callIdentity: document.getElementById("callIdentity"),
+  callAvatar: document.getElementById("callAvatar"),
+  callContactName: document.getElementById("callContactName"),
+  callStatus: document.getElementById("callStatus"),
+  callDuration: document.getElementById("callDuration"),
+  muteCall: document.getElementById("muteCall"),
+  speakerCall: document.getElementById("speakerCall"),
+  cameraCall: document.getElementById("cameraCall"),
+  switchCamera: document.getElementById("switchCamera"),
+  endCall: document.getElementById("endCall")
 };
 
 function escapeHtml(value) {
@@ -233,17 +270,24 @@ function renderMessage(message) {
   const isMine = message.userId === state.user.uid;
   const from = isMine ? "You" : message.userName || "Member";
   const time = formatTime(message.createdAt);
+  const receiptState = message.status || "sent";
+  const receiptIcon = { sending: "◷", sent: "✓", delivered: "✓✓", read: "✓✓" }[receiptState] || "✓";
+  const status = isMine ? `<span class="message-status ${receiptState === "read" ? "read" : ""}" title="${escapeHtml(receiptState)}" aria-label="${escapeHtml(receiptState)}">${receiptIcon}</span>` : "";
 
   if (message.type === "system") {
     return `<div class="chat-system-message">${escapeHtml(message.text)} <span>${escapeHtml(time)}</span></div>`;
   }
   if (message.type === "voice") {
-    return `<div class="chat-bubble ${isMine ? "mine" : "theirs"}"><small>${escapeHtml(from)}</small><p class="voice-note"><span></span> Voice note ${escapeHtml(message.duration || "0:01")}</p><time>${escapeHtml(time)}</time></div>`;
+    return `<div class="chat-bubble ${isMine ? "mine" : "theirs"}"><small>${escapeHtml(from)}</small><audio class="voice-message" controls preload="metadata" src="${escapeHtml(message.attachmentUrl || "")}"></audio><div class="message-meta"><time>${escapeHtml(time)}</time>${status}</div></div>`;
   }
   if (message.type === "file") {
-    return `<div class="chat-bubble ${isMine ? "mine" : "theirs"}"><small>${escapeHtml(from)}</small><p>Attachment: ${escapeHtml(message.attachmentName || message.text)}</p><time>${escapeHtml(time)}</time></div>`;
+    const url = escapeHtml(message.attachmentUrl || "#");
+    const name = escapeHtml(message.attachmentName || message.text);
+    const mime = message.attachmentType || "";
+    const preview = mime.startsWith("image/") ? `<img class="message-media" src="${url}" alt="${name}">` : mime.startsWith("video/") ? `<video class="message-media" src="${url}" controls preload="metadata"></video>` : `<a class="document-message" href="${url}" target="_blank" rel="noopener"><span>DOC</span><div><strong>${name}</strong><small>Open attachment</small></div></a>`;
+    return `<div class="chat-bubble ${isMine ? "mine" : "theirs"}"><small>${escapeHtml(from)}</small>${preview}<div class="message-meta"><time>${escapeHtml(time)}</time>${status}</div></div>`;
   }
-  return `<div class="chat-bubble ${isMine ? "mine" : "theirs"}"><small>${escapeHtml(from)}</small><p>${escapeHtml(message.text)}</p><time>${escapeHtml(time)}</time></div>`;
+  return `<div class="chat-bubble ${isMine ? "mine" : "theirs"}"><small>${escapeHtml(from)}</small><p>${escapeHtml(message.text)}</p><div class="message-meta"><time>${escapeHtml(time)}</time>${status}</div></div>`;
 }
 
 function renderGroupHeader(groupId) {
@@ -387,6 +431,8 @@ function openGroupChat(groupId) {
 }
 
 function closeGroupChat() {
+  endActiveCall();
+  cancelRecording();
   elements.groupChatModal.hidden = true;
   stopWatchingChatViewport();
   unlockChatPageScroll();
@@ -408,12 +454,168 @@ async function createMessage(data) {
     type: data.type || "text",
     duration: data.duration || "",
     attachmentName: data.attachmentName || "",
+    attachmentUrl: data.attachmentUrl || "",
+    attachmentType: data.attachmentType || "",
+    status: "sent",
     userId: state.user.uid,
     userName: currentUserName(),
     userEmail: state.user.email || "",
     createdAt: serverTimestamp()
   });
 }
+
+function showNotice(message) {
+  elements.chatNotice.textContent = message;
+  elements.chatNotice.hidden = false;
+  clearTimeout(showNotice.timer);
+  showNotice.timer = setTimeout(() => { elements.chatNotice.hidden = true; }, 5500);
+}
+
+function formatDuration(totalSeconds) {
+  const minutes = Math.floor(totalSeconds / 60);
+  const seconds = totalSeconds % 60;
+  return `${minutes}:${String(seconds).padStart(2, "0")}`;
+}
+
+function stopTracks(stream) {
+  stream?.getTracks().forEach(track => track.stop());
+}
+
+function resetRecordingUi() {
+  clearInterval(state.voiceTimer);
+  state.voiceTimer = null;
+  state.voiceStart = null;
+  elements.voiceRecorder.hidden = true;
+  elements.groupChatForm.hidden = false;
+  elements.sendVoiceRecording.hidden = true;
+  elements.stopVoiceRecording.hidden = false;
+  elements.voiceRecorderStatus.textContent = "Recording voice message";
+  elements.voiceRecorderTimer.textContent = "0:00";
+  elements.voiceButton.disabled = false;
+}
+
+function cancelRecording() {
+  if (state.mediaRecorder?.state !== "inactive") state.mediaRecorder?.stop();
+  stopTracks(state.recordingStream);
+  state.mediaRecorder = null;
+  state.recordingStream = null;
+  state.recordingChunks = [];
+  state.recordingBlob = null;
+  resetRecordingUi();
+}
+
+async function beginVoiceRecording() {
+  if (!navigator.mediaDevices?.getUserMedia || !window.MediaRecorder) {
+    showNotice("Voice recording is not supported by this browser. Try the latest Chrome, Edge, Firefox, or Safari.");
+    return;
+  }
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    const recorder = new MediaRecorder(stream);
+    state.recordingStream = stream;
+    state.mediaRecorder = recorder;
+    state.recordingChunks = [];
+    state.recordingBlob = null;
+    recorder.addEventListener("dataavailable", event => { if (event.data.size) state.recordingChunks.push(event.data); });
+    recorder.addEventListener("stop", () => {
+      state.recordingBlob = new Blob(state.recordingChunks, { type: recorder.mimeType || "audio/webm" });
+      stopTracks(state.recordingStream);
+      state.recordingStream = null;
+      elements.voiceRecorderStatus.textContent = "Voice message ready";
+      elements.stopVoiceRecording.hidden = true;
+      elements.sendVoiceRecording.hidden = false;
+    }, { once: true });
+    recorder.start(250);
+    state.voiceStart = Date.now();
+    elements.groupChatForm.hidden = true;
+    elements.voiceRecorder.hidden = false;
+    elements.voiceButton.disabled = true;
+    state.voiceTimer = setInterval(() => {
+      elements.voiceRecorderTimer.textContent = formatDuration(Math.floor((Date.now() - state.voiceStart) / 1000));
+    }, 250);
+  } catch (error) {
+    showNotice(error.name === "NotAllowedError" ? "Microphone access was denied. You can enable it in your browser site settings and try again." : "We could not access your microphone. Check that it is connected and not being used by another app.");
+  }
+}
+
+function uploadCommunityFile(file, onProgress) {
+  const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, "-");
+  const target = storageRef(storage, `community/${state.user.uid}/${Date.now()}-${safeName}`);
+  const task = uploadBytesResumable(target, file, { contentType: file.type || "application/octet-stream" });
+  return new Promise((resolve, reject) => {
+    task.on("state_changed", snapshot => onProgress(Math.round(snapshot.bytesTransferred / snapshot.totalBytes * 100)), reject, async () => resolve(await getDownloadURL(task.snapshot.ref)));
+  });
+}
+
+async function sendAttachment(file, type = "file", duration = "") {
+  elements.chatUpload.hidden = false;
+  elements.chatUploadName.textContent = file.name;
+  elements.chatUploadProgress.value = 0;
+  elements.chatUploadPercent.textContent = "0%";
+  try {
+    const url = await uploadCommunityFile(file, percent => {
+      elements.chatUploadProgress.value = percent;
+      elements.chatUploadPercent.textContent = `${percent}%`;
+    });
+    await createMessage({ type, duration, text: file.name, attachmentName: file.name, attachmentUrl: url, attachmentType: file.type });
+  } catch (error) {
+    console.error("[Community] Upload failed", error);
+    showNotice(error?.code === "storage/unauthorized" ? "This file cannot be uploaded yet. Please ask an administrator to publish the updated storage rules." : "The attachment could not be uploaded. Check your connection and try again.");
+  } finally {
+    elements.chatUpload.hidden = true;
+  }
+}
+
+function endActiveCall() {
+  clearInterval(state.callTimer);
+  state.callTimer = null;
+  state.callStartedAt = null;
+  stopTracks(state.callStream);
+  state.callStream = null;
+  state.callMode = null;
+  elements.localVideo.srcObject = null;
+  elements.callInterface.hidden = true;
+}
+
+async function startCall(mode) {
+  const video = mode === "video";
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: video ? { facingMode: state.facingMode } : false });
+    state.callStream = stream;
+    state.callMode = mode;
+    const group = groupById(state.activeGroupId);
+    elements.callContactName.textContent = group.title;
+    elements.callAvatar.textContent = initials(group.title);
+    elements.callStatus.textContent = "Calling...";
+    elements.callDuration.hidden = true;
+    elements.callIdentity.classList.toggle("compact", video);
+    elements.localVideo.hidden = !video;
+    elements.localVideo.srcObject = video ? stream : null;
+    elements.cameraCall.hidden = !video;
+    elements.switchCamera.hidden = !video || !/Android|iPhone|iPad|Mobile/i.test(navigator.userAgent);
+    elements.speakerCall.hidden = video;
+    elements.callInterface.hidden = false;
+    // Integration seam: a future WebRTC signaling service should create/join the room here.
+    // Until signaling exists, permissions and local media are real; no call event is written to chat.
+  } catch (error) {
+    showNotice(error.name === "NotAllowedError" ? `${video ? "Camera and microphone" : "Microphone"} access was denied. Enable permission in your browser settings to start a call.` : `We could not start the ${video ? "video" : "audio"} call. Check your devices and try again.`);
+  }
+}
+
+function markCallConnected() {
+  if (!state.callStream || state.callStartedAt) return;
+  state.callStartedAt = Date.now();
+  elements.callStatus.textContent = "Connected";
+  elements.callDuration.hidden = false;
+  elements.callDuration.textContent = "00:00";
+  state.callTimer = setInterval(() => {
+    const elapsed = Math.floor((Date.now() - state.callStartedAt) / 1000);
+    elements.callDuration.textContent = `${String(Math.floor(elapsed / 60)).padStart(2, "0")}:${String(elapsed % 60).padStart(2, "0")}`;
+  }, 1000);
+}
+
+// Future WebRTC signaling can dispatch this event when a remote peer joins.
+window.addEventListener("ae-connect:call-connected", markCallConnected);
 
 function renderProfilePhoto(group) {
   const scale = `scale(${state.profileZoomLevel})`;
@@ -538,13 +740,11 @@ function bindEvents() {
     }
   }, { passive: false });
 
-  document.querySelectorAll("[data-audio-call],[data-video-call]").forEach(button => button.addEventListener("click", async () => {
-    const callType = button.hasAttribute("data-audio-call") ? "Audio call" : "Video call";
-    await createMessage({ type: "system", text: `${callType} requested by ${currentUserName()}.` });
-  }));
+  document.querySelector("[data-audio-call]").addEventListener("click", () => startCall("audio"));
+  document.querySelector("[data-video-call]").addEventListener("click", () => startCall("video"));
 
   elements.groupMessageInput.addEventListener("input", () => {
-    elements.groupTyping.textContent = "You are typing...";
+    elements.groupTyping.textContent = `${currentUserName()} is typing...`;
     elements.groupTyping.hidden = elements.groupMessageInput.value.trim().length === 0;
     keepComposerVisible();
   });
@@ -576,26 +776,61 @@ function bindEvents() {
   elements.groupAttachment.addEventListener("change", async () => {
     const file = elements.groupAttachment.files[0];
     if (!file) return;
-    await createMessage({ type: "file", text: file.name, attachmentName: file.name });
+    if (file.size > 25 * 1024 * 1024) {
+      showNotice("Attachments must be smaller than 25 MB.");
+      elements.groupAttachment.value = "";
+      return;
+    }
+    await sendAttachment(file);
     elements.groupAttachment.value = "";
   });
 
-  elements.voiceButton.addEventListener("click", async () => {
-    if (!state.voiceStart) {
-      state.voiceStart = Date.now();
-      elements.voiceButton.textContent = "Stop 0:00";
-      state.voiceTimer = setInterval(() => {
-        const seconds = Math.floor((Date.now() - state.voiceStart) / 1000);
-        elements.voiceButton.textContent = `Stop 0:${String(seconds).padStart(2, "0")}`;
-      }, 500);
-      return;
-    }
-
-    const seconds = Math.max(1, Math.floor((Date.now() - state.voiceStart) / 1000));
+  elements.voiceButton.addEventListener("click", beginVoiceRecording);
+  elements.stopVoiceRecording.addEventListener("click", () => {
     clearInterval(state.voiceTimer);
-    state.voiceStart = null;
-    elements.voiceButton.textContent = "Mic";
-    await createMessage({ type: "voice", duration: `0:${String(seconds).padStart(2, "0")}` });
+    if (state.mediaRecorder?.state === "recording") state.mediaRecorder.stop();
+  });
+  elements.cancelVoiceRecording.addEventListener("click", cancelRecording);
+  elements.sendVoiceRecording.addEventListener("click", async () => {
+    if (!state.recordingBlob) return;
+    const seconds = Math.max(1, Math.floor((Date.now() - state.voiceStart) / 1000));
+    const extension = state.recordingBlob.type.includes("ogg") ? "ogg" : state.recordingBlob.type.includes("mp4") ? "m4a" : "webm";
+    const file = new File([state.recordingBlob], `Voice-message-${Date.now()}.${extension}`, { type: state.recordingBlob.type });
+    resetRecordingUi();
+    state.recordingBlob = null;
+    await sendAttachment(file, "voice", formatDuration(seconds));
+  });
+
+  elements.endCall.addEventListener("click", endActiveCall);
+  elements.muteCall.addEventListener("click", () => {
+    const track = state.callStream?.getAudioTracks()[0];
+    if (!track) return;
+    track.enabled = !track.enabled;
+    elements.muteCall.setAttribute("aria-pressed", String(!track.enabled));
+    elements.muteCall.querySelector("small").textContent = track.enabled ? "Mute" : "Unmute";
+  });
+  elements.speakerCall.addEventListener("click", () => {
+    const active = elements.speakerCall.getAttribute("aria-pressed") !== "true";
+    elements.speakerCall.setAttribute("aria-pressed", String(active));
+    elements.speakerCall.querySelector("small").textContent = active ? "Speaker on" : "Speaker";
+  });
+  elements.cameraCall.addEventListener("click", () => {
+    const track = state.callStream?.getVideoTracks()[0];
+    if (!track) return;
+    track.enabled = !track.enabled;
+    elements.cameraCall.setAttribute("aria-pressed", String(!track.enabled));
+    elements.cameraCall.querySelector("small").textContent = track.enabled ? "Camera" : "Camera off";
+  });
+  elements.switchCamera.addEventListener("click", async () => {
+    state.facingMode = state.facingMode === "user" ? "environment" : "user";
+    const oldTrack = state.callStream?.getVideoTracks()[0];
+    try {
+      const replacement = await navigator.mediaDevices.getUserMedia({ video: { facingMode: { exact: state.facingMode } } });
+      oldTrack?.stop();
+      if (oldTrack) state.callStream.removeTrack(oldTrack);
+      state.callStream.addTrack(replacement.getVideoTracks()[0]);
+      elements.localVideo.srcObject = state.callStream;
+    } catch { state.facingMode = state.facingMode === "user" ? "environment" : "user"; }
   });
 
   document.getElementById("startDiscussionButton").addEventListener("click", () => {
