@@ -1,5 +1,5 @@
 import { loginWithEmail, logoutUser, observeAuthState, registerWithEmail, requireAuthenticatedUser } from "./auth.js";
-import { auth, db } from "./firebase-config.js";
+import { auth, db, storage } from "./firebase-config.js";
 import { getUserDocument } from "./firestore.js";
 import {
   collection,
@@ -11,12 +11,30 @@ import {
   where
 } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
 import { updateProfile } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
+import {
+  getDownloadURL,
+  ref,
+  uploadBytesResumable
+} from "https://www.gstatic.com/firebasejs/10.12.5/firebase-storage.js";
 
 const dashboardPath = "dashboard.html";
+
+function authDestination() {
+  const requested = new URLSearchParams(window.location.search).get("return");
+  if (!requested) return dashboardPath;
+  try {
+    const destination = new URL(requested, window.location.href);
+    return destination.origin === window.location.origin ? destination.href : dashboardPath;
+  } catch {
+    return dashboardPath;
+  }
+}
 const authPath = "auth.html";
 let authFlowInProgress = false;
 let dashboardUser = null;
 let dashboardProfile = {};
+let pendingProfilePhoto = null;
+let pendingProfilePhotoUrl = "";
 
 function byId(id) {
   return document.getElementById(id);
@@ -543,7 +561,7 @@ function setupRegisterForm() {
     try {
       await registerWithEmail(profile);
       showMessage("Account created successfully. Redirecting to your dashboard...");
-      window.location.replace(dashboardPath);
+      window.location.replace(authDestination());
     } catch (error) {
       console.error("[Register] Registration flow failed", {
         code: error.code,
@@ -572,7 +590,7 @@ function setupLoginForm() {
     try {
       await loginWithEmail(readValue("loginEmail").toLowerCase(), byId("loginPassword").value);
       showMessage("Welcome back! Redirecting...");
-      window.location.replace(dashboardPath);
+      window.location.replace(authDestination());
     } catch (error) {
       console.error("[Login] Login flow failed", {
         code: error.code,
@@ -731,6 +749,54 @@ function setProfileInput(id, value) {
   if (input) input.value = value || "";
 }
 
+function profileInitials(name) {
+  return String(name || "Student")
+    .trim()
+    .split(/\s+/)
+    .slice(0, 2)
+    .map(part => part.charAt(0))
+    .join("")
+    .toUpperCase() || "ST";
+}
+
+function renderProfilePhoto(photoUrl, name) {
+  document.querySelectorAll("[data-profile-photo]").forEach(image => {
+    if (photoUrl) {
+      image.src = photoUrl;
+      image.hidden = false;
+    } else {
+      image.removeAttribute("src");
+      image.hidden = true;
+    }
+  });
+  document.querySelectorAll("[data-profile-initials]").forEach(element => {
+    element.textContent = profileInitials(name);
+    element.hidden = Boolean(photoUrl);
+  });
+}
+
+function resetPendingProfilePhoto() {
+  if (pendingProfilePhotoUrl) URL.revokeObjectURL(pendingProfilePhotoUrl);
+  pendingProfilePhoto = null;
+  pendingProfilePhotoUrl = "";
+  const input = byId("profilePhotoInput");
+  if (input) input.value = "";
+}
+
+function uploadProfilePhoto(file, userId, onProgress) {
+  const photoRef = ref(storage, `profile-images/${userId}/avatar`);
+  const task = uploadBytesResumable(photoRef, file, {
+    contentType: file.type,
+    cacheControl: "public,max-age=3600"
+  });
+  return new Promise((resolve, reject) => {
+    task.on("state_changed", snapshot => {
+      const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+      onProgress(progress);
+    }, reject, async () => resolve(await getDownloadURL(task.snapshot.ref)));
+  });
+}
+
 function fillDashboardProfileForm() {
   const data = dashboardProfile || {};
   setProfileInput("profileFullName", cleanUserValue(data.fullName) || cleanUserValue(dashboardUser?.displayName));
@@ -739,6 +805,8 @@ function fillDashboardProfileForm() {
   setProfileInput("profileProgramme", cleanUserValue(data.programme));
   setProfileInput("profileLevel", cleanUserValue(data.level));
   setProfileInput("profileCountry", cleanUserValue(data.country));
+  resetPendingProfilePhoto();
+  renderProfilePhoto(cleanUserValue(data.photoURL) || cleanUserValue(dashboardUser?.photoURL), cleanUserValue(data.fullName) || cleanUserValue(dashboardUser?.displayName));
 }
 
 function openDashboardProfileEditor() {
@@ -756,6 +824,8 @@ function closeDashboardProfileEditor() {
   if (!modal) return;
   modal.hidden = true;
   document.body.classList.remove("dashboard-profile-open");
+  resetPendingProfilePhoto();
+  renderProfilePhoto(cleanUserValue(dashboardProfile.photoURL) || cleanUserValue(dashboardUser?.photoURL), cleanUserValue(dashboardProfile.fullName) || cleanUserValue(dashboardUser?.displayName));
 }
 
 function applyProfileToDashboard(profile = {}) {
@@ -765,6 +835,7 @@ function applyProfileToDashboard(profile = {}) {
   const programme = cleanUserValue(profile.programme);
   const level = cleanUserValue(profile.level);
   const country = cleanUserValue(profile.country);
+  const photoURL = cleanUserValue(profile.photoURL) || cleanUserValue(dashboardUser?.photoURL);
 
   setUserField("fullName", fullName);
   setUserField("email", email);
@@ -774,6 +845,7 @@ function applyProfileToDashboard(profile = {}) {
   setUserField("country", country);
   setUserField("countryLabel", country ? `Country: ${country}` : getUserFieldDefault("countryLabel"));
   setUserField("programmeLevel", formatProgrammeLevel(programme, level));
+  renderProfilePhoto(photoURL, fullName);
 }
 
 function setupDashboardProfileEditor() {
@@ -791,6 +863,27 @@ function setupDashboardProfileEditor() {
 
   document.addEventListener("keydown", event => {
     if (event.key === "Escape" && !modal.hidden) closeDashboardProfileEditor();
+  });
+
+  byId("profilePhotoInput")?.addEventListener("change", event => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+    const allowedTypes = ["image/jpeg", "image/png", "image/webp"];
+    if (!allowedTypes.includes(file.type)) {
+      event.target.value = "";
+      setProfileMessage("Please choose a JPG, PNG, or WebP image.", "error");
+      return;
+    }
+    if (file.size > 5 * 1024 * 1024) {
+      event.target.value = "";
+      setProfileMessage("The profile picture must be smaller than 5 MB.", "error");
+      return;
+    }
+    if (pendingProfilePhotoUrl) URL.revokeObjectURL(pendingProfilePhotoUrl);
+    pendingProfilePhoto = file;
+    pendingProfilePhotoUrl = URL.createObjectURL(file);
+    renderProfilePhoto(pendingProfilePhotoUrl, readValue("profileFullName"));
+    setProfileMessage("New picture selected. Save your profile to upload it.");
   });
 
   form.addEventListener("submit", async event => {
@@ -812,9 +905,17 @@ function setupDashboardProfileEditor() {
     };
 
     try {
+      if (pendingProfilePhoto) {
+        updatedProfile.photoURL = await uploadProfilePhoto(pendingProfilePhoto, dashboardUser.uid, progress => {
+          setProfileMessage(`Uploading picture... ${progress}%`);
+        });
+      }
       await updateDoc(doc(db, "users", dashboardUser.uid), updatedProfile);
-      if (updatedProfile.fullName && auth.currentUser) {
-        await updateProfile(auth.currentUser, { displayName: updatedProfile.fullName });
+      if (auth.currentUser) {
+        await updateProfile(auth.currentUser, {
+          displayName: updatedProfile.fullName || auth.currentUser.displayName,
+          photoURL: updatedProfile.photoURL || auth.currentUser.photoURL
+        });
       }
 
       dashboardProfile = {
@@ -823,6 +924,7 @@ function setupDashboardProfileEditor() {
         updatedAt: new Date()
       };
       applyProfileToDashboard(dashboardProfile);
+      resetPendingProfilePhoto();
       setProfileMessage("Profile updated successfully.");
       await loadPublishedDashboardRoadmaps(dashboardProfile);
       await loadDashboardResources(dashboardProfile);
@@ -847,7 +949,7 @@ function setupAuthRedirect() {
 
   observeAuthState(user => {
     if (user && !authFlowInProgress) {
-      window.location.replace(dashboardPath);
+      window.location.replace(authDestination());
     }
   });
 }

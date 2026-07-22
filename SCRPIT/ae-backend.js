@@ -5,9 +5,19 @@
   const hasKeys = Boolean(config.supabaseUrl && config.supabaseAnonKey);
   const hasClient = Boolean(window.supabase && hasKeys);
   const client = hasClient ? window.supabase.createClient(config.supabaseUrl, config.supabaseAnonKey) : null;
+  let firebasePromise = null;
+
+  function firebaseBackend(){
+    if(firebasePromise) return firebasePromise;
+    firebasePromise = Promise.all([
+      import('../BACKEND/firebase-config.js'),
+      import('https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js')
+    ]).then(([firebase, firestore]) => ({ ...firebase, ...firestore }));
+    return firebasePromise;
+  }
 
   function isReady(){
-    return Boolean(client || apiBaseUrl || sameOriginApi);
+    return true;
   }
 
   function logBackendIssue(table, error){
@@ -35,7 +45,19 @@
   async function listRows(table){
     const apiRows = await apiRequest(`/api/${table}`);
     if(apiRows) return apiRows;
-    if(!client) return null;
+    if(!client){
+      try{
+        const { db, collection, getDocs } = await firebaseBackend();
+        const snapshot = await getDocs(collection(db, table));
+        return snapshot.docs.map(item => {
+          const data = item.data();
+          return { id: item.id, ...data, created_at: data.createdAt?.toDate?.().toISOString() || data.created_at };
+        }).sort((a,b) => String(b.created_at || '').localeCompare(String(a.created_at || '')));
+      }catch(error){
+        logBackendIssue(table, error);
+        return null;
+      }
+    }
     const { data, error } = await client.from(table).select('*').order('created_at', { ascending: false });
     if(error){
       logBackendIssue(table, error);
@@ -51,7 +73,23 @@
       body: JSON.stringify(payload)
     });
     if(apiRow) return apiRow;
-    if(!client) return null;
+    if(!client){
+      try{
+        const { auth, db, addDoc, collection, serverTimestamp } = await firebaseBackend();
+        if(!auth.currentUser) throw new Error('Please sign in before publishing.');
+        const document = await addDoc(collection(db, table), {
+          ...payload,
+          status: 'Published',
+          createdBy: auth.currentUser.uid,
+          createdByEmail: auth.currentUser.email || '',
+          createdAt: serverTimestamp()
+        });
+        return { id: document.id, ...payload, created_at: new Date().toISOString() };
+      }catch(error){
+        logBackendIssue(table, error);
+        return null;
+      }
+    }
     const { data, error } = await client.from(table).insert(payload).select().single();
     if(error){
       logBackendIssue(table, error);

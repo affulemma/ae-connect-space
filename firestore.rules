@@ -39,7 +39,8 @@ service cloud.firestore {
     }
 
     function isPublished() {
-      return resource.data.status == "Published";
+      return resource.data.status == "Published"
+        || resource.data.status == "published";
     }
 
     match /users/{userId} {
@@ -102,9 +103,66 @@ service cloud.firestore {
       allow create, update, delete: if isAdmin();
     }
 
+    match /newsletterSubscribers/{subscriberId} {
+      function validNewsletterSubscription() {
+        return request.resource.data.keys().hasOnly([
+          "email", "consent", "status", "source", "createdAt"
+        ])
+        && request.resource.data.email is string
+        && request.resource.data.email.size() >= 5
+        && request.resource.data.email.size() <= 254
+        && request.resource.data.email.matches('^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$')
+        && request.resource.data.consent == true
+        && request.resource.data.status == "subscribed"
+        && request.resource.data.source is string
+        && request.resource.data.source.size() <= 180
+        && request.resource.data.createdAt == request.time;
+      }
+
+      allow create: if validNewsletterSubscription();
+      allow update: if isAdmin()
+        || (validNewsletterSubscription()
+          && request.resource.data.email == resource.data.email);
+      allow read, delete: if isAdmin();
+    }
+
     match /events/{eventId} {
       allow read: if isAdmin() || isPublished();
-      allow create, update, delete: if isAdmin();
+      allow create: if signedIn()
+        && request.resource.data.createdBy == request.auth.uid
+        && request.resource.data.status == "published"
+        && request.resource.data.title is string
+        && request.resource.data.title.size() > 0
+        && request.resource.data.title.size() <= 160
+        && request.resource.data.category is string
+        && request.resource.data.programme is string
+        && request.resource.data.date is string
+        && request.resource.data.time is string
+        && request.resource.data.location is string
+        && request.resource.data.organizer is string
+        && request.resource.data.description is string
+        && request.resource.data.description.size() > 0
+        && request.resource.data.description.size() <= 2000;
+      allow update: if isAdmin()
+        || (signedIn()
+          && resource.data.createdBy == request.auth.uid
+          && request.resource.data.createdBy == request.auth.uid);
+      allow delete: if isAdmin()
+        || (signedIn() && resource.data.createdBy == request.auth.uid);
+    }
+
+    match /eventRegistrations/{registrationId} {
+      allow create: if signedIn()
+        && request.resource.data.createdBy == request.auth.uid
+        && request.resource.data.eventId is string
+        && request.resource.data.status == "registered";
+      allow read, delete: if signedIn()
+        && (resource.data.createdBy == request.auth.uid || isAdmin());
+      allow update: if signedIn()
+        && (resource.data.createdBy == request.auth.uid || isAdmin())
+        && request.resource.data.createdBy == resource.data.createdBy
+        && request.resource.data.eventId == resource.data.eventId
+        && request.resource.data.status == "registered";
     }
 
     match /community/{postId} {
@@ -137,6 +195,47 @@ service cloud.firestore {
       allow read: if isAdmin() || (signedIn() && isPublished());
       allow create: if signedIn();
       allow update, delete: if isAdmin();
+    }
+
+    match /marketplace_listings/{listingId} {
+      allow read: if resource.data.status == "Published" || isAdmin();
+      allow create: if signedIn()
+        && request.resource.data.createdBy == request.auth.uid
+        && request.resource.data.status == "Published";
+      allow update, delete: if isAdmin()
+        || (signedIn() && resource.data.createdBy == request.auth.uid);
+    }
+
+    match /partner_profiles/{profileId} {
+      allow read: if resource.data.status == "Published" || isAdmin();
+      allow create: if signedIn()
+        && request.resource.data.createdBy == request.auth.uid
+        && request.resource.data.status == "Published";
+      allow update, delete: if isAdmin()
+        || (signedIn() && resource.data.createdBy == request.auth.uid);
+    }
+
+    match /business_discussions/{discussionId} {
+      allow read: if resource.data.status == "Published" || isAdmin();
+      allow create: if signedIn()
+        && request.resource.data.createdBy == request.auth.uid
+        && request.resource.data.status == "Published";
+      allow update, delete: if isAdmin()
+        || (signedIn() && resource.data.createdBy == request.auth.uid);
+    }
+
+    match /community_groups/{groupId} {
+      allow read: if signedIn();
+      allow create: if signedIn() && request.resource.data.createdBy == request.auth.uid;
+      allow update, delete: if isAdmin()
+        || (signedIn() && resource.data.createdBy == request.auth.uid);
+    }
+
+    match /group_messages/{messageId} {
+      allow read: if signedIn();
+      allow create: if signedIn() && request.resource.data.createdBy == request.auth.uid;
+      allow update, delete: if isAdmin()
+        || (signedIn() && resource.data.createdBy == request.auth.uid);
     }
 
     match /announcements/{announcementId} {

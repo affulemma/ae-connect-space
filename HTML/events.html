@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Events | A.E CONNECT SPACE</title>
-<link rel="stylesheet" href="../STYLE/style.css?v=events-20260619">
+<link rel="stylesheet" href="../STYLE/style.css?v=events-registration-20260722">
 <link rel="stylesheet" href="../STYLE/responsive.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -47,26 +47,7 @@
 <section class="featured-events-section">
 <div class="home-container">
 <h2 class="events-mini-heading"><span></span>Featured Events</h2>
-<div class="featured-events-grid">
-<article class="featured-event-card">
-<div><b>Workshop</b><small>Virtual (Zoom)</small></div>
-<h3>Data Analytics Workshop</h3>
-<p>Excel, pivot tables, and Power BI in one practical session.</p>
-<footer><span>2026-06-15</span><span>145/300</span></footer>
-</article>
-<article class="featured-event-card">
-<div><b>Webinar</b><small>Virtual (Google Meet)</small></div>
-<h3>Computer Science Roadmap</h3>
-<p>A practical session on skills, projects, and portfolio direction.</p>
-<footer><span>2026-06-20</span><span>210/500</span></footer>
-</article>
-<article class="featured-event-card">
-<div><b>Meetup</b><small>Accra International Conference Centre</small></div>
-<h3>Young Leaders Career Summit</h3>
-<p>A full-day gathering for students, speakers, and useful connections.</p>
-<footer><span>2026-07-25</span><span>320/500</span></footer>
-</article>
-</div>
+<div class="featured-events-grid" id="featuredEventsGrid" aria-live="polite"></div>
 </div>
 </section>
 
@@ -91,21 +72,22 @@
 <aside class="post-event-panel" id="postEvent">
 <span class="events-pill">Post Event</span>
 <h2>Share An Event</h2>
-<form id="eventForm">
+<form id="eventForm" novalidate>
 <label>Event Title<input id="eventTitle" type="text" placeholder="Career fair, webinar, workshop..." required></label>
 <div class="form-two">
 <label>Type<select id="eventType" required><option>Workshop</option><option>Webinar</option><option>Meetup</option></select></label>
-<label>Program<input id="eventProgram" type="text" placeholder="All Programs"></label>
+<label>Program<input id="eventProgram" type="text" placeholder="All Programs" required></label>
 </div>
 <div class="form-two">
 <label>Date<input id="eventDate" type="date" required></label>
-<label>Time<input id="eventTime" type="text" placeholder="10:00 AM - 2:00 PM"></label>
+<label>Time<input id="eventTime" type="text" placeholder="10:00 AM - 2:00 PM" required></label>
 </div>
-<label>Location<input id="eventLocation" type="text" placeholder="Virtual, campus, Accra..."></label>
-<label>Organizer<input id="eventOrganizer" type="text" placeholder="Name or organization"></label>
+<label>Location<input id="eventLocation" type="text" placeholder="Virtual, campus, Accra..." required></label>
+<label>Organizer<input id="eventOrganizer" type="text" placeholder="Name or organization" required></label>
 <label>Short Description<textarea id="eventDescription" rows="4" placeholder="What should students expect?" required></textarea></label>
-<label>Event Flyer<input id="eventFlyer" type="file" accept="image/*"></label>
-<button type="submit">Post Event</button>
+<label>Event Image URL (Optional)<input id="eventImageURL" type="url" placeholder="https://example.com/event-image.jpg"></label>
+<div class="event-form-actions"><button type="submit" id="eventSubmitButton">Post Event</button><button type="button" id="eventCancelEdit" hidden>Cancel Edit</button></div>
+<p class="event-form-status" id="eventFormStatus" aria-live="polite"></p>
 </form>
 </aside>
 </div>
@@ -139,7 +121,9 @@
 </div>
 </footer>
 
-<script>
+<script type="application/json" id="eventsLegacyScript">
+import { auth, db } from '../BACKEND/firebase-config.js';
+import { addDoc, collection, onSnapshot, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js';
 const defaultEvents=[
 {type:'Workshop',program:'Economics',extra:'Business Administration',title:'Data Analytics Workshop: From Excel to Power BI',description:'A hands-on workshop covering data cleaning in Excel, analysis with pivot tables, and creating interactive dashboards in Power BI. Perfect for Economics, Business, and Statistics students.',date:'2026-06-15',time:'10:00 AM - 2:00 PM',location:'Virtual (Zoom)',organizer:'Dr. Kwame Asiedu, Data Lead at Ghana Revenue Authority',attending:'145 attending'},
 {type:'Webinar',program:'Computer Science',title:'Career Roadmap Webinar: Computer Science Edition',description:'Hear from software engineers at top tech companies about what skills actually matter, how to build a portfolio, and how to ace technical interviews.',date:'2026-06-20',time:'6:00 PM - 7:30 PM',location:'Virtual (Google Meet)',organizer:'Sarah Addo, Senior Engineer at Hubtel',attending:'210 attending'},
@@ -156,15 +140,7 @@ const eventForm=document.getElementById('eventForm');
 const eventSearch=document.getElementById('eventSearch');
 const filterButtons=[...document.querySelectorAll('[data-filter]')];
 let activeFilter='all';
-
-function getPostedEvents(){
-try{return JSON.parse(localStorage.getItem('aeConnectPostedEvents')||'[]');}
-catch{return [];}
-}
-
-function savePostedEvents(events){
-localStorage.setItem('aeConnectPostedEvents',JSON.stringify(events));
-}
+let postedEvents=[];
 
 function formatDateParts(dateValue){
 const date=new Date(`${dateValue}T00:00:00`);
@@ -196,7 +172,7 @@ return `<article class="event-row" data-type="${event.type}" style="--delay:${in
 
 function renderEvents(){
 const search=eventSearch.value.trim().toLowerCase();
-const events=[...defaultEvents,...getPostedEvents()];
+const events=[...postedEvents,...defaultEvents];
 const filtered=events.filter(event=>{
 const matchesFilter=activeFilter==='all'||event.type===activeFilter;
 const content=`${event.title} ${event.description} ${event.program} ${event.location}`.toLowerCase();
@@ -215,9 +191,15 @@ renderEvents();
 
 eventSearch.addEventListener('input',renderEvents);
 
-eventForm.addEventListener('submit',event=>{
+eventForm.addEventListener('submit',async event=>{
 event.preventDefault();
-const file=document.getElementById('eventFlyer').files[0];
+if(!auth.currentUser){
+alert('Please sign in before posting an event.');
+location.href='auth.html';
+return;
+}
+const submitButton=eventForm.querySelector('button[type="submit"]');
+submitButton.disabled=true;
 const newEvent={
 type:document.getElementById('eventType').value,
 program:document.getElementById('eventProgram').value||'All Programs',
@@ -226,28 +208,37 @@ description:document.getElementById('eventDescription').value,
 date:document.getElementById('eventDate').value,
 time:document.getElementById('eventTime').value,
 location:document.getElementById('eventLocation').value,
-organizer:document.getElementById('eventOrganizer').value,
-attending:'Community post'
+organizer:document.getElementById('eventOrganizer').value.trim(),
+attending:'Community post',
+status:'Published',
+createdBy:auth.currentUser.uid,
+createdByEmail:auth.currentUser.email||'',
+createdAt:serverTimestamp()
 };
-const finish=()=>{
-const posted=getPostedEvents();
-posted.unshift(newEvent);
-savePostedEvents(posted);
+try{
+await addDoc(collection(db,'events'),newEvent);
 eventForm.reset();
-renderEvents();
 document.getElementById('eventList').scrollIntoView({behavior:'smooth'});
-};
-if(file){
-const reader=new FileReader();
-reader.onload=()=>{newEvent.flyer=reader.result;finish();};
-reader.readAsDataURL(file);
-}else{
-finish();
+}catch(error){
+console.error('[Events] Could not publish event',error);
+alert(error.message||'The event could not be published. Please check your connection and try again.');
+}finally{
+submitButton.disabled=false;
 }
 });
 
+onSnapshot(collection(db,'events'),snapshot=>{
+postedEvents=snapshot.docs
+.map(document=>({id:document.id,...document.data()}))
+.filter(event=>event.status==='Published')
+.sort((a,b)=>(b.createdAt?.seconds||0)-(a.createdAt?.seconds||0));
 renderEvents();
+},error=>{
+console.error('[Events] Could not load shared events',error);
+renderEvents();
+});
 </script>
+<script type="module" src="../BACKEND/events.js?v=events-firebase-20260722"></script>
 <script src="../SCRPIT/mobile-nav.js"></script>
 </body>
 </html>

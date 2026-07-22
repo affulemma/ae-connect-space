@@ -94,13 +94,6 @@ For students learning business, testing ideas, selling useful work, and finding 
 <input type="search" id="hubSearch" placeholder="Search skills, business ideas, finance, sales, digital business...">
 <div class="hub-filters" aria-label="Entrepreneurship category filters">
 <button class="active" data-filter="all">All</button>
-<button data-filter="mindset">Mindset</button>
-<button data-filter="ideas">Business Ideas</button>
-<button data-filter="digital">Digital Business</button>
-<button data-filter="sales">Sales & Marketing</button>
-<button data-filter="finance">Finance</button>
-<button data-filter="operations">Operations</button>
-<button data-filter="growth">Growth</button>
 </div>
 </div>
 
@@ -392,24 +385,12 @@ const marketplaceListings = [
 {category:'Freelance Services', product:'Virtual Assistant Support', seller:'Mabel Admin', business:'Mabel Admin Services', location:'Remote', phone:'+233 24 000 6502', email:'mabeladmin@example.com', price:'From GHS 250/week', description:'Email support, data entry, scheduling, customer follow-up, and simple admin help for growing entrepreneurs.'}
 ];
 
-const customListingsKey = 'aeConnectMarketplaceListings';
-const partnerProfilesKey = 'aeConnectPartnerProfiles';
-const businessDiscussionsKey = 'aeConnectBusinessDiscussions';
 let backendListings = [];
 let backendPartners = [];
 let backendDiscussions = [];
 
-function getStoredItems(key){
-try{return JSON.parse(localStorage.getItem(key)||'[]');}
-catch{return [];}
-}
-
-function saveStoredItems(key, items){
-localStorage.setItem(key, JSON.stringify(items));
-}
-
 function allMarketplaceListings(){
-return [...backendListings, ...getStoredItems(customListingsKey), ...marketplaceListings];
+return [...backendListings, ...marketplaceListings];
 }
 
 const sellerModal = document.getElementById('sellerModal');
@@ -527,8 +508,8 @@ marketplaceStatus.textContent = category === 'all'
 }
 
 function renderDiscussionPosts(){
-const posts = [...backendDiscussions, ...getStoredItems(businessDiscussionsKey)];
-const partners = [...backendPartners, ...getStoredItems(partnerProfilesKey)];
+const posts = [...backendDiscussions];
+const partners = [...backendPartners];
 const customHtml = [
 ...posts.map(item=>`<article class="community-post-card"><span>${item.category}</span><h3>${item.title}</h3><p>${item.details}</p><small>Started by ${item.name} � ${item.time}</small></article>`),
 ...partners.map(item=>`<article class="community-post-card partner"><span>Partner Profile</span><h3>${item.idea}</h3><p>${item.name} brings ${item.skills}. Looking for: ${item.needs}</p><small>Contact: ${item.contact} � ${item.time}</small></article>`)
@@ -596,15 +577,14 @@ savedItem = await window.AEBackend.createMarketplaceListing(item);
 if(savedItem){
 backendListings.unshift(savedItem);
 }else{
-const listings = getStoredItems(customListingsKey);
-listings.unshift(item);
-saveStoredItems(customListingsKey, listings);
+showStatus('listingStatus','Listing was not published. Please sign in and check your connection.');
+return;
 }
 listingForm.reset();
 marketplaceButtons.forEach(button=>button.classList.toggle('active', button.dataset.marketCategory === 'all'));
 renderMarketplace('all');
 marketGrid.scrollIntoView({behavior:'smooth', block:'start'});
-showStatus('listingStatus', savedItem ? 'Listing published to the live marketplace.' : 'Listing published on this device. Add backend keys to share it with everyone.');
+showStatus('listingStatus','Listing published to the live marketplace.');
 });
 
 partnerForm.addEventListener('submit', async event => {
@@ -624,14 +604,13 @@ savedItem = await window.AEBackend.createPartnerProfile(item);
 if(savedItem){
 backendPartners.unshift(savedItem);
 }else{
-const partners = getStoredItems(partnerProfilesKey);
-partners.unshift(item);
-saveStoredItems(partnerProfilesKey, partners);
+showStatus('partnerStatus','Partner profile was not published. Please sign in and check your connection.');
+return;
 }
 partnerForm.reset();
 renderDiscussionPosts();
 discussionGrid.scrollIntoView({behavior:'smooth', block:'start'});
-showStatus('partnerStatus', savedItem ? 'Partner profile published live.' : 'Partner profile published on this device. Add backend keys to share it with everyone.');
+showStatus('partnerStatus','Partner profile published live.');
 });
 
 discussionForm.addEventListener('submit', async event => {
@@ -650,14 +629,13 @@ savedItem = await window.AEBackend.createBusinessDiscussion(item);
 if(savedItem){
 backendDiscussions.unshift(savedItem);
 }else{
-const posts = getStoredItems(businessDiscussionsKey);
-posts.unshift(item);
-saveStoredItems(businessDiscussionsKey, posts);
+showStatus('discussionStatus','Discussion was not published. Please sign in and check your connection.');
+return;
 }
 discussionForm.reset();
 renderDiscussionPosts();
 discussionGrid.scrollIntoView({behavior:'smooth', block:'start'});
-showStatus('discussionStatus', savedItem ? 'Discussion published live.' : 'Discussion published on this device. Add backend keys to share it with everyone.');
+showStatus('discussionStatus','Discussion published live.');
 });
 
 marketGrid.addEventListener('click', event => {

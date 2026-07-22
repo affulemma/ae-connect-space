@@ -39,7 +39,10 @@
 </div>
 <div class="dashboard-top-actions">
 <button type="button" data-dashboard-search-toggle aria-expanded="false" aria-controls="dashboardSearchPanel">Search</button>
-<button type="button" data-profile-edit-toggle>Profile</button>
+<button class="dashboard-profile-trigger" type="button" data-profile-edit-toggle>
+<span class="dashboard-profile-thumb" aria-hidden="true"><img data-profile-photo alt="" hidden><span data-profile-initials>ST</span></span>
+<span>Profile</span>
+</button>
 <button type="button" data-firebase-logout>Logout</button>
 <div class="dashboard-search-panel" id="dashboardSearchPanel" hidden>
 <label class="sr-only" for="dashboardSearchInput">Search dashboard</label>
@@ -205,6 +208,17 @@
 <span>Student Profile</span>
 <h2 id="dashboardProfileTitle">Edit Profile</h2>
 <form id="dashboardProfileForm">
+<div class="dashboard-photo-editor">
+<div class="dashboard-photo-preview" aria-hidden="true">
+<img id="profilePhotoPreview" data-profile-photo alt="" hidden>
+<span data-profile-initials>ST</span>
+</div>
+<div>
+<label class="dashboard-photo-button" for="profilePhotoInput">Choose profile picture</label>
+<input id="profilePhotoInput" name="profilePhoto" type="file" accept="image/jpeg,image/png,image/webp" hidden>
+<p>JPG, PNG or WebP. Maximum size 5 MB.</p>
+</div>
+</div>
 <label>Full Name
 <input id="profileFullName" name="fullName" type="text" autocomplete="name" required>
 </label>

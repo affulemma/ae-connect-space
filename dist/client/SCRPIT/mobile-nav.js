@@ -450,6 +450,14 @@
       const siblings = element.parentElement ? [...element.parentElement.children].filter(item => item.matches?.(revealSelector)) : [];
       const index = Math.max(0, siblings.indexOf(element));
       element.style.setProperty('--ae-stagger', `${Math.min(index, 6) * 45}ms`);
+      // A percentage-based IntersectionObserver threshold can never be reached
+      // for sections that are much taller than the viewport (for example, the
+      // Skills Hub grid). Reveal those sections immediately so their content
+      // cannot remain permanently transparent.
+      if(element.matches('main > section') && element.getBoundingClientRect().height > window.innerHeight * 1.25){
+        element.classList.add('ae-in-view');
+        return;
+      }
       motionObserver?.observe(element);
     });
   }
@@ -507,6 +515,9 @@
     initMobileNav();
     initRoadmapLearningCards();
     initMotion();
+    import('../BACKEND/newsletter.js').catch(error => {
+      console.error('Newsletter signup could not be initialized:', error);
+    });
   }
 
   if(document.readyState === 'loading'){
